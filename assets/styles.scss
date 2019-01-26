@@ -1,0 +1,107 @@
+$nav-bgc: rgb(154,223,244); // фон меню
+$nav-color: rgb(44,84,97); // колір тексту меню
+$color: rgb(7, 30, 37); // колір тексту контенту
+$color-bold: rgb(7, 45, 58); // колір заголовків та виділених фрагментів
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.bak-project {
+font-family: sans-serif;
+padding: 0 0px;
+
+.vert-align {
+    display: flex;
+    align-items: center;
+}
+
+a, .click {
+    cursor: pointer;
+    &:active {
+        color: $nav-color;
+    }
+}
+
+header {
+width: 100%;
+height: 133px;
+position: fixed;
+background-image: url(img/bluewithstripes.jpg);
+.logo {
+    position: absolute;
+    width: 100%;
+    .logo-gradient {
+        position: absolute;
+        background: linear-gradient(to right, transparent, $nav-color);
+        height: 133px;
+        width: 100%;
+    }
+}
+}
+
+nav {
+    background-color: $nav-bgc;
+    padding: 10px 0 5px 15px;
+    position: fixed;
+    top: 133px;
+    width: 100%;
+    a {
+        margin: 0 5px;
+        padding: 5px 5px 10px 5px;
+        text-decoration: none;
+        border-radius: 5px;
+        color:$nav-color;
+        &:active {
+            color:$nav-color;
+        }
+    }
+    .nav-active {
+        background-color: white; 
+    }
+}
+
+main {
+    padding: 200px 50px;
+    color: $color;
+
+    b, h1, h2, h3, h4, h5, h6 {
+        color: $color-bold;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        padding: 5px 0;
+    }
+
+    #shop-list {
+        display: none;
+    }
+
+    #where-buy {
+        text-decoration: underline;
+    }
+
+    li {
+    list-style-type: none;
+    padding: 5px;
+    }
+
+    img.phone {
+        height: 1em;
+        position: relative;
+        top: 1px;
+    }
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    background-color: $nav-bgc;
+    color: $nav-color;
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+}
+
+} // bak-project

@@ -1,0 +1,115 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.bak-project {
+  font-family: sans-serif;
+  padding: 0 0px;
+}
+
+.bak-project .vert-align {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.bak-project a, .bak-project .click {
+  cursor: pointer;
+}
+
+.bak-project a:active, .bak-project .click:active {
+  color: #2c5461;
+}
+
+.bak-project header {
+  width: 100%;
+  height: 133px;
+  position: fixed;
+  background-image: url(img/bluewithstripes.jpg);
+}
+
+.bak-project header .logo {
+  position: absolute;
+  width: 100%;
+}
+
+.bak-project header .logo .logo-gradient {
+  position: absolute;
+  background: -webkit-gradient(linear, left top, right top, from(transparent), to(#2c5461));
+  background: linear-gradient(to right, transparent, #2c5461);
+  height: 133px;
+  width: 100%;
+}
+
+.bak-project nav {
+  background-color: #9adff4;
+  padding: 10px 0 5px 15px;
+  position: fixed;
+  top: 133px;
+  width: 100%;
+}
+
+.bak-project nav a {
+  margin: 0 5px;
+  padding: 5px 5px 10px 5px;
+  text-decoration: none;
+  border-radius: 5px;
+  color: #2c5461;
+}
+
+.bak-project nav a:active {
+  color: #2c5461;
+}
+
+.bak-project nav .nav-active {
+  background-color: white;
+}
+
+.bak-project main {
+  padding: 200px 50px;
+  color: #071e25;
+}
+
+.bak-project main b, .bak-project main h1, .bak-project main h2, .bak-project main h3, .bak-project main h4, .bak-project main h5, .bak-project main h6 {
+  color: #072d3a;
+}
+
+.bak-project main h1, .bak-project main h2, .bak-project main h3, .bak-project main h4, .bak-project main h5, .bak-project main h6 {
+  padding: 5px 0;
+}
+
+.bak-project main #shop-list {
+  display: none;
+}
+
+.bak-project main #where-buy {
+  text-decoration: underline;
+}
+
+.bak-project main li {
+  list-style-type: none;
+  padding: 5px;
+}
+
+.bak-project main img.phone {
+  height: 1em;
+  position: relative;
+  top: 1px;
+}
+
+.bak-project footer {
+  position: fixed;
+  bottom: 0;
+  background-color: #9adff4;
+  color: #2c5461;
+  width: 100%;
+  padding: 5px;
+  text-align: center;
+}
+/*# sourceMappingURL=styles.css.map */
