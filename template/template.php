@@ -1,38 +1,43 @@
 <!DOCTYPE html>
+
+<?
+	const ROOT = "/bak";
+?>
+
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Видавництво БАК</title>
-	<link rel="stylesheet" href="/bak/assets/styles.css">
-	<link rel="shortcut icon" href="/bak/assets/img/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="<?=ROOT?>/assets/styles.css">
+	<link rel="shortcut icon" href="<?=ROOT?>/assets/img/favicon.ico" type="image/x-icon">
 </head>
 
 <?
 	$nav_array = array( // Головне меню
 		array(
 		"name"=>"Головна", 
-		"path"=>"/bak",
+		"path"=>ROOT,
 		"file"=>"main_view"),
 		array (
 			"name"=>"Про нас",
-			"path"=>"/bak/about",
+			"path"=>ROOT."/about",
 			"file"=>"about_view"),
 		array (
 			"name"=>"Книги",
-			"path"=>"/bak/books",
+			"path"=>ROOT."/books",
 			"file"=>"book_view"),
 		array (
 			"name"=>"Автори",
-			"path"=>"/bak/authors",
+			"path"=>ROOT."/authors",
 			"file"=>"authors_view"),
 		array (
 			"name"=>"Новини",
-			"path"=>"/bak/news",
+			"path"=>ROOT."/news",
 			"file"=>"news_view"),
 		array (
 			"name"=>"Контакти",
-			"path"=>"/bak/contacts",
+			"path"=>ROOT."/contacts",
 			"file"=>"contacts_view"),
 		);
 ?>

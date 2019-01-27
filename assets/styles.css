@@ -28,6 +28,7 @@
 }
 
 .bak-project header {
+  z-index: 1;
   width: 100%;
   height: 133px;
   position: fixed;
@@ -105,6 +106,7 @@
 
 .bak-project footer {
   position: fixed;
+  z-index: 1;
   bottom: 0;
   background-color: #9adff4;
   color: #2c5461;

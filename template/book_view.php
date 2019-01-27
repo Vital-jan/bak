@@ -14,3 +14,5 @@
             <li><span>Розділ 10</span></li>
         </ul>
     </p>
+    <script>
+    </script>
