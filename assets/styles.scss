@@ -2,6 +2,7 @@ $nav-bgc: rgb(154,223,244); // фон меню
 $nav-color: rgb(44,84,97); // колір тексту меню
 $color: rgb(7, 30, 37); // колір тексту контенту
 $color-bold: rgb(7, 45, 58); // колір заголовків та виділених фрагментів
+$button: rgb(227, 231, 236);
 
 * {
     margin: 0;
@@ -17,11 +18,16 @@ padding: 0 0px;
     align-items: center;
 }
 
-a, .click {
+a {
+    color: $color;
     cursor: pointer;
     &:active {
         color: $nav-color;
     }
+}
+
+.click {
+    cursor: pointer;
 }
 
 header {
@@ -92,8 +98,62 @@ main {
         height: 1em;
         position: relative;
         top: 1px;
+        margin-right: 5px;
     }
-}
+
+    .news-header {
+        font-size: 1.5rem;
+    }
+    .news-date {
+        font-style: italic;
+        font-size: 0.8rem;
+        margin-left: 20px;
+    }
+    .news-content {
+        text-align: justify;
+        font-size: 1rem;
+        margin: 15px 0 20px 20px;
+    }
+
+    .author {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        .author-name {
+            display: inline-block;
+            text-align: right;
+            margin: 0 15px 0 0;
+            width: 25%;
+            border-bottom: 1px solid $nav-bgc;
+            padding-bottom: 10px;
+        }
+        .author-photo {
+            max-width: 70px;
+            max-height: 70px;
+            border-radius: 50%;
+            margin: 0 10px;
+        }
+        .author-photo-frame {
+            width: 20%;
+        }
+        button {
+            border-radius: 5px;
+            background-color: $button;
+            margin-left: 25px;
+            padding: 0 5px;
+            cursor: pointer;
+            position: relative;
+            right: 0;
+        }
+        img {
+            width: 80px;
+            margin-left: 20px;
+        }
+        .author-describe {
+            display: none;
+        }
+    }
+} // main
 
 footer {
     position: fixed;

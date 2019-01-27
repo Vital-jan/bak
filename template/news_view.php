@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <?
-    $db = mysql_connect("localhost","root","");
-    mysql_select_db("db1",$db);
-    $query = mysql_query("SELECT header FROM news",$db);
+    require 'connect.php';
+    $query = getQuery('news');
     $news = array();
     
     while ($cRecord = mysql_fetch_assoc($query)) {
@@ -10,7 +9,10 @@
     }
     
     foreach($news as $key=>$value) {
-        echo "<h2 class='news-header'>{$value['header']}</h2>";
+        echo
+            "<h2 class='news-header'>{$value['header']}</h2>".
+            "<p class='news-date'>{$value['date']}</p>".
+            "<p class='news-content'>{$value['content']}</p>";
     }
 ?>
 

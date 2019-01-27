@@ -1,16 +1,33 @@
 <!DOCTYPE html>
-    <p>
-        <h1>Про авторів наших книг:</h1>
-        <ul>
-            <li><span>автор 1</span></li>
-            <li><span>автор 2</span></li>
-            <li><span>автор 3</span></li>
-            <li><span>автор 4</span></li>
-            <li><span>автор 5</span></li>
-            <li><span>автор 6</span></li>
-            <li><span>автор 7</span></li>
-            <li><span>автор 8</span></li>
-            <li><span>автор 9</span></li>
-            <li><span>автор 10</span></li>
-        </ul>
-    </p>
+<?
+    const AUTHOR_PHOTO_FOLDER = '../assets/img/authors/';
+
+    require 'connect.php';
+    $query = getQuery('authors');
+    $authors = array();
+    
+    while ($cRecord = mysql_fetch_assoc($query)) {
+        $authors[] = $cRecord;
+    }
+    echo "${AUTHOR_PHOTO_FOLDER}";
+    echo "<ul>";
+    foreach($authors as $key=>$value) {
+        $photo = '';
+        if ($value['photo'] != '') $photo = "<img class='author-photo' src='".AUTHOR_PHOTO_FOLDER."{$value['photo']}'>";
+        $describe = '';
+        if ($value['describe'] != '')
+            $describe = "<button title='Дізнатись більше про цього автора'>...</button>";
+        echo
+            "<li class='author'>".
+            "<span class='author-name'>{$value['author']}{$describe}</span>".
+            "<div class='author-photo-frame'>{$photo}</div>".
+            "<img src='../assets/img/books1.png' class='click' title='Книги цього автора'>".
+            "</li>".
+            "<li class='author'>".
+            "<p class='author-describe'>{$value['describe']}</p>".
+            "</li>"            
+            ;
+    }
+    echo "</ul>";
+
+?>

@@ -2,13 +2,14 @@
 
 <?
 	const ROOT = "/bak";
+	const NAME = "Видавництво \"БаК\"";
 ?>
 
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Видавництво БАК</title>
+	<title><?=NAME?></title>
 	<link rel="stylesheet" href="<?=ROOT?>/assets/styles.css">
 	<link rel="shortcut icon" href="<?=ROOT?>/assets/img/favicon.ico" type="image/x-icon">
 </head>

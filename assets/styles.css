@@ -19,12 +19,17 @@
           align-items: center;
 }
 
-.bak-project a, .bak-project .click {
+.bak-project a {
+  color: #071e25;
   cursor: pointer;
 }
 
-.bak-project a:active, .bak-project .click:active {
+.bak-project a:active {
   color: #2c5461;
+}
+
+.bak-project .click {
+  cursor: pointer;
 }
 
 .bak-project header {
@@ -102,6 +107,72 @@
   height: 1em;
   position: relative;
   top: 1px;
+  margin-right: 5px;
+}
+
+.bak-project main .news-header {
+  font-size: 1.5rem;
+}
+
+.bak-project main .news-date {
+  font-style: italic;
+  font-size: 0.8rem;
+  margin-left: 20px;
+}
+
+.bak-project main .news-content {
+  text-align: justify;
+  font-size: 1rem;
+  margin: 15px 0 20px 20px;
+}
+
+.bak-project main .author {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 10px 0;
+}
+
+.bak-project main .author .author-name {
+  display: inline-block;
+  text-align: right;
+  margin: 0 15px 0 0;
+  width: 25%;
+  border-bottom: 1px solid #9adff4;
+  padding-bottom: 10px;
+}
+
+.bak-project main .author .author-photo {
+  max-width: 70px;
+  max-height: 70px;
+  border-radius: 50%;
+  margin: 0 10px;
+}
+
+.bak-project main .author .author-photo-frame {
+  width: 20%;
+}
+
+.bak-project main .author button {
+  border-radius: 5px;
+  background-color: #e3e7ec;
+  margin-left: 25px;
+  padding: 0 5px;
+  cursor: pointer;
+  position: relative;
+  right: 0;
+}
+
+.bak-project main .author img {
+  width: 80px;
+  margin-left: 20px;
+}
+
+.bak-project main .author .author-describe {
+  display: none;
 }
 
 .bak-project footer {

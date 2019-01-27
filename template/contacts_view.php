@@ -1,11 +1,20 @@
 	
+<!DOCTYPE html>
+<?
+require 'connect.php';
+$query = getQuery('admin');
+$news = mysql_fetch_assoc($query);
+?>
+
+
 	<address>
 	<ul>
-		<li>Видавництво "БАК"</li>
-		<li>Україна, м.Львів</li>
-		<li><img class="phone" src="../assets/img/phone.png" alt="">	050-1111111</li>
-		<li><img src="../assets/img/email.png" alt="" class="phone">	bak@gmail.com</li>
-		
+		<li><?=NAME?></li>
+		<li><?=$news['address']?></li>
+		<li><img class="phone" src="../assets/img/phone.png" alt=""><?=$news['phone']?></li>
+		<li><img class="phone" src="../assets/img/email.png" alt="" class="phone"><?=$news['email']?></li>
+		<li><a href="https://www.facebook.com/groups/1895460077339659/" target="blank"><img  class="phone"src="../assets/img/fb.png" alt="" class="phone">	Наша група у facebook</a></li>
+		<li></li>
 		<li><hr></li>
 		<li></li>
 	</ul>
