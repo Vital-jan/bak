@@ -3,16 +3,22 @@
 <?
 require 'connect.php';
 $query = getQuery('admin');
-$news = mysql_fetch_assoc($query);
+$contacts = mysql_fetch_assoc($query);
+$query = getQuery('shops');
+$shops = array();
+while ($cRecord = mysql_fetch_assoc($query)) {
+	$shops[] = $cRecord;
+}
+
 ?>
 
 
 	<address>
 	<ul>
 		<li><?=NAME?></li>
-		<li><?=$news['address']?></li>
-		<li><img class="phone" src="../assets/img/phone.png" alt=""><?=$news['phone']?></li>
-		<li><img class="phone" src="../assets/img/email.png" alt="" class="phone"><?=$news['email']?></li>
+		<li><?=$contacts['address']?></li>
+		<li><img class="phone" src="../assets/img/phone.png" alt=""><?=$contacts['phone']?></li>
+		<li><img class="phone" src="../assets/img/email.png" alt="" class="phone"><?=$contacts['email']?></li>
 		<li><a href="https://www.facebook.com/groups/1895460077339659/" target="blank"><img  class="phone"src="../assets/img/fb.png" alt="" class="phone">	Наша група у facebook</a></li>
 		<li></li>
 		<li><hr></li>
@@ -26,24 +32,27 @@ $news = mysql_fetch_assoc($query);
 	</h2>
 
 	<div id="shop-list">
-		<h4>Інтернет книгарні:</h4>
+		<h2>Інтернет книгарні:</h2>
 		<ul>
-			<li>Інтернет-книгарня1</li>
-			<li>Інтернет-книгарня2</li>
-			<li>Інтернет-книгарня3</li>
-			<li>Інтернет-книгарня4</li>
-			<li>Інтернет-книгарня5</li>
+			<?
+				foreach($shops as $key=>$value) {
+					if ($value['www'] == 1) echo "<li class='shop-item'> <a href='http://{$value['url']}' target='blanc'>{$value['url']}</a></li>";
+				}
+			?>
 		</ul>
-		<h4>Книгарні:</h4>
-		<ul>
-		<li>Книгарня 2</li>
-			<li>Книгарня 3</li>
-			<li>Книгарня 3</li>
-			<li>Книгарня 1</li>
-			<li>Книгарня 4</li>
-			<li>Книгарня 5</li>
-		</ul>
-</div>
+		<br>
+		<h2>Книгарні:</h2>
+		<br>
+		<?
+			foreach($shops as $key=>$value) {
+				if ($value['www'] != 1) {
+					echo "<h3 class='shop-title'> {$value['title']}</h3>".
+					"<p class='shop-item'>{$value['content']}</p>";
+					
+				}
+				}
+		?>
+	</div>
 
 <script>
 	document.querySelector('#where-buy').addEventListener('click', (event)=>{

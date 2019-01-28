@@ -126,6 +126,14 @@
   margin: 15px 0 20px 20px;
 }
 
+.bak-project main .shop-title {
+  padding-left: 20px;
+}
+
+.bak-project main .shop-item {
+  padding-left: 50px;
+}
+
 .bak-project main .author {
   display: -webkit-box;
   display: -ms-flexbox;

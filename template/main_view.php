@@ -1,1 +1,1 @@
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium harum tenetur reiciendis molestias cumque ipsum doloribus dolorum nemo accusamus quidem.</p>
+<p>Вітаємо Вас на сторінці видавництва "БаК". </p>
