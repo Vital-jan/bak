@@ -1,0 +1,119 @@
+$border: gray;
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.main-admin {
+    padding: 5px 10px;
+    display: flex;
+    * {
+        margin: 2px;
+    }
+    .left {
+        padding: 5px;
+        width: 45%;
+        display: block;
+    }
+    .right {
+        padding: 5px;
+        width: 45%;
+        display: block;
+        padding-left: 40px;
+    }
+    #new-password {
+        border: 1px solid $border;
+        border-radius: 5px;
+        display: none;
+    }
+    textarea {
+        width: 100%;
+    }
+    input {
+        width: 50%;
+    }
+    button {
+        width: 30%;
+    }
+    a {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.table {
+span {
+    padding: 10px 5px;
+    border-right: 1px solid $border;
+    margin: 0 5px;
+    height: 1rem;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+}
+form {
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    display: none;
+    background-color: #fff;
+    position: absolute;
+    width: 100%;
+    li {
+        list-style-type: none;
+        margin: 5px 0;
+    }
+    textarea {
+        width: 90%;
+    }
+    input {
+        width: 50%;
+    }
+    .form-photo {
+        img {
+        max-width: 100px;
+        max-height: 100px;
+        position: absolute;
+        top: 190px;
+        right: 110px;
+        }
+    }
+}
+li {
+    &.row {
+    list-style-type: none;
+    width: 100%;
+    margin: -4px 0;
+    line-height: 100%;
+    &:nth-child(odd) {
+        background: linear-gradient(to bottom, #fff, rgb(199, 199, 199));
+    }
+    button {
+        cursor: pointer;
+        margin-right: 5px;
+        background-image: url(img/edit-button.png);
+        background-size: cover;
+        height: 1.5em;
+        width: 1.5em;
+        outline: none;
+        border: none;
+        border-radius: 2px;
+    }
+} 
+}
+.book-id {
+    width: 5%;
+}
+.book {
+    width: 30%;
+}
+.describe {
+    width: 40%;
+}
+.folder {
+    width: 10%;
+    border-right: none;
+}
+} // .table

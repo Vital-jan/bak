@@ -1,0 +1,135 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.main-admin {
+  padding: 5px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.main-admin * {
+  margin: 2px;
+}
+
+.main-admin .left {
+  padding: 5px;
+  width: 45%;
+  display: block;
+}
+
+.main-admin .right {
+  padding: 5px;
+  width: 45%;
+  display: block;
+  padding-left: 40px;
+}
+
+.main-admin #new-password {
+  border: 1px solid gray;
+  border-radius: 5px;
+  display: none;
+}
+
+.main-admin textarea {
+  width: 100%;
+}
+
+.main-admin input {
+  width: 50%;
+}
+
+.main-admin button {
+  width: 30%;
+}
+
+.main-admin a {
+  margin: 0;
+  padding: 0;
+}
+
+.table span {
+  padding: 10px 5px;
+  border-right: 1px solid gray;
+  margin: 0 5px;
+  height: 1rem;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.table form {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  display: none;
+  background-color: #fff;
+  position: absolute;
+  width: 100%;
+}
+
+.table form li {
+  list-style-type: none;
+  margin: 5px 0;
+}
+
+.table form textarea {
+  width: 90%;
+}
+
+.table form input {
+  width: 50%;
+}
+
+.table form .form-photo img {
+  max-width: 100px;
+  max-height: 100px;
+  position: absolute;
+  top: 190px;
+  right: 110px;
+}
+
+.table li.row {
+  list-style-type: none;
+  width: 100%;
+  margin: -4px 0;
+  line-height: 100%;
+}
+
+.table li.row:nth-child(odd) {
+  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#c7c7c7));
+  background: linear-gradient(to bottom, #fff, #c7c7c7);
+}
+
+.table li.row button {
+  cursor: pointer;
+  margin-right: 5px;
+  background-image: url(img/edit-button.png);
+  background-size: cover;
+  height: 1.5em;
+  width: 1.5em;
+  outline: none;
+  border: none;
+  border-radius: 2px;
+}
+
+.table .book-id {
+  width: 5%;
+}
+
+.table .book {
+  width: 30%;
+}
+
+.table .describe {
+  width: 40%;
+}
+
+.table .folder {
+  width: 10%;
+  border-right: none;
+}
+/*# sourceMappingURL=admin.css.map */

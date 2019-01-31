@@ -12,10 +12,16 @@
             $value[header] = strip_tags($value[header],'<br>');
             $value[date] = strip_tags($value[date],'<br>');
             $value[content] = strip_tags($value[content],'<br>');
-        echo
-            "<h2 class='news-header'>{$value['header']}</h2>".
-            "<p class='news-date'>{$value['date']}</p>".
-            "<p class='news-content'>{$value['content']}</p>";
+        echo "
+            <h2 class='news-header'>
+            <span class='news-date'>{$value['date']}</span>
+            {$value['header']}
+            </h2>
+            <p class='news-content'>{$value['content']}</p>
+            <div class='news-separate'>
+            <hr>
+            </div>
+            ";
     }
 ?>
 
