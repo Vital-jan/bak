@@ -43,7 +43,7 @@ while ($cRecord = mysql_fetch_assoc($query)) {
     
 ?>
 
-<body>
+<body class="table">
     <form id="form-edit">
         <ul>
             <li><input type="text" name="book" placeholder="Назва книги"></li>
@@ -63,13 +63,11 @@ while ($cRecord = mysql_fetch_assoc($query)) {
     <?
     echo "
     <ul>
-    <li class='row'>
+    <li class='row row-header'>
     <span class='book'>Книга</span>
     <span class='describe'>Опис</span>
     <span class='folder'>Розділ</span>
     </li>
-    </ul>
-     <ul>
     ";
 $n = 0;
 foreach($books as $key=>$value) {

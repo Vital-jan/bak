@@ -6,7 +6,7 @@ body {
     padding: 0;
 }
 
-.main-admin {
+.main-admin { // головна адмін панель
     padding: 5px 10px;
     display: flex;
     * {
@@ -41,9 +41,9 @@ body {
         margin: 0;
         padding: 0;
     }
-}
+} // main-admin
 
-.table {
+.table { // таблиця бд
 span {
     padding: 10px 5px;
     border-right: 1px solid $border;
@@ -53,7 +53,7 @@ span {
     display: inline-block;
     white-space: nowrap;
 }
-form {
+form { // форма редагування запису
     padding: 10px;
     border: 1px solid black;
     border-radius: 10px;
@@ -81,16 +81,41 @@ form {
         }
     }
 }
-li {
+
+li { // таблична частина
     &.row {
+    height: 2rem;
     list-style-type: none;
     width: 100%;
-    margin: -4px 0;
+    margin: 0;
+    padding: 0;
     line-height: 100%;
+    span { // поля таблиці
+        margin: 0;
+        &:nth-child(1) {
+            width: 30%;
+        }
+        &:nth-child(2) {
+            width: 40%;
+        }
+        &:nth-child(3) {
+            width: 25%;
+            border-right: none;
+        }
+    }
     &:nth-child(odd) {
         background: linear-gradient(to bottom, #fff, rgb(199, 199, 199));
     }
-    button {
+    &:first-child { // перший рядок
+        background: linear-gradient(to bottom, #fff, rgb(131, 82, 53));
+        border-bottom: 1px solid $border;
+        span {
+            border-right: none;
+            text-align: center;
+        }
+    }
+
+    button { // кнопка редагування
         cursor: pointer;
         margin-right: 5px;
         background-image: url(img/edit-button.png);
@@ -101,19 +126,6 @@ li {
         border: none;
         border-radius: 2px;
     }
-} 
 }
-.book-id {
-    width: 5%;
-}
-.book {
-    width: 30%;
-}
-.describe {
-    width: 40%;
-}
-.folder {
-    width: 10%;
-    border-right: none;
 }
 } // .table

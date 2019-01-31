@@ -13,7 +13,7 @@
     $admin = get_array(mysql_query('SELECT * FROM admin'));
     ?>
 
-    <form class="main-admin" name="admin" action="update.php" method="post">
+    <form class="main-admin" name="admin">
         <div class="left">
             <h2>Контакти:</h2>
             <br>
@@ -27,7 +27,7 @@
             <small id="strlen"></small><br>
             <textarea id="text" rows="10" name="about"></textarea><br>
             <br>
-            <button type="submit" id="save">Зберегти зміни</button>
+            <button type="button" id="save">Зберегти зміни</button>
             <br><br>
             <hr>
             <button type="button" id="new-password-btn">Змінити пароль</button>
@@ -57,9 +57,9 @@
         form.about.value = "<?=addslashes($admin[0]['about'])?>";
 
         
-    // window.onbeforeunload = function() {
-    //     return "Перш ніж залишити цю строінку, перевірте чи збережені зміни.";
-    // };
+    window.onbeforeunload = function() {
+        return "Перш ніж залишити цю строінку, перевірте чи збережені зміни.";
+    };
 
     document.querySelector('#new-password-btn').addEventListener('click',()=>{
         document.querySelector('#new-password').style.display = 'block';
@@ -71,33 +71,31 @@
         strlen.style.color = event.target.value.length > 980 ? 'red' : 'inherit';
     })
 
-//     document.querySelector('#save').addEventListener('click',()=>{
+    document.querySelector('#save').addEventListener('click',()=>{
 
-//         let data = new FormData;
-//         data.append('select','admin');
-//         data.append('address',form.address.value);
-//         data.append('phone',form.phone.value);
-//         data.append('email',form.email.value);
-//         data.append('about',form.about.value);
+        let data = new FormData;
+        data.append('select','admin');
+        data.append('address',form.address.value);
+        data.append('phone',form.phone.value);
+        data.append('email',form.email.value);
+        data.append('about',form.about.value);
 
-// function status(response) {  
-//   if (response.status == 200) {  
-//     return Promise.resolve(response)  
-//   } else {  
-//     return Promise.reject(new Error(response.statusText))  
-//   }  
-// }
+        function status(response) {  
+          if (response.status == 200) {  
+            return Promise.resolve(response)  
+          } else {  
+            return Promise.reject(new Error(response.statusText))  
+          }  
+        }
 
-// fetch('update.php', {
-//   method: "POST",
-//   body: data
-// }) 
-//   .then(status)
-//   .catch(function(error) {  
-//   });
-
-
-//     })
+        fetch('update.php', {
+          method: "POST",
+          body: data
+        }) 
+          .then(status)
+          .catch(function(error) {  
+          });
+        })
     </script>
 </body>
 </html>

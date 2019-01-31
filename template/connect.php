@@ -22,7 +22,8 @@
     function str_check($str){
         $str = strip_tags($str, '<br>');
         $str = addslashes($str);
-        $str = trim($str);    
+        $str = trim($str);
+        $str = str_replace("\n", "<br/>", $str); 
         return $str;
     }
 ?>
