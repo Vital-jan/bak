@@ -2,7 +2,6 @@
 <?
     const AUTHOR_PHOTO_FOLDER = '../assets/img/authors/';
 
-    require 'connect.php';
     $query = getQuery('authors');
     $authors = array();
     

@@ -2,7 +2,10 @@
 
 <?
 	const ROOT = "/bak";
-	const NAME = "Видавництво \"БаК\"";
+	const NAME = "БаК";
+	require "connect.php";
+	$query = getQuery('admin','');
+	$content = mysql_fetch_assoc($query);
 ?>
 
 <html lang="en">
@@ -64,7 +67,7 @@
 		?>
 	</main>
 	<footer>
-		FOOTER
+		<?=$content['footer']?>
 	</footer>
 	
 </body>

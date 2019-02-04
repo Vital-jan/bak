@@ -59,6 +59,8 @@
   position: fixed;
   top: 133px;
   width: 100%;
+  -webkit-box-shadow: 0 20px 25px 10px white;
+          box-shadow: 0 20px 25px 10px white;
 }
 
 .bak-project nav a {

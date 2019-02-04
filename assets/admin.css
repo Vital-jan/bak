@@ -15,6 +15,10 @@ body {
   margin: 2px;
 }
 
+.main-admin button {
+  cursor: pointer;
+}
+
 .main-admin .left {
   padding: 5px;
   width: 45%;
@@ -51,14 +55,108 @@ body {
   padding: 0;
 }
 
-.table span {
-  padding: 10px 5px;
+#modal-back {
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.table {
+  padding-top: 6.25rem;
+  min-width: 500px;
+}
+
+.table button {
+  cursor: pointer;
+}
+
+.table header {
+  min-width: 500px;
+  border-bottom: 2px solid black;
+  position: fixed;
+  width: 100%;
+  background-color: white;
+  margin: 0;
+  padding: 5px;
+  top: 0;
+  z-index: 1;
+}
+
+.table ul {
+  margin: 0;
+  padding: 0;
+}
+
+.table li.row {
+  height: 2.5rem;
+  list-style-type: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 100%;
+}
+
+.table li.row:nth-child(odd) {
+  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#c7c7c7));
+  background: linear-gradient(to bottom, #fff, #c7c7c7);
+}
+
+.table li.row.row-header {
+  text-align: center;
+  font-weight: bold;
+}
+
+.table li.row button#edit {
+  cursor: pointer;
+  margin-right: 5px;
+  background-image: url(img/edit-button.png);
+  background-size: cover;
+  height: 1.5em;
+  width: 1.5em;
+  outline: none;
+  border: none;
+  border-radius: 2px;
+}
+
+.table span.column {
+  padding: 10px 3px;
   border-right: 1px solid gray;
   margin: 0 5px;
-  height: 1rem;
+  height: 1.5rem;
   overflow: hidden;
   display: inline-block;
   white-space: nowrap;
+}
+
+.table span.column:nth-child(1) {
+  width: 3%;
+  border-right: none;
+}
+
+.table span.column:nth-child(2) {
+  width: 25%;
+}
+
+.table span.column:nth-child(3) {
+  width: 35%;
+}
+
+.table span.column:nth-child(4) {
+  width: 20%;
+  border-right: none;
+}
+
+.table span.column.column-header {
+  border-right: none;
+  text-align: center;
+  font-weight: bold;
 }
 
 .table form {
@@ -67,8 +165,11 @@ body {
   border-radius: 10px;
   display: none;
   background-color: #fff;
-  position: absolute;
-  width: 100%;
+  position: fixed;
+  width: 95%;
+  margin: 0 2.5%;
+  z-index: 3;
+  top: 5rem;
 }
 
 .table form li {
@@ -84,65 +185,46 @@ body {
   width: 50%;
 }
 
-.table form .form-photo img {
-  max-width: 100px;
-  max-height: 100px;
+.table form .form-photo {
   position: absolute;
-  top: 190px;
+  top: 200px;
   right: 110px;
 }
 
-.table li.row {
-  height: 2rem;
-  list-style-type: none;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  line-height: 100%;
+.table form .form-photo img {
+  max-width: 100px;
+  max-height: 100px;
 }
 
-.table li.row span {
-  margin: 0;
-}
-
-.table li.row span:nth-child(1) {
+.table form #bookauthor, .table form #bookauthor-select {
+  padding: 5px;
+  border: 1px solid gray;
+  border-radius: 5px;
   width: 30%;
+  overflow-x: hidden;
+  margin-bottom: 10px;
+  height: 5em;
 }
 
-.table li.row span:nth-child(2) {
-  width: 40%;
-}
-
-.table li.row span:nth-child(3) {
-  width: 25%;
-  border-right: none;
-}
-
-.table li.row:nth-child(odd) {
-  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#c7c7c7));
-  background: linear-gradient(to bottom, #fff, #c7c7c7);
-}
-
-.table li.row:first-child {
-  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#835235));
-  background: linear-gradient(to bottom, #fff, #835235);
-  border-bottom: 1px solid gray;
-}
-
-.table li.row:first-child span {
-  border-right: none;
-  text-align: center;
-}
-
-.table li.row button {
+.table form #bookauthor img, .table form #bookauthor-select img {
+  max-width: 1em;
+  max-height: 1em;
   cursor: pointer;
-  margin-right: 5px;
-  background-image: url(img/edit-button.png);
-  background-size: cover;
-  height: 1.5em;
-  width: 1.5em;
-  outline: none;
-  border: none;
-  border-radius: 2px;
+  position: relative;
+  top: 2px;
+  margin-right: 3px;
+}
+
+.table form #bookauthor-select {
+  height: 40%;
+  display: none;
+  position: fixed;
+  top: 150px;
+  left: 150px;
+  background-color: white;
+}
+
+.table form #bookauthor-select li {
+  cursor: pointer;
 }
 /*# sourceMappingURL=admin.css.map */

@@ -1,1 +1,5 @@
-<p>Вітаємо Вас на сторінці видавництва "БаК". </p>
+<?
+$query = getQuery('admin','');
+$content = mysql_fetch_assoc($query);
+echo "<p>{$content['main']}</p>";
+?>

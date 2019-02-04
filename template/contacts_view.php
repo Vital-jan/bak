@@ -1,7 +1,6 @@
 	
 <!DOCTYPE html>
 <?
-require 'connect.php';
 $query = getQuery('admin');
 $contacts = mysql_fetch_assoc($query);
 $query = getQuery('shops');
@@ -15,7 +14,7 @@ while ($cRecord = mysql_fetch_assoc($query)) {
 
 	<address>
 	<ul>
-		<li><?=NAME?></li>
+		<li><?=$contacts['company']?></li>
 		<li><?=$contacts['address']?></li>
 		<li><img class="phone" src="../assets/img/phone.png" alt=""><?=$contacts['phone']?></li>
 		<li><img class="phone" src="../assets/img/email.png" alt="" class="phone"><?=$contacts['email']?></li>
