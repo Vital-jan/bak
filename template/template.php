@@ -3,9 +3,8 @@
 <?
 	const ROOT = "/bak";
 	const NAME = "БаК";
-	require "connect.php";
-	$query = getQuery('admin','');
-	$content = mysql_fetch_assoc($query);
+	// $query = getQuery('admin','');
+	// $content = mysql_fetch_assoc($query);
 ?>
 
 <html lang="en">

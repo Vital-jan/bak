@@ -133,7 +133,7 @@
   padding: 0 200px;
   text-align: justify;
   font-size: 1rem;
-  margin: 15px 0 10px 20px;
+  margin: 15px 0 10px 0;
 }
 
 .bak-project main .shop-title {
@@ -184,13 +184,30 @@
   right: 0;
 }
 
-.bak-project main .author img {
-  width: 80px;
+.bak-project main .author img.books {
+  width: 60px;
   margin-left: 20px;
 }
 
 .bak-project main .author .author-describe {
   display: none;
+}
+
+.bak-project main .author span.bage {
+  background-color: rgba(255, 255, 255, 0.7);
+  -webkit-box-shadow: 2px 2px 7px 0 #071e25;
+          box-shadow: 2px 2px 7px 0 #071e25;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  padding: 2px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  left: -28px;
+  top: -7px;
 }
 
 .bak-project footer {

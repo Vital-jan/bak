@@ -120,7 +120,7 @@ main {
         padding: 0 200px;
         text-align: justify;
         font-size: 1rem;
-        margin: 15px 0 10px 20px;
+        margin: 15px 0 10px 0;
     }
 
     .shop-list {}
@@ -161,11 +161,30 @@ main {
             right: 0;
         }
         img {
-            width: 80px;
+            &.books {
+            width: 60px;
             margin-left: 20px;
+            }
         }
         .author-describe {
             display: none;
+        }
+        span {
+            &.bage {
+                background-color: rgba(255,255,255,0.7);
+                box-shadow: 2px 2px 7px 0 $color;
+                width: 20px;
+                height: 20px;
+                font-size: 14px;
+                font-weight: bold;
+                text-align: center;
+                padding: 2px;
+                border-radius: 50%;
+                display: inline-block;
+                position: relative;
+                left: -28px;
+                top: -7px;
+            }
         }
     }
 } // main

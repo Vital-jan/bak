@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+<?
+    require '../php_ajax/connect.php';
+?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../assets/admin.css">
-    <script src='../template/mysqlget.js'></script>
+    <script src='<?=PHP_PATH?>mysqlajax.js'></script>
     <title>Admin page</title>
 </head>
 
 <?
-    require '../template/connect.php';
-    mysql_select_db(DB_NAME, mysql_connect(DB_HOST, DB_USER, DB_PASS));
+    $query = mysql_query("SELECT books.book_id, books.book, books.describe, books.folder, books.modified, books.picture, books.available, books.price, folders.folder_id AS folder_id, folders.folder AS folder_folder FROM books LEFT JOIN folders ON books.folder = folders.folder_id order by modified desc,folder_folder, books.book");
 
-    $query = mysql_query("SELECT books.book_id, books.book, books.describe, books.folder, books.modified, books.picture, books.available, books.price, folders.folder_id AS folder_id, folders.folder AS folder_folder FROM books LEFT JOIN folders ON books.folder = folders.folder_id");
-
-    $books = array();
+    $books = array(); // книги
     while ($cRecord = mysql_fetch_assoc($query)) {
         $cRecord['book'] = strip_tags($cRecord['book']);
         $cRecord['describe'] = strip_tags($cRecord['describe']);
@@ -28,27 +28,25 @@
     while ($cRecord = mysql_fetch_assoc($query)) {
         $folders[] = $cRecord;
     }
-    // автори книг
-    $query = mysql_query("SELECT authors.author_id as 'id', authors.author as 'value' FROM authors order by authors.author");
-    $authors = array();
-    while ($cRecord = mysql_fetch_assoc($query)) {
-        $authors[] = $cRecord;
-    }
 
-    // книга-автор
-    $query = mysql_query(
-        "SELECT bookauthor.bookauthor_id, bookauthor.book, authors.author
-        FROM bookauthor left join authors on bookauthor.author = authors.author_id");
-    $bookauthor = array();
+    // автори книг
+    $query = mysql_query("SELECT bookauthor.bookauthor_id, bookauthor.book,  authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id order by bookauthor.book");
+    $bookauthors = array();
     while ($cRecord = mysql_fetch_assoc($query)) {
-        $bookauthor[] = $cRecord;
+        $bookauthors[] = $cRecord;
     }
-    
+    // function bookauthors_assemble($books, $bookauthors){
+    for ($n=0; $n < count($books); $n++) {
+        foreach($bookauthors as $key=>$value) {
+            if ($books[$n]['book_id'] == $value['book']) $books[$n]['assemble'] .= $value['author'].', ';
+        }
+        $books[$n]['assemble'] = substr($books[$n]['assemble'], 0, strlen($books[$n]['assemble']) - 2);
+    }    
 ?>
 
 <body class="table">
 <header>
-    <div id="modal-back"></div>
+    <div id="modal-back"></div> <!--підкладка модального вікна (невидима) -->
     <ul>
         <li class='row row-header'>
             <button type="button">Додати книгу</button>
@@ -58,8 +56,9 @@
         <li class='row'>
             <span class='column column-header'></span>
             <span class='column column-header'>Книга</span>
-            <span class='column column-header'>Опис</span>
+            <span class='column column-header'>Автор</span>
             <span class='column column-header'>Розділ</span>
+            <span class='column column-header'>Змінено</span>
         </li>
     </ul>
 </header>
@@ -100,8 +99,9 @@ foreach($books as $key=>$value) {
                 <li class='row' id='array-item{$n}'>
                 <span class='column'><button id='edit' data-number='{$n}'></button></span>
                 <span class='column'>{$value['book']}</span>
-                <span class='column'>{$value['describe']}</span>
+                <span class='column'>{$value['assemble']}</span>
                 <span class='column'>{$value['folder_folder']}</span>
+                <span class='column'>{$value['modified']}</span>
                 </li>
             ";
             $n++;
@@ -110,7 +110,6 @@ foreach($books as $key=>$value) {
 ?>
 
     <script>
-        php_path = '../template/';
         let currentRecord;
         let form = document.querySelector('form');
         let books = <?=json_encode($books)?>;
@@ -122,21 +121,35 @@ foreach($books as $key=>$value) {
         let formEdit = document.forms.edit.elements;
         let modalBack = document.querySelector('#modal-back');
 
-        // кнопка Додати автора
-        document.querySelector('#author-add').addEventListener('click', (event)=>{
-            function action(response){
-                s = document.querySelector('#bookauthor-select');
-                s.addEventListener('mouseleave', (event)=>{
-                    s.style.display = 'none';
+        document.querySelector('#bookauthor-select').addEventListener('mouseleave', (event)=>{// Обробник закриття вікна додавання авторів
+                    document.querySelector('#bookauthor-select').style.display = 'none';
                 });
+
+        document.querySelector('#bookauthor-select').addEventListener('click', (event)=>{// Обробник кліка по автору (додає автора до книги)
+                if (event.target.id == 'author-insert') {
+                    document.querySelector('#bookauthor-select').style.display = 'none';
+                    queryInsert('bookauthor', [
+                        ['#book', `${books[currentRecord].book_id}`],
+                        ['#author', `${event.target.dataset.id}`]
+                    ], refreshAuthors, '<?=PHP_PATH?>');
+                }
+                function refreshAuthors(resolve){
+                    bookauthorCreate();
+                }
+            });
+
+        // кнопка Додати автора (відкриває вікно додавання автору)
+        document.querySelector('#author-add').addEventListener('click', (event)=>{
+            queryGet('select * from authors order by author', action, '<?=PHP_PATH?>');
+            let s = document.querySelector('#bookauthor-select');
+            s.style.display = 'block';
+            
+            function action(response){
                 s.innerHTML = '';
-                response.forEach((i, n)=>{
-                    s.innerHTML += `<li id='${i.bookauthor_id}'>${i.author}</li>`;
-                })    
-   
+                response.forEach((i)=>{
+                    s.innerHTML += `<li id='author-insert' data-id='${i.author_id}'>${i.author}</li>`;
+                })
             }
-            queryGet('select * from authors order by author', action);
-            document.querySelector('#bookauthor-select').style.display = 'block';
         })
 
         // кнопка close (форма)
@@ -147,28 +160,23 @@ foreach($books as $key=>$value) {
 
         // Кнопка save (форма)
         document.querySelector('form button#save').addEventListener('click', (event)=>{
-            // перевірка значень полів форми
+            // перевірка значень полів форми ......
+            // {}
             event.target.parentElement.style.display = 'none';
             modalBack.style.display = 'none';
 
-            let data = new FormData;
-            data.append('$table', 'books');
-            data.append('$where', 'book_id = 336');
-            data.append('book',formEdit.book.value);
-            data.append('describe',formEdit.describe.value);
-            data.append('picture',formEdit.picture.value);
-            data.append('#price',formEdit.price.value);
-            data.append('available',formEdit.available.value);
-            data.append('#folder',formEdit.folder.value);
+            queryUpdate('books', `book_id = ${books[currentRecord].book_id}`, [
+                ['book', formEdit.book.value],
+                ['describe', formEdit.describe.value],
+                ['picture', formEdit.picture.value],
+                ['#price', formEdit.price.value],
+                ['available', formEdit.available.value],
+                ['#folder', formEdit.folder.value]
+            ], 
+            updateBook, '<?=PHP_PATH?>');
 
-            fetch('mysqlupdate.php', {
-              method: "POST",
-              body: data
-            }) 
-              .then(status)
-              .then(json)
-              .then(function(phpJSON){
-                  if (!phpJSON.sql) alert('Помилка! Інформація не збережена.'+phpJSON.query+phpJSON.error); else {
+            function updateBook(response){
+                if (!response.sql) alert('Помилка! Інформація не збережена.'+response.query+response.error); else {
                     books[currentRecord].book = formEdit.book.value;
                     books[currentRecord].describe = formEdit.describe.value;
                     books[currentRecord].picture = formEdit.picture.value;
@@ -179,24 +187,9 @@ foreach($books as $key=>$value) {
                     let editElem = document.querySelector(`#array-item${currentRecord}`);
                     editElem.style.color = 'blue';
                     editElem.setAttribute('title','Цей елемент був змінений. Щоб побачити зміни слід поновити сторінку');
-                  };
-              })
-              .catch(function(error) {
-                  alert('Помилка!' + error)
-              });
-            });
-
-        function status(response) {
-          if (response.status == 200) {// вдалий ajax запит
-            return Promise.resolve(response)  
-          } else {// невдалий ajax запит
-            return Promise.reject(new Error(response.statusText))  
-          }  
-        }
-
-        function json(response) {
-          return response.json()
-        }
+                }
+            }
+            }); // 'form button#save').addEventListener
 
         // Кнопка undo (форма)
         document.querySelector('form button#undo').addEventListener('click', (event)=>{
@@ -210,7 +203,7 @@ foreach($books as $key=>$value) {
                 el.innerHTML += `<option id='${id}' value = '${i.id}'>${i.value}</option>`;
             })
         }
-        function selectRefresh (id, value){ // оновлення ел-ту select.
+        function selectRefresh (id, value){ // оновлення ел-тів select.
             let itemList = document.querySelectorAll(`select option#${id}`);
             itemList.forEach((i, n)=> {
                 i.removeAttribute('selected');
@@ -218,16 +211,25 @@ foreach($books as $key=>$value) {
                 if (i.value == '' && value == null) i.setAttribute('selected','');
             });
         }
-        function bookauthorCreate(id){ // створити перелік авторів
+        function bookauthorCreate(){ // створити перелік авторів поточної книги
+            queryGet('SELECT bookauthor.bookauthor_id, bookauthor.book, authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id', bookauthorResolve, '<?=PHP_PATH?>');
+            function bookauthorResolve(resolve) {
             let s = '';
-            bookAuthor.forEach((i)=>{
-                if (i.book == id) s += `<li><img src='../assets/img/close.png' title='Видалити' id='del-author' data-id='${i.bookauthor_id}'>${i.author}</li>`;
+            resolve.forEach((i)=>{
+                if (i.book == books[currentRecord].book_id) s += `<li><img src='../assets/img/close.png' title='Видалити' id='del-author' data-id='${i.bookauthor_id}'>${i.author}</li>`;
             })
-            return s;
+            document.querySelector('form #bookauthor').innerHTML = s;
+
+            }
         };
         
-        document.querySelector('form #bookauthor').addEventListener('click', (event)=>{
-            if (event.target.id == 'del-author') alert('delete'+event.target.dataset.id)
+        document.querySelector('form #bookauthor').addEventListener('click', (event)=>{ // обробка кліка delete на переліку авторів поточної книги
+            if (event.target.id == 'del-author') {
+                queryDelete('bookauthor', `bookauthor.bookauthor_id=${event.target.dataset.id}`, (response)=>{
+                    bookauthorCreate()
+                },
+                '<?=PHP_PATH?>');
+            }
         })
 
         function refresh(num) { // прив'язка значень полів до ел-тів форми
@@ -241,7 +243,7 @@ foreach($books as $key=>$value) {
             selectRefresh('available', books[num].available);
             selectRefresh('folder', books[num].folder);
             document.querySelector('form .form-photo').innerHTML = `<img src='../assets/img/books/${books[num].picture}'>`;
-            document.querySelector('form #bookauthor').innerHTML = bookauthorCreate(books[num].book_id);
+            bookauthorCreate();
         }
 
         document.body.addEventListener('click', (event)=>{ // редагування запису
