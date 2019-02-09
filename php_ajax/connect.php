@@ -4,6 +4,8 @@
     const DB_NAME = 'db1';
     const DB_USER = 'root';
     const DB_PASS = '';
+    const AUTHOR_PHOTO_FOLDER = '../assets/img/authors/';
+    const BOOK_PHOTO_FOLDER = '../assets/img/books/';
     const PHP_PATH = '/bak/php_ajax/'; // путь к php файлам и модулю mysqlajax.js
     // в этой папке должны находиться файлы:
     // connect.php

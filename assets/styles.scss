@@ -10,9 +10,13 @@ $button: rgb(227, 231, 236);
     box-sizing: border-box;
 }
 .bak-project {
-font-family: sans-serif;
-padding: 0 0px;
-
+    font-family: sans-serif;
+    padding: 0 0px;
+    #login-button {
+        position: absolute;
+        z-index: 4;
+        opacity:0;
+    }
 .vert-align {
     display: flex;
     align-items: center;
@@ -49,6 +53,7 @@ background-image: url(img/bluewithstripes.jpg);
 }
 
 nav {
+    min-width:480px;
     background-color: $nav-bgc;
     padding: 10px 0 5px 15px;
     position: fixed;
@@ -71,6 +76,12 @@ nav {
 }
 
 main {
+    @media (max-width: 992px) {
+        padding: 200px 20px;
+    }
+    @media (max-width: 768px) {
+        padding: 200px 10px;
+    }
     padding: 200px 50px;
     color: $color;
 
@@ -93,6 +104,9 @@ main {
     li {
     list-style-type: none;
     padding: 5px;
+    &.separate {
+        border-bottom: 1px solid $nav-bgc;
+    }
     }
 
     img.phone {
@@ -103,24 +117,111 @@ main {
     }
 
     .news-header {
-        padding: 0 200px;
+        @media (max-width:992px) {
+            width: 80%;
+        }
+        @media (max-width:768px) {
+            width: 95%;
+        }
+        width: 60%;
+        margin: auto;
         font-size: 1.5rem;
         margin-top: 20px;
+        padding: 0 10px;
     }
     .news-date {
+        display: block;
         font-style: italic;
-        margin-right: 10px;
         font-size: 1rem;
-    }
-    .news-separate {
-        margin-bottom: 30px;
-        padding: 0 200px;
+        margin-bottom: 10px;
     }
     .news-content {
-        padding: 0 200px;
+        @media (max-width:992px) {
+            width: 80%;
+        }
+        @media (max-width:768px) {
+            width: 95%;
+        }
+        width: 60%;
+        position: relative;
+        margin: 15px auto;
+        padding: 0 10px 15px;
         text-align: justify;
         font-size: 1rem;
-        margin: 15px 0 10px 0;
+        border-bottom: 1px solid $nav-bgc;
+    }
+
+    .books {
+        display: flex;
+        .book-left {
+            width: 35%;
+            margin-right: 5%;
+        li {
+            padding: 5px 15px;
+            // border: 1px solid $nav-bgc;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            background: linear-gradient(to left, white, $nav-bgc);
+        }
+        span {
+            width: 80%;
+            &.bage {
+                width: 2em;
+                font-size: 0.8em;
+                text-align: center;
+                box-shadow: 1px 1px 1px 1px $button;
+                padding: 3px 0;
+                border-radius: 50%;
+            }
+        }
+        a {
+            text-decoration: none;
+        }
+        .active {
+            font-weight: bold;
+            font-size: 1.1em;
+            }
+        }
+
+        .book-right {
+            width: 65%;
+            li {
+                padding: 10px 0 20px 10px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                border-bottom: 1px solid $nav-bgc;
+                margin: 10px 0;
+                div {
+                    width: 70%;
+                }
+                span {
+                    display: block;
+                &.book-author {
+                    color: $color-bold;
+                    font-style: italic;
+                }
+                &.book-name {
+                    font-size: 1.1em;
+                }
+                &.img {
+                    width: 15%;
+                    text-align: center;;
+                }
+                img {
+                    max-width: 80px;
+                    max-height: 80px;
+                    box-shadow: 2px 2px 6px 1px rgba(0,0,0,0.7);
+                    border-radius: 5px;
+                    border-top-left-radius: 0px;
+                    border-bottom-right-radius: 0px;
+                }
+                }
+            }
+            }
     }
 
     .shop-list {}
@@ -129,64 +230,139 @@ main {
     }
     .shop-item {
         padding-left: 50px;
+        margin-bottom: 15px;
+    }
+
+    #authors-books { // сторінка 'автори'
+        margin: 0;
+        padding: 0;
+        display: flex;
+
+    #book-list {
+        width: 49%;
+
+        li {
+        display: flex;
+        align-items: center;
+            span {
+                display: inline-block;
+                &:nth-child(1) {
+                    text-align: right;
+                    font-style: italic;
+                    width: 70%;
+                }
+                &:nth-child(2) {
+                    position: relative;
+                    width: 25%;
+                    margin-left: 10px;
+                    text-align: center;
+                }
+
+            }
+            img {
+                position: relative;
+                left: 0;
+                max-width: 70px;
+                max-height: 70px;
+                margin: auto;
+            }
+        }
+    }
+    #author-list {
+        width: 50%;
     }
     .author {
         display: flex;
         align-items: center;
-        margin: 10px 0;
+        #author-describe{
+            width: 70%;
+            display: flex;
+            align-items: center;
+        }
+    span {
+        &.bage {
+            background-color: rgba(255,255,255,0.7);
+            box-shadow: 2px 2px 7px 0 $color;
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            text-align: center;
+            padding: 2px;
+            border-radius: 50%;
+            display: inline-block;
+            position: absolute;
+            left: 26px;
+            top: 5px;
+            font-weight: bold;
+        }
+    }
         .author-name {
             display: inline-block;
             text-align: right;
-            margin: 0 15px 0 0;
-            width: 25%;
+            // margin: 0 15px 0 0;
+            width: 80%;
             border-bottom: 1px solid $nav-bgc;
             padding-bottom: 10px;
-        }
-        .author-photo {
+            padding-right: 20px;
+            &.active-item {
+                font-size: 1.2em;
+                border-bottom-width: 3px;
+                font-weight: bold;
+            }
+            }
+        img {
+        &.author-photo {
             max-width: 70px;
             max-height: 70px;
             border-radius: 50%;
-            margin: 0 10px;
-        }
-        .author-photo-frame {
-            width: 20%;
-        }
-        button {
-            border-radius: 5px;
-            background-color: $button;
-            margin-left: 25px;
-            padding: 0 5px;
-            cursor: pointer;
+            // margin: 0;
             position: relative;
-            right: 0;
-        }
-        img {
-            &.books {
-            width: 60px;
-            margin-left: 20px;
+            left: -7px;
+            top: -8px;
+            box-shadow: 2px 2px 7px 0px gray;
             }
         }
-        .author-describe {
-            display: none;
-        }
         span {
-            &.bage {
-                background-color: rgba(255,255,255,0.7);
-                box-shadow: 2px 2px 7px 0 $color;
-                width: 20px;
-                height: 20px;
-                font-size: 14px;
-                font-weight: bold;
-                text-align: center;
-                padding: 2px;
-                border-radius: 50%;
-                display: inline-block;
-                position: relative;
-                left: -28px;
-                top: -7px;
+        &.author-photo {
+            width: 70px;
+            margin: 0;
+            display: inline-block;
+            }
+        }
+        a {
+            position: relative;
+            margin-left: 20px;
+            img {
+                &.books {
+                width: 60px;
+                }
             }
         }
     }
+    .author-describe {
+        display: none;
+        padding: 5px;
+        font-style: italic;
+        font-size: 0.9em;
+        text-align: justify;
+        position: relative;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 4px;
+        padding: 10px;
+        margin: 15px 0 30px 0;
+        width: 85%;
+        img {
+            &.close {
+                position: absolute;
+                cursor: pointer;
+                width: 15px;
+                height: 15px;
+                top: -7px;
+                right: -8px;
+            }
+        }
+    }
+}
 } // main
 
 footer {
@@ -198,6 +374,7 @@ footer {
     width: 100%;
     padding: 5px;
     text-align: center;
+    box-shadow: 0 -5px 25px 10px white;
 }
 
 } // bak-project

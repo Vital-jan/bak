@@ -10,6 +10,12 @@
   padding: 0 0px;
 }
 
+.bak-project #login-button {
+  position: absolute;
+  z-index: 4;
+  opacity: 0;
+}
+
 .bak-project .vert-align {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -54,6 +60,7 @@
 }
 
 .bak-project nav {
+  min-width: 480px;
   background-color: #9adff4;
   padding: 10px 0 5px 15px;
   position: fixed;
@@ -84,6 +91,18 @@
   color: #071e25;
 }
 
+@media (max-width: 992px) {
+  .bak-project main {
+    padding: 200px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bak-project main {
+    padding: 200px 10px;
+  }
+}
+
 .bak-project main b, .bak-project main h1, .bak-project main h2, .bak-project main h3, .bak-project main h4, .bak-project main h5, .bak-project main h6 {
   color: #072d3a;
 }
@@ -105,6 +124,10 @@
   padding: 5px;
 }
 
+.bak-project main li.separate {
+  border-bottom: 1px solid #9adff4;
+}
+
 .bak-project main img.phone {
   height: 1em;
   position: relative;
@@ -113,27 +136,152 @@
 }
 
 .bak-project main .news-header {
-  padding: 0 200px;
+  width: 60%;
+  margin: auto;
   font-size: 1.5rem;
   margin-top: 20px;
+  padding: 0 10px;
+}
+
+@media (max-width: 992px) {
+  .bak-project main .news-header {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .bak-project main .news-header {
+    width: 95%;
+  }
 }
 
 .bak-project main .news-date {
+  display: block;
   font-style: italic;
-  margin-right: 10px;
   font-size: 1rem;
-}
-
-.bak-project main .news-separate {
-  margin-bottom: 30px;
-  padding: 0 200px;
+  margin-bottom: 10px;
 }
 
 .bak-project main .news-content {
-  padding: 0 200px;
+  width: 60%;
+  position: relative;
+  margin: 15px auto;
+  padding: 0 10px 15px;
   text-align: justify;
   font-size: 1rem;
-  margin: 15px 0 10px 0;
+  border-bottom: 1px solid #9adff4;
+}
+
+@media (max-width: 992px) {
+  .bak-project main .news-content {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .bak-project main .news-content {
+    width: 95%;
+  }
+}
+
+.bak-project main .books {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.bak-project main .books .book-left {
+  width: 35%;
+  margin-right: 5%;
+}
+
+.bak-project main .books .book-left li {
+  padding: 5px 15px;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 15px 0;
+  background: -webkit-gradient(linear, right top, left top, from(white), to(#9adff4));
+  background: linear-gradient(to left, white, #9adff4);
+}
+
+.bak-project main .books .book-left span {
+  width: 80%;
+}
+
+.bak-project main .books .book-left span.bage {
+  width: 2em;
+  font-size: 0.8em;
+  text-align: center;
+  -webkit-box-shadow: 1px 1px 1px 1px #e3e7ec;
+          box-shadow: 1px 1px 1px 1px #e3e7ec;
+  padding: 3px 0;
+  border-radius: 50%;
+}
+
+.bak-project main .books .book-left a {
+  text-decoration: none;
+}
+
+.bak-project main .books .book-left .active {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.bak-project main .books .book-right {
+  width: 65%;
+}
+
+.bak-project main .books .book-right li {
+  padding: 10px 0 20px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  border-bottom: 1px solid #9adff4;
+  margin: 10px 0;
+}
+
+.bak-project main .books .book-right li div {
+  width: 70%;
+}
+
+.bak-project main .books .book-right li span {
+  display: block;
+}
+
+.bak-project main .books .book-right li span.book-author {
+  color: #072d3a;
+  font-style: italic;
+}
+
+.bak-project main .books .book-right li span.book-name {
+  font-size: 1.1em;
+}
+
+.bak-project main .books .book-right li span.img {
+  width: 15%;
+  text-align: center;
+}
+
+.bak-project main .books .book-right li span img {
+  max-width: 80px;
+  max-height: 80px;
+  -webkit-box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.7);
+          box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
+  border-top-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .bak-project main .shop-title {
@@ -142,72 +290,157 @@
 
 .bak-project main .shop-item {
   padding-left: 50px;
+  margin-bottom: 15px;
 }
 
-.bak-project main .author {
+.bak-project main #authors-books {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.bak-project main #authors-books #book-list {
+  width: 49%;
+}
+
+.bak-project main #authors-books #book-list li {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin: 10px 0;
 }
 
-.bak-project main .author .author-name {
+.bak-project main #authors-books #book-list li span {
   display: inline-block;
-  text-align: right;
-  margin: 0 15px 0 0;
-  width: 25%;
-  border-bottom: 1px solid #9adff4;
-  padding-bottom: 10px;
 }
 
-.bak-project main .author .author-photo {
+.bak-project main #authors-books #book-list li span:nth-child(1) {
+  text-align: right;
+  font-style: italic;
+  width: 70%;
+}
+
+.bak-project main #authors-books #book-list li span:nth-child(2) {
+  position: relative;
+  width: 25%;
+  margin-left: 10px;
+  text-align: center;
+}
+
+.bak-project main #authors-books #book-list li img {
+  position: relative;
+  left: 0;
   max-width: 70px;
   max-height: 70px;
-  border-radius: 50%;
-  margin: 0 10px;
+  margin: auto;
 }
 
-.bak-project main .author .author-photo-frame {
-  width: 20%;
+.bak-project main #authors-books #author-list {
+  width: 50%;
 }
 
-.bak-project main .author button {
-  border-radius: 5px;
-  background-color: #e3e7ec;
-  margin-left: 25px;
-  padding: 0 5px;
-  cursor: pointer;
-  position: relative;
-  right: 0;
+.bak-project main #authors-books .author {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.bak-project main .author img.books {
-  width: 60px;
-  margin-left: 20px;
+.bak-project main #authors-books .author #author-describe {
+  width: 70%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.bak-project main .author .author-describe {
-  display: none;
-}
-
-.bak-project main .author span.bage {
+.bak-project main #authors-books .author span.bage {
   background-color: rgba(255, 255, 255, 0.7);
   -webkit-box-shadow: 2px 2px 7px 0 #071e25;
           box-shadow: 2px 2px 7px 0 #071e25;
   width: 20px;
   height: 20px;
   font-size: 14px;
-  font-weight: bold;
   text-align: center;
   padding: 2px;
   border-radius: 50%;
   display: inline-block;
+  position: absolute;
+  left: 26px;
+  top: 5px;
+  font-weight: bold;
+}
+
+.bak-project main #authors-books .author .author-name {
+  display: inline-block;
+  text-align: right;
+  width: 80%;
+  border-bottom: 1px solid #9adff4;
+  padding-bottom: 10px;
+  padding-right: 20px;
+}
+
+.bak-project main #authors-books .author .author-name.active-item {
+  font-size: 1.2em;
+  border-bottom-width: 3px;
+  font-weight: bold;
+}
+
+.bak-project main #authors-books .author img.author-photo {
+  max-width: 70px;
+  max-height: 70px;
+  border-radius: 50%;
   position: relative;
-  left: -28px;
+  left: -7px;
+  top: -8px;
+  -webkit-box-shadow: 2px 2px 7px 0px gray;
+          box-shadow: 2px 2px 7px 0px gray;
+}
+
+.bak-project main #authors-books .author span.author-photo {
+  width: 70px;
+  margin: 0;
+  display: inline-block;
+}
+
+.bak-project main #authors-books .author a {
+  position: relative;
+  margin-left: 20px;
+}
+
+.bak-project main #authors-books .author a img.books {
+  width: 60px;
+}
+
+.bak-project main #authors-books .author-describe {
+  display: none;
+  padding: 5px;
+  font-style: italic;
+  font-size: 0.9em;
+  text-align: justify;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 10px;
+  margin: 15px 0 30px 0;
+  width: 85%;
+}
+
+.bak-project main #authors-books .author-describe img.close {
+  position: absolute;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
   top: -7px;
+  right: -8px;
 }
 
 .bak-project footer {
@@ -219,5 +452,7 @@
   width: 100%;
   padding: 5px;
   text-align: center;
+  -webkit-box-shadow: 0 -5px 25px 10px white;
+          box-shadow: 0 -5px 25px 10px white;
 }
 /*# sourceMappingURL=styles.css.map */

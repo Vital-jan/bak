@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?
-require "../php_ajax/connect.php";
+// require "../php_ajax/connect.php";
 $query = getQuery('admin');
 $contacts = mysql_fetch_assoc($query);
 $query = getQuery('shops');
@@ -20,7 +20,7 @@ while ($cRecord = mysql_fetch_assoc($query)) {
 		<li><img class="phone" src="../assets/img/email.png" alt="" class="phone"><?=$contacts['email']?></li>
 		<li><a href="https://www.facebook.com/groups/1895460077339659/" target="blank"><img  class="phone"src="../assets/img/fb.png" alt="" class="phone">	Наша група у facebook</a></li>
 		<li></li>
-		<li><hr></li>
+		<li class="separate"></li>
 		<li></li>
 	</ul>
 	</address>

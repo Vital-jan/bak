@@ -3,8 +3,9 @@
 <?
 	const ROOT = "/bak";
 	const NAME = "БаК";
-	// $query = getQuery('admin','');
-	// $content = mysql_fetch_assoc($query);
+	require $_SERVER['DOCUMENT_ROOT'].ROOT."/php_ajax/connect.php";
+	$query = getQuery('admin','');
+	$content = mysql_fetch_assoc($query);
 ?>
 
 <html lang="en">
@@ -46,6 +47,8 @@
 ?>
 
 <body class="bak-project">
+	<button id="login-button" type=button>Авторизуватись</button>
+
 	<header>
 		<div class="logo">
 		<div class="logo-gradient"></div>
@@ -70,4 +73,19 @@
 	</footer>
 	
 </body>
+<script>
+	let btnLogin = document.querySelector('#login-button')
+	btnLogin.addEventListener('click', (event)=>{
+		if (btnLogin.style.opacity != 1) return;
+		alert('Authorization');
+	});
+	btnLogin.addEventListener('mouseenter', (event)=>{
+		interval = setTimeout(() => {
+			btnLogin.style.opacity=1;
+		}, 3000);
+	});
+	btnLogin.addEventListener('mouseout', (event)=>{
+		btnLogin.style.opacity=0;
+	});
+</script>
 </html>
