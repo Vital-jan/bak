@@ -2,25 +2,13 @@
 
 <?
 	const ROOT = "/bak";
-	const NAME = "БаК";
+
 	require $_SERVER['DOCUMENT_ROOT'].ROOT."/php_ajax/connect.php";
 	$query = getQuery('admin','');
 	$content = mysql_fetch_assoc($query);
-?>
-
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?=NAME?></title>
-	<link rel="stylesheet" href="<?=ROOT?>/assets/styles.css">
-	<link rel="shortcut icon" href="<?=ROOT?>/assets/img/favicon.ico" type="image/x-icon">
-</head>
-
-<?
 	$nav_array = array( // Головне меню
 		array(
-		"name"=>"Головна", 
+		"name"=>"Головна",
 		"path"=>ROOT,
 		"file"=>"main_view"),
 		array (
@@ -45,6 +33,17 @@
 			"file"=>"contacts_view"),
 		);
 ?>
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<?
+	require "{$view_file_title}.php"
+	?>
+	<link rel="stylesheet" href="<?=ROOT?>/assets/styles.css">
+	<link rel="shortcut icon" href="<?=ROOT?>/assets/img/favicon.ico" type="image/x-icon">
+</head>
 
 <body class="bak-project">
 	<button id="login-button" type=button>Авторизуватись</button>

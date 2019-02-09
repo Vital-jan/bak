@@ -69,6 +69,9 @@ nav {
         &:active {
             color:$nav-color;
         }
+        @media (max-width: 480px) {
+            margin: 0;
+        }
     }
     .nav-active {
         background-color: white; 
@@ -109,14 +112,14 @@ main {
     }
     }
 
-    img.phone {
+    img.phone { // для сторінки контакти
         height: 1em;
         position: relative;
         top: 1px;
         margin-right: 5px;
     }
 
-    .news-header {
+    .news-header { // сторінка новини
         @media (max-width:992px) {
             width: 80%;
         }
@@ -151,14 +154,16 @@ main {
         border-bottom: 1px solid $nav-bgc;
     }
 
-    .books {
+    .books { // сторінка книги
         display: flex;
-        .book-left {
+        .book-left { // список розділів
             width: 35%;
             margin-right: 5%;
-        li {
+            @media (max-width: 768px) {
+                width: 50%;
+            }
+        li { 
             padding: 5px 15px;
-            // border: 1px solid $nav-bgc;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
@@ -180,23 +185,33 @@ main {
         a {
             text-decoration: none;
         }
-        .active {
+        .active { // активний розділ
             font-weight: bold;
             font-size: 1.1em;
             }
         }
 
-        .book-right {
+        .book-right { // список книг
             width: 65%;
-            li {
+            @media (max-width: 768px) {
+                width: 50%;
+            }
+                li {
                 padding: 10px 0 20px 10px;
                 display: flex;
                 align-items: center;
                 cursor: pointer;
                 border-bottom: 1px solid $nav-bgc;
                 margin: 10px 0;
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                    text-align: center;
+                    .book-author {
+                        margin-bottom: 10px;
+                    }
+                }
                 div {
-                    width: 70%;
+                    width: 85%;
                 }
                 span {
                     display: block;
@@ -206,10 +221,12 @@ main {
                 }
                 &.book-name {
                     font-size: 1.1em;
+                    margin-bottom: 10px;
                 }
                 &.img {
                     width: 15%;
-                    text-align: center;;
+                    text-align: center;
+            
                 }
                 img {
                     max-width: 80px;
@@ -218,17 +235,58 @@ main {
                     border-radius: 5px;
                     border-top-left-radius: 0px;
                     border-bottom-right-radius: 0px;
+                    &.writer {
+                        width: 30px;
+                        position: relative;
+                        top: 5px;
+                        border:none;
+                        box-shadow: none;
+                        transform: scale(-1, 1);
+                    }
+
                 }
+                }
+                .book-describe{
+                    display: none;
+                    text-align: justify;
+                    margin-bottom: 10px;
+                }
+                &.book-view {
+                    display: flex;
+                    div {
+                        width: 50%;
+                        margin-right: 10px;
+                        @media (max-width: 768px) {
+                            width: 100%;
+                        }
+                    }
+                    .img {
+                        width: 50%;
+                    }
+                    .book-name {
+                        font-size: 1.2em;
+                        font-weight: bold;
+                        text-align: center;
+                    }
+                    .book-author {
+                        margin-bottom: 10px;
+                    }
+                    .book-describe{
+                        display: inline-block;
+                    }
+                    img {
+                        max-width: 100%;
+                        max-height: 100%;
+                    }
                 }
             }
             }
     }
 
-    .shop-list {}
-    .shop-title {
+    .shop-title { // сторінка контакти, розділи списку де купити
         padding-left: 20px;
     }
-    .shop-item {
+    .shop-item { // сторінка контакти, елементи списку де купити
         padding-left: 50px;
         margin-bottom: 15px;
     }
@@ -238,7 +296,7 @@ main {
         padding: 0;
         display: flex;
 
-    #book-list {
+    #book-list { // список книг
         width: 49%;
 
         li {
@@ -268,13 +326,13 @@ main {
             }
         }
     }
-    #author-list {
+    #author-list { // список авторів
         width: 50%;
     }
     .author {
         display: flex;
         align-items: center;
-        #author-describe{
+        .author-describe{
             width: 70%;
             display: flex;
             align-items: center;
@@ -299,7 +357,6 @@ main {
         .author-name {
             display: inline-block;
             text-align: right;
-            // margin: 0 15px 0 0;
             width: 80%;
             border-bottom: 1px solid $nav-bgc;
             padding-bottom: 10px;
@@ -315,7 +372,6 @@ main {
             max-width: 70px;
             max-height: 70px;
             border-radius: 50%;
-            // margin: 0;
             position: relative;
             left: -7px;
             top: -8px;
@@ -339,7 +395,7 @@ main {
             }
         }
     }
-    .author-describe {
+    .describe-text { // текст про автора
         display: none;
         padding: 5px;
         font-style: italic;

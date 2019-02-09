@@ -35,21 +35,17 @@
         $photo = "<span class='author-photo'></span>";
         if ($value['photo'] != '') $photo = "<img class='author-photo' src='".AUTHOR_PHOTO_FOLDER."{$value['photo']}'>";
 
-        $is_click = '';
-        $title = '';
-        $allowDescribe = 0;
+        $describe_tag = '';
         if ($value['describe'] != '') {
-            $is_click = ' click';
-            $title="title='Дізнайтесь більше про цього автора'";
-            $allowDescribe = 1;
+            $describe_tag = "id='author-describe' style='cursor: pointer' title='Дізнайтесь більше про цього автора'";
         }
 
         $active_item = '';
         if ($value['author_id']==$current_author) $active_item = 'active-item';
 
         echo
-            "<li class='author' id='author' data-describe='{$allowDescribe}'>".
-            "<div id='author-describe' class='{$is_click}' data-author='{$value['author_id']}' {$title} >".
+            "<li class='author' id='author'>".
+            "<div {$describe_tag} class='author-describe' data-author='{$value['author_id']}'>".
                 "<span class='author-name {$active_item}'>{$describe}{$value['author']}</span>".
                 "{$photo}".
             "</div>".
@@ -58,7 +54,7 @@
                 "<span class='bage click'>{$value['cnt']}</span>".
             "</a>".
             "</li>".
-            "<p id='author{$value['author_id']}' class='author-describe'>{$value['describe']}
+            "<p id='describe-text{$value['author_id']}' class='describe-text'>{$value['describe']}
             <img id='close-author-describe' class='close' src='../assets/img/close2.png'>
             </p>";
 
@@ -72,7 +68,7 @@
         $photo = $value['picture'] != '' ? "{$photo_folder}{$value['picture']}" : '';
         if ($value['authorID'] == $current_author) 
         echo "<li>
-        <span>{$value['book']}</span>
+        <span>&laquo;{$value['book']}&raquo;</span>
         <span>
             <img src='{$photo}'>
         </span>
@@ -94,20 +90,14 @@
             i.addEventListener('click', authorDescribeClick);
         });
 
-
-    let authorClick = (event)=>{ // обробник кліку по книгах автора
-        alert(event.currentTarget.id)
-        if (event.currentTarget.id == 'books-by-author') return;
-        if (openAuthor != null) document.querySelector(`#${openAuthor}`).style.display = 'none';
-        if (event.currentTarget.dataset.describe == 1) {
-            event.currentTarget.nextElementSibling.style.display = 'block';
-            openAuthor = event.currentTarget.nextElementSibling.id;
+    document.querySelector('#author-list').addEventListener('click', (event)=>{ // вішаємо обробник кліку по автору
+        if ((event.target.id || event.target.parentElement.id) == 'author-describe') {
+            if (openAuthor) openAuthor.style.display = 'none';
+            let id = event.target.dataset.author || event.target.parentElement.dataset.author;
+            openAuthor = document.querySelector(`p#describe-text${id}`);
+            openAuthor.style.display = 'block';
         }
-    };
-
-    document.querySelectorAll('#author').
-        forEach( (i)=>{
-            i.addEventListener('click', authorClick);
-        });
+        if (event.target.id == 'close-author-describe') event.target.parentElement.style.display = 'none';
+    });
 
 </script>

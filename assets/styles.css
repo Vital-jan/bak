@@ -82,6 +82,12 @@
   color: #2c5461;
 }
 
+@media (max-width: 480px) {
+  .bak-project nav a {
+    margin: 0;
+  }
+}
+
 .bak-project nav .nav-active {
   background-color: white;
 }
@@ -195,6 +201,12 @@
   margin-right: 5%;
 }
 
+@media (max-width: 768px) {
+  .bak-project main .books .book-left {
+    width: 50%;
+  }
+}
+
 .bak-project main .books .book-left li {
   padding: 5px 15px;
   border-radius: 10px;
@@ -239,6 +251,12 @@
   width: 65%;
 }
 
+@media (max-width: 768px) {
+  .bak-project main .books .book-right {
+    width: 50%;
+  }
+}
+
 .bak-project main .books .book-right li {
   padding: 10px 0 20px 10px;
   display: -webkit-box;
@@ -252,8 +270,21 @@
   margin: 10px 0;
 }
 
+@media (max-width: 768px) {
+  .bak-project main .books .book-right li {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    text-align: center;
+  }
+  .bak-project main .books .book-right li .book-author {
+    margin-bottom: 10px;
+  }
+}
+
 .bak-project main .books .book-right li div {
-  width: 70%;
+  width: 85%;
 }
 
 .bak-project main .books .book-right li span {
@@ -267,6 +298,7 @@
 
 .bak-project main .books .book-right li span.book-name {
   font-size: 1.1em;
+  margin-bottom: 10px;
 }
 
 .bak-project main .books .book-right li span.img {
@@ -282,6 +314,63 @@
   border-radius: 5px;
   border-top-left-radius: 0px;
   border-bottom-right-radius: 0px;
+}
+
+.bak-project main .books .book-right li span img.writer {
+  width: 30px;
+  position: relative;
+  top: 5px;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+
+.bak-project main .books .book-right li .book-describe {
+  display: none;
+  text-align: justify;
+  margin-bottom: 10px;
+}
+
+.bak-project main .books .book-right li.book-view {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.bak-project main .books .book-right li.book-view div {
+  width: 50%;
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+  .bak-project main .books .book-right li.book-view div {
+    width: 100%;
+  }
+}
+
+.bak-project main .books .book-right li.book-view .img {
+  width: 50%;
+}
+
+.bak-project main .books .book-right li.book-view .book-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.bak-project main .books .book-right li.book-view .book-author {
+  margin-bottom: 10px;
+}
+
+.bak-project main .books .book-right li.book-view .book-describe {
+  display: inline-block;
+}
+
+.bak-project main .books .book-right li.book-view img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .bak-project main .shop-title {
@@ -352,7 +441,7 @@
           align-items: center;
 }
 
-.bak-project main #authors-books .author #author-describe {
+.bak-project main #authors-books .author .author-describe {
   width: 70%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -420,7 +509,7 @@
   width: 60px;
 }
 
-.bak-project main #authors-books .author-describe {
+.bak-project main #authors-books .describe-text {
   display: none;
   padding: 5px;
   font-style: italic;
@@ -434,7 +523,7 @@
   width: 85%;
 }
 
-.bak-project main #authors-books .author-describe img.close {
+.bak-project main #authors-books .describe-text img.close {
   position: absolute;
   cursor: pointer;
   width: 15px;
