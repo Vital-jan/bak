@@ -154,7 +154,103 @@ main {
         border-bottom: 1px solid $nav-bgc;
     }
 
-    .books { // сторінка книги
+    .book-right { // список книг для сторінки "книги" та "автори"
+        width: 60%;
+        @media (max-width: 768px) {
+            width: 50%;
+        }
+            li {
+            padding: 10px 0 20px 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid $nav-bgc;
+            margin: 10px 0;
+            @media (max-width: 768px) {
+                flex-direction: column;
+                text-align: center;
+                .book-author {
+                    margin-bottom: 10px;
+                }
+            }
+            div {
+                width: 85%;
+            }
+            span {
+                display: block;
+            &.book-author {
+                color: $color-bold;
+                font-style: italic;
+            }
+            &.book-name {
+                font-size: 1.1em;
+                margin-bottom: 10px;
+            }
+            &.img {
+                width: 15%;
+                text-align: center;
+        
+            }
+            img {
+                max-width: 80px;
+                max-height: 80px;
+                box-shadow: 2px 2px 6px 1px rgba(0,0,0,0.7);
+                border-radius: 5px;
+                border-top-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+                margin-bottom: 10px;
+                &.writer {
+                    width: 25px;
+                    position: relative;
+                    top: 12px;
+                    border:none;
+                    box-shadow: none;
+                    transform: scale(-1, 1);
+                }
+
+            }
+            }
+            .book-describe{
+                display: none;
+                text-align: justify;
+                margin: 20px 0;
+                width: 100%;
+                word-wrap: break-word;
+            }
+            &.book-view {
+                display: block;
+                div {
+                    width: 100%;
+                    margin-right: 10px;
+                    @media (max-width: 768px) {
+                        width: 100%;
+                    }
+                }
+                .img {
+                    width: 100%;
+                }
+                .book-name {
+                    font-size: 1.2em;
+                    font-weight: bold;
+                    text-align: center;
+                }
+                .book-author {
+                    margin-bottom: 10px;
+                    text-align: center;
+                }
+                .book-describe{
+                    display: block;
+                }
+                img {
+                    max-width: 50%;
+                    max-height: 50%;
+                }
+            }
+        }
+        }
+
+
+    .books { // сторінка <книги>
         display: flex;
         .book-left { // список розділів
             width: 35%;
@@ -190,97 +286,6 @@ main {
             font-size: 1.1em;
             }
         }
-
-        .book-right { // список книг
-            width: 65%;
-            @media (max-width: 768px) {
-                width: 50%;
-            }
-                li {
-                padding: 10px 0 20px 10px;
-                display: flex;
-                align-items: center;
-                cursor: pointer;
-                border-bottom: 1px solid $nav-bgc;
-                margin: 10px 0;
-                @media (max-width: 768px) {
-                    flex-direction: column;
-                    text-align: center;
-                    .book-author {
-                        margin-bottom: 10px;
-                    }
-                }
-                div {
-                    width: 85%;
-                }
-                span {
-                    display: block;
-                &.book-author {
-                    color: $color-bold;
-                    font-style: italic;
-                }
-                &.book-name {
-                    font-size: 1.1em;
-                    margin-bottom: 10px;
-                }
-                &.img {
-                    width: 15%;
-                    text-align: center;
-            
-                }
-                img {
-                    max-width: 80px;
-                    max-height: 80px;
-                    box-shadow: 2px 2px 6px 1px rgba(0,0,0,0.7);
-                    border-radius: 5px;
-                    border-top-left-radius: 0px;
-                    border-bottom-right-radius: 0px;
-                    &.writer {
-                        width: 30px;
-                        position: relative;
-                        top: 5px;
-                        border:none;
-                        box-shadow: none;
-                        transform: scale(-1, 1);
-                    }
-
-                }
-                }
-                .book-describe{
-                    display: none;
-                    text-align: justify;
-                    margin-bottom: 10px;
-                }
-                &.book-view {
-                    display: flex;
-                    div {
-                        width: 50%;
-                        margin-right: 10px;
-                        @media (max-width: 768px) {
-                            width: 100%;
-                        }
-                    }
-                    .img {
-                        width: 50%;
-                    }
-                    .book-name {
-                        font-size: 1.2em;
-                        font-weight: bold;
-                        text-align: center;
-                    }
-                    .book-author {
-                        margin-bottom: 10px;
-                    }
-                    .book-describe{
-                        display: inline-block;
-                    }
-                    img {
-                        max-width: 100%;
-                        max-height: 100%;
-                    }
-                }
-            }
-            }
     }
 
     .shop-title { // сторінка контакти, розділи списку де купити
@@ -296,64 +301,53 @@ main {
         padding: 0;
         display: flex;
 
-    #book-list { // список книг
-        width: 49%;
-
-        li {
-        display: flex;
-        align-items: center;
-            span {
-                display: inline-block;
-                &:nth-child(1) {
-                    text-align: right;
-                    font-style: italic;
-                    width: 70%;
-                }
-                &:nth-child(2) {
-                    position: relative;
-                    width: 25%;
-                    margin-left: 10px;
-                    text-align: center;
-                }
-
-            }
-            img {
-                position: relative;
-                left: 0;
-                max-width: 70px;
-                max-height: 70px;
-                margin: auto;
-            }
-        }
-    }
     #author-list { // список авторів
-        width: 50%;
+        width: 60%;
+        a {
+            text-decoration-line: none;
+        }
     }
-    .author {
+    .author { // рядок li (один автор)
         display: flex;
+        height: 5em;
         align-items: center;
-        .author-describe{
-            width: 70%;
-            display: flex;
-            align-items: center;
+        margin-right: 70px;
+        @media (max-width: 992px) {
+            margin-right: 0;
         }
-    span {
-        &.bage {
-            background-color: rgba(255,255,255,0.7);
-            box-shadow: 2px 2px 7px 0 $color;
-            width: 20px;
-            height: 20px;
-            font-size: 14px;
-            text-align: center;
-            padding: 2px;
-            border-radius: 50%;
-            display: inline-block;
-            position: absolute;
-            left: 26px;
-            top: 5px;
-            font-weight: bold;
+        .books-by-author {
+            position: relative;
+            top: 10px;
+            left: -10px;
+            .bage {
+                background-color: #fff;
+                box-shadow: 2px 2px 7px 0 $color;
+                width: 15px;
+                height: 15px;
+                font-size: 10px;
+                text-align: center;
+                padding: 2px;
+                border-radius: 50%;
+                display: inline-block;
+                position: absolute;
+                left: 20px;
+                top: 18px;
+                font-weight: bold;
+            }
+    
+            img {
+                &.books {
+                width: 40px;
+                }
+            }
         }
+
+    .author-describe{
+        width: 90%;
+        display: flex;
+        align-items: flex-start;
     }
+
         .author-name {
             display: inline-block;
             text-align: right;
@@ -361,6 +355,7 @@ main {
             border-bottom: 1px solid $nav-bgc;
             padding-bottom: 10px;
             padding-right: 20px;
+            height: 3em;
             &.active-item {
                 font-size: 1.2em;
                 border-bottom-width: 3px;
@@ -385,18 +380,9 @@ main {
             display: inline-block;
             }
         }
-        a {
-            position: relative;
-            margin-left: 20px;
-            img {
-                &.books {
-                width: 60px;
-                }
-            }
-        }
     }
     .describe-text { // текст про автора
-        display: none;
+        // display: none;
         padding: 5px;
         font-style: italic;
         font-size: 0.9em;

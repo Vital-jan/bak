@@ -67,19 +67,21 @@
             foreach($books as $key=>$value){
                 if ($value['folder'] == $current_folder) 
                 {
+                    $price = $value['price'] ? "Ціна: {$value['price']} грн" : '';
+                    $available = $value['available'] ? "Наявність: Так" : 'Наявність: Ні';
+                    $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pero.jpg'> {$value['assemble']}" : '';
+
                     $book_picture = $value['picture'] != '' ? "<img src='{$photo_folder}{$value['picture']}'>" : '';
                     echo "<li data-mainelement='1' data-book='{$value['book_id']}'>
                     <div>
                     <span class='book-name'>&laquo;{$value['book']}&raquo; </span>
-                    <span class='book-author'> <img class='writer' src='../assets/img/pero.jpg'> {$value['assemble']} </span>
+                    <span class='book-author'> {$writer} </span>
                     <span class='book-describe'>{$value['describe']}</span>
                     </div>
                     <span class='img'> {$book_picture} </span>
+                    <span class='book-describe'>{$price} </span>
+                    <span class='book-describe'>{$available}</span>
                     </li>";
-                    // echo "<p class='book-view'>
-                    // <h3>{$value['book']}</h3>
-                    // <h4></h4>
-                    // </p>";
                 }
                 }
             }
@@ -90,11 +92,12 @@
 <script>
     let currentBook;
     document.querySelector('.book-list').addEventListener('click',(event)=>{
-        if (currentBook) currentBook.classList.toggle('book-view');
         let el = event.target;
         while (!el.dataset.mainelement) el = el.parentElement;
-        if (el == currentBook) return;
         el.classList.toggle('book-view');
+        if (currentBook) if (currentBook != el) currentBook.classList.remove('book-view');
+        el.scrollIntoView();
+        window.scrollBy(0, -200)
         currentBook = el;
     })
 </script>
