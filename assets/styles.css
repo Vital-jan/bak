@@ -10,6 +10,21 @@
   padding: 0 0px;
 }
 
+.bak-project #nav-button {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  display: none;
+  z-index: 3;
+}
+
+@media (max-width: 500px) {
+  .bak-project #nav-button {
+    display: block;
+  }
+}
+
 .bak-project #login-button {
   position: absolute;
   z-index: 4;
@@ -32,6 +47,10 @@
 
 .bak-project a:active {
   color: #2c5461;
+}
+
+.bak-project li {
+  list-style-type: none;
 }
 
 .bak-project .click {
@@ -82,14 +101,33 @@
   color: #2c5461;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .bak-project nav a {
-    margin: 0;
+    display: none;
   }
 }
 
 .bak-project nav .nav-active {
   background-color: white;
+}
+
+.bak-project ul#smart-nav {
+  margin: 10px;
+  position: fixed;
+  display: none;
+  top: 60px;
+  right: 0;
+  z-index: 3;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px 50px;
+  -webkit-box-shadow: 3px 3px 7px 1px #2c5461;
+          box-shadow: 3px 3px 7px 1px #2c5461;
+}
+
+.bak-project ul#smart-nav li {
+  margin: 25px 0;
+  font-size: 1.2em;
 }
 
 .bak-project main {
@@ -196,7 +234,7 @@
 
 @media (max-width: 768px) {
   .bak-project main .book-right {
-    width: 50%;
+    width: 100%;
   }
 }
 
@@ -263,7 +301,7 @@
 .bak-project main .book-right li span img.writer {
   width: 25px;
   position: relative;
-  top: 12px;
+  top: 13px;
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -318,10 +356,48 @@
   max-height: 50%;
 }
 
+.bak-project main #folder-list {
+  background-color: #e3e7ec;
+  background: -webkit-gradient(linear, left top, right top, from(#e3e7ec), to(#fff));
+  background: linear-gradient(to right, #e3e7ec, #fff);
+  border-radius: 8px;
+  text-decoration: none;
+  display: none;
+  padding: 5px;
+  color: #2c5461;
+  font-weight: bold;
+}
+
+.bak-project main #folder-list img {
+  height: 1em;
+  margin: 0 5px;
+  position: relative;
+  top: 2px;
+}
+
+@media (max-width: 768px) {
+  .bak-project main #folder-list {
+    display: block;
+  }
+}
+
 .bak-project main .books {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .bak-project main .books {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
 }
 
 .bak-project main .books .book-left {
@@ -331,7 +407,7 @@
 
 @media (max-width: 768px) {
   .bak-project main .books .book-left {
-    width: 50%;
+    width: 100%;
   }
 }
 
@@ -368,11 +444,46 @@
 
 .bak-project main .books .book-left a {
   text-decoration: none;
+  display: block;
+}
+
+.bak-project main .books .book-left a.active {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .bak-project main .books .book-left a {
+    display: none;
+  }
+}
+
+.bak-project main .books .book-left a.visible {
+  display: block;
+}
+
+.bak-project main .books .book-left img#close-book {
+  height: 1em;
+  margin-right: 5px;
+  display: block;
+}
+
+.bak-project main .books .book-left img#open-book {
+  display: none;
 }
 
 .bak-project main .books .book-left .active {
   font-weight: bold;
   font-size: 1.1em;
+}
+
+.bak-project main .books .book-left .active img#open-book {
+  height: 1em;
+  margin-right: 10px;
+  display: block;
+}
+
+.bak-project main .books .book-left .active img#close-book {
+  display: none;
 }
 
 .bak-project main .shop-title {
@@ -390,10 +501,29 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .bak-project main #authors-books {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
 }
 
 .bak-project main #authors-books #author-list {
   width: 60%;
+}
+
+@media (max-width: 768px) {
+  .bak-project main #authors-books #author-list {
+    width: 100%;
+  }
 }
 
 .bak-project main #authors-books #author-list a {
@@ -405,6 +535,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  width: 100%;
   height: 5em;
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -420,8 +551,7 @@
 
 .bak-project main #authors-books .author .books-by-author {
   position: relative;
-  top: 10px;
-  left: -10px;
+  top: 25px;
 }
 
 .bak-project main #authors-books .author .books-by-author .bage {
@@ -436,13 +566,13 @@
   border-radius: 50%;
   display: inline-block;
   position: absolute;
-  left: 20px;
-  top: 18px;
+  left: 18px;
+  top: 11px;
   font-weight: bold;
 }
 
 .bak-project main #authors-books .author .books-by-author img.books {
-  width: 40px;
+  width: 27px;
 }
 
 .bak-project main #authors-books .author .author-describe {

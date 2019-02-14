@@ -52,6 +52,20 @@
 		<div class="logo">
 		<div class="logo-gradient"></div>
 		</div>
+
+		<img id="nav-button" src="<?=PATH?>assets/img/menu.png" alt=""><!-- кнопка навігація смартфон-->
+		<ul id="smart-nav"><!-- меню навігація смартфон-->
+		<?
+		foreach($nav_array as $key=>$value) {
+			$attr = ($view_file == $value['file']) ? 'class="nav-active"' : '';
+			echo "
+				<a href='{$value['path']}' {$attr}>
+					<li>{$value['name']}</li>
+				</a>";
+		}
+		?>
+		</ul>
+
 	<nav>
 		<?
 		foreach($nav_array as $key=>$value) {
@@ -86,5 +100,21 @@
 	btnLogin.addEventListener('mouseout', (event)=>{
 		btnLogin.style.opacity=0;
 	});
+
+	// document.querySelector('#nav-button').addEventListener('click', ()=>{
+	// 	let btn = document.querySelector('#smart-nav');
+	// 	if (btn.style.display == 'block') {btn.style.display = 'none'} else btn.style.display = 'block';
+	// })
+
+	document.body.addEventListener('click', (event)=>{
+		console.log(event.target)
+		let btn = document.querySelector('#nav-button');
+		let nav = document.querySelector('#smart-nav');
+		if (event.target != btn && event.target != nav) {
+			nav.style.display = 'none';
+			return;
+		}
+		nav.style.display = nav.style.display == 'block' ? 'none' : 'block';
+	})
 </script>
 </html>

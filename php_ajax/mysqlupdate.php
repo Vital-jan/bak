@@ -47,7 +47,6 @@ foreach($_POST as $key=>$value) {
 
  $query .= $where;
  $result=false;
-//  exit (json_encode(array('Query:'=>$query)));
  if ($where !='') $result = mysql_query($query);
  
  $sql = array('sql'=>$result, 'query' => $query, 'error'=>mysql_error());

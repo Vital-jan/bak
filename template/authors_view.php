@@ -57,11 +57,11 @@
             "<div class='author-describe' data-author='{$value['author_id']}'>".
                 "<span class='author-name {$active_item}'>{$describe}{$value['author']}</span>".
                 "{$photo}".
-            "</div>".
             "<span class='books-by-author'>".
-                "<img class='books click' src='../assets/img/books1.png' class='click' >".
+                "<img class='books click' src='../assets/img/openbook.png' class='click' >".
                 "<span class='bage click'>{$value['cnt']}</span>".
             "</span>".
+            "</div>".
             "</li>".
             "</a>";
             if ($value['author_id'] == $current_author  && $value['describe'])
@@ -85,7 +85,7 @@
     {
                 $price = $value['price'] ? "Ціна: {$value['price']} грн" : '';
                 $available = $value['available'] ? "Наявність: Так" : 'Наявність: Ні';
-                $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pero.jpg'> {$value['assemble']}" : '';
+                $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pen.png'> {$value['assemble']}" : '';
 
                 $book_picture = $value['picture'] != '' ? "<img src='{$photo_folder}{$value['picture']}'>" : '';
                 echo "<li data-mainelement='1' data-book='{$value['book_id']}'>

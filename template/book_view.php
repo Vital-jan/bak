@@ -40,14 +40,22 @@
 
 ?>
 <div class="books">
+    <?
+        if ($current_folder) echo "<a id='folder-list' href='.'><img src='../assets/img/books2.png'>Список розділів...</a>";
+        
+    ?>
+    
     <div class="book-left">
-        <ul class='book-folder'>
+        <ul>
             <? // відображення списку розділів
                 foreach($folders as $key=>$value) { 
                     $active_class = $value['folder_id'] == $current_folder ? "class='active'" : '';
+                    if (!$current_folder) $active_class = "class = 'visible'";
                     echo "
                     <a {$active_class} href='?folder={$value['folder_id']}'>
                     <li >
+                    <img id='open-book' src='../assets/img/openbook.png'>
+                    <img id='close-book' src='../assets/img/book.png'>
                     <span>
                     {$value['folder']}
                     </span>
@@ -69,7 +77,7 @@
                 {
                     $price = $value['price'] ? "Ціна: {$value['price']} грн" : '';
                     $available = $value['available'] ? "Наявність: Так" : 'Наявність: Ні';
-                    $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pero.jpg'> {$value['assemble']}" : '';
+                    $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pero.png'> {$value['assemble']}" : '';
 
                     $book_picture = $value['picture'] != '' ? "<img src='{$photo_folder}{$value['picture']}'>" : '';
                     echo "<li data-mainelement='1' data-book='{$value['book_id']}'>

@@ -9,8 +9,10 @@
 </head>
 <body>
     <?
-    require "../template/connect.php";
+    require_once "../php_ajax/connect.php";
     $admin = get_array(mysql_query('SELECT * FROM admin'));
+    $admin[0]['main'] = str_replace("<br/>", "\n", $admin[0]['main']);
+    $admin[0]['about'] = str_replace("<br/>", "\n", $admin[0]['about']);
     ?>
 
     <form class="main-admin" name="admin">
@@ -62,6 +64,7 @@
 
         </div>
     </form>
+    <script src="../php_ajax/mysqlajax.js"></script>
     <script>
         let form = document.forms.admin.elements;
 
@@ -91,40 +94,21 @@
 
     document.querySelector('#save').addEventListener('click',()=>{
 
-        let data = new FormData;
-        data.append('$table','admin');
-        data.append('$where','admin_id=1');
-        data.append('company',form.company.value);
-        data.append('address',form.address.value);
-        data.append('phone',form.phone.value);
-        data.append('email',form.email.value);
-        data.append('about',form.about.value);
-        data.append('main',form.main.value);
-        data.append('footer',form.footer.value);
+                queryUpdate('admin', `admin_id=1`, [
+                ['company', form.company.value],
+                ['address',form.address.value],
+                ['phone',form.phone.value],
+                ['phone',form.phone.value],
+                ['email',form.email.value],
+                ['about',form.about.value],
+                ['main',form.main.value],
+                ['footer',form.footer.value]
+            ], 
+            updateAdmin, '<?=PHP_PATH?>');
 
-        function status(response) {  
-          if (response.status == 200) {
-              
-            return Promise.resolve(response)  
-          } else {  
-            return Promise.reject(new Error(response.statusText))  
-          }  
+        function updateAdmin(response) {
+            if (!response.sql) alert('Помилка! Інформація не збережена.'+response.query+response.error);
         }
-        function json(response) {
-          return response.json()
-        }
-            
-        fetch('mysqlupdate.php', {
-          method: "POST",
-          body: data
-        }) 
-          .then(status)
-          .then(json)
-          .then(function(phpJSON){
-            if (!phpJSON.sql) alert('Помилка! Інформація не збережена.'+phpJSON.query+phpJSON.error); else alert('Інформація збережена.');
-          })
-          .catch(function(error) {  
-          });
         })
     </script>
 </body>
