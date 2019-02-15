@@ -42,20 +42,24 @@
     }    
 
     // список авторів 
-    echo "<div id='authors-books'>
-        <ul id='author-list'>";
+    echo "<div id='authors-books'>";
+    if ($current_author) echo "<a id='folder-list' href='.'><img src='../assets/img/books2.png'>Список авторів ...</a>";
+
+    echo "<ul id='author-list'>";
     foreach($authors as $key=>$value) {
         $photo = "<span class='author-photo'></span>";
         if ($value['photo'] != '') $photo = "<img class='author-photo' src='".AUTHOR_PHOTO_FOLDER."{$value['photo']}'>";
 
         $active_item = '';
         if ($value['author_id']==$current_author) $active_item = 'active-item';
+        if (!$current_author) $active_class = " visible";
+
 
         echo
-            "<a href='?author={$value['author_id']}' id='books-by-author'>".
+            "<a href='?author={$value['author_id']}' id='books-by-author' class='{$active_item}{$active_class}'>".
             "<li class='author'>".
             "<div class='author-describe' data-author='{$value['author_id']}'>".
-                "<span class='author-name {$active_item}'>{$describe}{$value['author']}</span>".
+                "<span class='author-name '>{$describe}{$value['author']}</span>".
                 "{$photo}".
             "<span class='books-by-author'>".
                 "<img class='books click' src='../assets/img/openbook.png' class='click' >".

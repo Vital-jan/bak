@@ -396,7 +396,22 @@ main {
         }
         a {
             text-decoration-line: none;
+            display: block;
+            &.visible {
+                display: block;
+            }
+
+            @media (max-width: 768px) {
+                display: none;
+            }
         }
+        .active-item {
+            font-size: 1.2em;
+            border-bottom-width: 3px;
+            font-weight: bold;
+            display: block;
+        }
+
     }
     .author { // рядок li (один автор)
         display: flex;
@@ -447,11 +462,6 @@ main {
             padding-bottom: 10px;
             padding-right: 20px;
             height: 3em;
-            &.active-item {
-                font-size: 1.2em;
-                border-bottom-width: 3px;
-                font-weight: bold;
-            }
             }
         img {
         &.author-photo {
