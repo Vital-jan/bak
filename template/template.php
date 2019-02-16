@@ -107,7 +107,6 @@
 	// })
 
 	document.body.addEventListener('click', (event)=>{
-		console.log(event.target)
 		let btn = document.querySelector('#nav-button');
 		let nav = document.querySelector('#smart-nav');
 		if (event.target != btn && event.target != nav) {

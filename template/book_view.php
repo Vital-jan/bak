@@ -42,7 +42,6 @@
 <div class="books">
     <?
         if ($current_folder) echo "<a id='folder-list' href='.'><img src='../assets/img/books2.png'>Список розділів...</a>";
-        
     ?>
     
     <div class="book-left">
@@ -67,7 +66,7 @@
     </div>
     
     <div class="book-right"> 
-        <ul class="book-list">
+        <!-- <div id='book-list'> -->
             <? // відображення списку книг
             if (isset($books)) {
 
@@ -80,26 +79,26 @@
                     $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pero.png'> {$value['assemble']}" : '';
 
                     $book_picture = $value['picture'] != '' ? "<img src='{$photo_folder}{$value['picture']}'>" : '';
-                    echo "<li data-mainelement='1' data-book='{$value['book_id']}'>
+                    echo "<div class='book-item' data-mainelement='1' data-book='{$value['book_id']}'>
                     <div>
-                    <span class='book-name'>&laquo;{$value['book']}&raquo; </span>
-                    <span class='book-author'> {$writer} </span>
-                    <span class='book-describe'>{$value['describe']}</span>
+                        <span class='book-name'>&laquo;{$value['book']}&raquo; </span>
+                        <span class='book-author'> {$writer} </span>
+                        <span class='book-describe'>{$value['describe']}</span>
                     </div>
                     <span class='img'> {$book_picture} </span>
                     <span class='book-describe'>{$price} </span>
                     <span class='book-describe'>{$available}</span>
-                    </li>";
+                    </div>";
                 }
                 }
             }
             ?>
-        </ul>
+        <!-- </div> -->
     </div>
 </div>
 <script>
     let currentBook;
-    document.querySelector('.book-list').addEventListener('click',(event)=>{
+    document.querySelector('.book-right').addEventListener('click',(event)=>{
         let el = event.target;
         while (!el.dataset.mainelement) el = el.parentElement;
         el.classList.toggle('book-view');

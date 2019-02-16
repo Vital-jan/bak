@@ -58,14 +58,14 @@
         echo
             "<a href='?author={$value['author_id']}' id='books-by-author' class='{$active_item}{$active_class}'>".
             "<li class='author'>".
-            "<div class='author-describe' data-author='{$value['author_id']}'>".
+            // "<div class='author-describe' data-author='{$value['author_id']}'>".
                 "<span class='author-name '>{$describe}{$value['author']}</span>".
                 "{$photo}".
             "<span class='books-by-author'>".
                 "<img class='books click' src='../assets/img/openbook.png' class='click' >".
                 "<span class='bage click'>{$value['cnt']}</span>".
             "</span>".
-            "</div>".
+            // "</div>".
             "</li>".
             "</a>";
             if ($value['author_id'] == $current_author  && $value['describe'])
@@ -79,7 +79,6 @@
 
     // список книг
     echo "<div class='book-right'>";
-    echo "<ul class='book-list'>";
 
     if (isset($books)) {
 
@@ -92,7 +91,7 @@
                 $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pen.png'> {$value['assemble']}" : '';
 
                 $book_picture = $value['picture'] != '' ? "<img src='{$photo_folder}{$value['picture']}'>" : '';
-                echo "<li data-mainelement='1' data-book='{$value['book_id']}'>
+                echo "<div class='book-item' data-book='{$value['book_id']}'>
                 <div>
                 <span class='book-name'>&laquo;{$value['book']}&raquo; </span>
                 <span class='book-author'> {$writer} </span>
@@ -101,12 +100,11 @@
                 <span class='img'> {$book_picture} </span>
                 <span class='book-describe'>{$price} </span>
                 <span class='book-describe'>{$available}</span>
-                </li>";
+                </div>";
             }
             }
         }
 
-    echo "<ul>";
     echo "</div>";
     echo "</div>"; //<div id='authors-books'>
 ?>
@@ -118,9 +116,9 @@
         if (event.target.id == 'close-author-describe') event.target.parentElement.style.display = 'none';
     });
 
-    document.querySelector('.book-list').addEventListener('click',(event)=>{// вішаємо обробник кліку по книзі
+    document.querySelector('.book-right').addEventListener('click',(event)=>{// вішаємо обробник кліку по книзі
         let el = event.target;
-        while (!el.matches('li')) el = el.parentElement;
+        while (!el.matches('.book-item')) el = el.parentElement;
         el.classList.toggle('book-view');
         if (currentBook) if (currentBook != el) currentBook.classList.remove('book-view');
         el.scrollIntoView();

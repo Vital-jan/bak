@@ -112,6 +112,21 @@ ul#smart-nav {
 }
 
 main {
+    .main-content {
+        @media (max-width:992px) {
+            width: 80%;
+        }
+        @media (max-width:768px) {
+            width: 95%;
+        }
+        width: 60%;
+        position: relative;
+        margin: 15px auto;
+        padding: 0 10px 15px;
+        text-align: justify;
+        font-size: 1rem;
+        border-bottom: 1px solid $nav-bgc;
+    }
     @media (max-width: 992px) {
         padding: 200px 20px;
     }
@@ -189,44 +204,64 @@ main {
 
     .book-right { // список книг для сторінки "книги" та "автори"
         width: 60%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-content: flex-start;
         @media (max-width: 768px) {
             width: 100%;
         }
-            li {
+
+        .book-item {
             padding: 10px 0 20px 10px;
+            width: 45%;
             display: flex;
+            height: 180px;
+            overflow: hidden;
             align-items: center;
             cursor: pointer;
-            border-bottom: 1px solid $nav-bgc;
-            margin: 10px 0;
+            box-shadow: 0px 2px 5px 0 $nav-bgc;
+            margin: 10px 2%;
+            border-radius: 8px;
+            padding: 15px;
+            @media (max-width: 1100px) {
+                width: 80%;
+            }
             @media (max-width: 768px) {
-                flex-direction: column;
+                // flex-direction: column;
+                width: 100%;
                 text-align: center;
                 .book-author {
                     margin-bottom: 10px;
                 }
             }
             div {
-                width: 85%;
+                width: 65%;
+                display: flex;
+                flex-wrap: wrap;
+                align-content: center;
             }
             span {
                 display: block;
+                width: 100%;
             &.book-author {
                 color: $color-bold;
                 font-style: italic;
+                text-align: center;
             }
             &.book-name {
                 font-size: 1.1em;
                 margin-bottom: 10px;
+                text-align: center;
             }
             &.img {
-                width: 15%;
+                width: 35%;
                 text-align: center;
         
             }
             img {
                 max-width: 80px;
-                max-height: 80px;
+                max-height: 100px;
                 box-shadow: 2px 2px 6px 1px rgba(0,0,0,0.7);
                 border-radius: 5px;
                 border-top-left-radius: 0px;
@@ -252,6 +287,8 @@ main {
             }
             &.book-view {
                 display: block;
+                width: 100%;
+                height: auto;
                 div {
                     width: 100%;
                     margin-right: 10px;
@@ -318,6 +355,8 @@ main {
         li { 
             padding: 5px 15px;
             border-radius: 10px;
+            border-top-left-radius: 0;
+            height: 3em;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -385,20 +424,30 @@ main {
         padding: 0;
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         @media (max-width: 768px) {
             flex-direction: column;
         }
 
     #author-list { // список авторів
-        width: 60%;
+        width: 40%;
+        margin-right: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        @media (max-width: 1100px) {
+            margin-right: 0;
+        }
         @media (max-width: 768px) {
             width: 100%;
+            margin-right: 0;
         }
         a {
             text-decoration-line: none;
-            display: block;
+            display: flex;
+            justify-content: center;
             &.visible {
-                display: block;
+                display: flex;
             }
 
             @media (max-width: 768px) {
@@ -409,7 +458,10 @@ main {
             font-size: 1.2em;
             border-bottom-width: 3px;
             font-weight: bold;
-            display: block;
+            display: flex;
+            span {
+                border:none;
+            }
         }
 
     }
@@ -418,13 +470,14 @@ main {
         width: 100%;
         height: 5em;
         align-items: center;
-        margin-right: 70px;
         @media (max-width: 992px) {
             margin-right: 0;
         }
+        @media (max-width: 768px) {
+            width: 70%;
+        }
         .books-by-author {
             position: relative;
-            top: 25px;
             .bage {
                 background-color: #fff;
                 box-shadow: 2px 2px 7px 0 $color;
@@ -448,20 +501,20 @@ main {
             }
         }
 
-    .author-describe{
-        width: 90%;
-        display: flex;
-        align-items: flex-start;
-    }
+    // .author-describe{
+    //     width: 90%;
+    //     display: flex;
+    //     align-items: flex-start;
+    // }
 
         .author-name {
-            display: inline-block;
-            text-align: right;
+            display: flex;
+            // text-align: right;
             width: 80%;
             border-bottom: 1px solid $nav-bgc;
             padding-bottom: 10px;
             padding-right: 20px;
-            height: 3em;
+            // height: 3em;
             }
         img {
         &.author-photo {
@@ -493,7 +546,7 @@ main {
         border-radius: 4px;
         padding: 10px;
         margin: 15px 0 30px 0;
-        width: 85%;
+        // width: 85%;
         img {
             &.close {
                 position: absolute;
@@ -519,5 +572,36 @@ footer {
     text-align: center;
     box-shadow: 0 -5px 25px 10px white;
 }
-
+#page   {
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    .page-in {
+        width: 100%;
+        height: 100%;
+        border: 3px solid $nav-bgc;
+        position: absolute;
+        background-color: #fff;
+        padding: 10px;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    &:nth-child(0) {
+        z-index:0;
+    }
+    &:nth-child(1) {
+        transform: skewy(-5deg);
+        top: 11px;
+        width: 80%;
+        right: 0;
+        z-index:1;
+    }
+    &:nth-child(2) {
+        transform: skewy(-13deg);
+        top: 21px;
+        width: 58%;
+        right: 0;
+        z-index:2;
+    }
+    }
+}
 } // bak-project
