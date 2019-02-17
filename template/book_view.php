@@ -40,11 +40,11 @@
 
 ?>
 <div class="books">
-    <?
-        if ($current_folder) echo "<a id='folder-list' href='.'><img src='../assets/img/books2.png'>Список розділів...</a>";
-    ?>
     
     <div class="book-left">
+    <?
+        if ($current_folder) echo "<a id='folder-list' class='visible' href='.'><img src='../assets/img/books2.png'>Список розділів ...</a>";
+    ?>
         <ul>
             <? // відображення списку розділів
                 foreach($folders as $key=>$value) { 
@@ -66,7 +66,6 @@
     </div>
     
     <div class="book-right"> 
-        <!-- <div id='book-list'> -->
             <? // відображення списку книг
             if (isset($books)) {
 
@@ -93,7 +92,6 @@
                 }
             }
             ?>
-        <!-- </div> -->
     </div>
 </div>
 <script>

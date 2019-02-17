@@ -1,14 +1,36 @@
 <?
 $query = getQuery('admin','');
 $content = mysql_fetch_assoc($query);
-echo "<p class='main-content'>
-    <span>
-        {$content['main']}
-    </span>
-    </p>";
+$query = getQuery('news', 'order by date desc limit 3');
+$news = array();
+
+while ($cRecord = mysql_fetch_assoc($query)) {
+    $news[] = $cRecord;
+}
+
+$query = mysql_query("SELECT picture FROM books WHERE deleted = 0 ORDER BY RAND() LIMIT 3");
+$books = array();
+while ($cRecord = mysql_fetch_assoc($query)) {
+    $books[] = $cRecord;
+    }
 ?>
-<div id="page">
-    <div class="page-in">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla odit, repudiandae consequuntur aperiam quia aspernatur unde beatae perspiciatis corporis quidem, explicabo doloribus, magni tempora libero optio eius nihil minima labore!</div>
-    <div class="page-in">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptate omnis eaque excepturi, fuga molestias dolor ut atque dolorum eligendi facilis dolores iure quam cumque ab expedita deserunt accusantium beatae.</div>
-    <div class="page-in">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint corrupti, eligendi sequi architecto eius veniam fugit, molestiae quis soluta illo reiciendis aspernatur et cum non ea nisi at adipisci exercitationem!</div>
+<div class='main-content'>
+    <div>
+        <p>
+            <?=$content['main']?>
+        </p>
+            <img src='assets/img/book_bl.jpg'>
+    </div>
+<div id="pages">
+<div class="page">
+    <div class="page-in"><h5><?=strip_tags($news[2]['date'])?></h5><span><?=strip_tags($news[2]['content'])?></span></div>
+    <div class="page-in"><h5><?=strip_tags($news[1]['date'])?></h5><span><?=strip_tags($news[1]['content'])?></span></div>
+    <div class="page-in"><h5><?=strip_tags($news[0]['date'])?></h5><span><?=strip_tags($news[0]['content'])?></span></div>
+</div>
+<div class="page">
+    <div class="page-in-right"><img src='assets/img/books/<?=$books[2]['picture']?>'></div>
+    <div class="page-in-right"><img src='assets/img/books/<?=$books[1]['picture']?>'></div>
+    <div class="page-in-right"><img src='assets/img/books/<?=$books[0]['picture']?>'></div>
+</div>
+</div>
 </div>

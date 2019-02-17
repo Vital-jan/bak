@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <?
-// require "../php_ajax/connect.php";
-
     $query = getQuery('news', 'order by date desc');
     $news = array();
     

@@ -121,11 +121,22 @@ main {
         }
         width: 60%;
         position: relative;
-        margin: 15px auto;
-        padding: 0 10px 15px;
-        text-align: justify;
-        font-size: 1rem;
-        border-bottom: 1px solid $nav-bgc;
+        margin: auto;
+        div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin: 50px 0;
+        }
+        img {
+            width: 30%;
+            height: 30%;
+            border-radius: 10px;
+            border-bottom-left-radius: 0;
+        }
+        p {
+            text-align: justify;
+        }
     }
     @media (max-width: 992px) {
         padding: 200px 20px;
@@ -324,18 +335,17 @@ main {
             background: linear-gradient(to right, $button, #fff);
             border-radius: 8px;
             text-decoration: none;
-            display: none;
+            justify-content: left;
             padding: 5px;
             color: $nav-color;
             font-weight: bold;
+            margin-bottom: 30px;
+
             img {
                 height: 1em;
                 margin: 0 5px;
                 position: relative;
                 top: 2px;
-            }
-            @media (max-width: 768px) {
-                display: block;
             }
         }
 
@@ -376,7 +386,7 @@ main {
         }
         a {
             text-decoration: none;
-            display: block;
+            display: none;
             &.active {
                 display: block;
             }
@@ -434,7 +444,6 @@ main {
         margin-right: 40px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         @media (max-width: 1100px) {
             margin-right: 0;
         }
@@ -444,8 +453,7 @@ main {
         }
         a {
             text-decoration-line: none;
-            display: flex;
-            justify-content: center;
+            display: none;
             &.visible {
                 display: flex;
             }
@@ -470,6 +478,7 @@ main {
         width: 100%;
         height: 5em;
         align-items: center;
+        padding-left: 15px;
         @media (max-width: 992px) {
             margin-right: 0;
         }
@@ -501,20 +510,12 @@ main {
             }
         }
 
-    // .author-describe{
-    //     width: 90%;
-    //     display: flex;
-    //     align-items: flex-start;
-    // }
-
         .author-name {
             display: flex;
-            // text-align: right;
             width: 80%;
             border-bottom: 1px solid $nav-bgc;
             padding-bottom: 10px;
             padding-right: 20px;
-            // height: 3em;
             }
         img {
         &.author-photo {
@@ -536,7 +537,6 @@ main {
         }
     }
     .describe-text { // текст про автора
-        // display: none;
         padding: 5px;
         font-style: italic;
         font-size: 0.9em;
@@ -546,7 +546,6 @@ main {
         border-radius: 4px;
         padding: 10px;
         margin: 15px 0 30px 0;
-        // width: 85%;
         img {
             &.close {
                 position: absolute;
@@ -563,7 +562,7 @@ main {
 
 footer {
     position: fixed;
-    z-index: 1;
+    z-index: 10;
     bottom: 0;
     background-color: $nav-bgc;
     color: $nav-color;
@@ -572,36 +571,104 @@ footer {
     text-align: center;
     box-shadow: 0 -5px 25px 10px white;
 }
-#page   {
+
+#pages {
+.page   {
     height: 300px;
     width: 300px;
-    position: absolute;
+    position: relative;
     .page-in {
         width: 100%;
         height: 100%;
         border: 3px solid $nav-bgc;
         position: absolute;
         background-color: #fff;
-        padding: 10px;
+        padding: 15px;
         border-top-left-radius: 8px;
         border-bottom-left-radius: 8px;
-    &:nth-child(0) {
+        flex-direction: column;
+        justify-content: flex-start;
+        text-align: justify;
+        box-shadow: -8px 0px 7px 6px white;
+        @media (max-width: 550px) {
+            box-shadow: 0px 0px 7px 6px white;
+        }
+        h5 {
+            margin: 0 0 5px 0;
+        }
+        span {
+            font-size: 0.9em;
+            line-height: 1.5em;
+            overflow: hidden;
+        }
+    &:nth-child(1) {
         z-index:0;
     }
-    &:nth-child(1) {
+    &:nth-child(2) {
         transform: skewy(-5deg);
         top: 11px;
         width: 80%;
         right: 0;
         z-index:1;
+        @media (max-width: 550px) {
+            width: 90%;
+        }
     }
-    &:nth-child(2) {
+    &:nth-child(3) {
         transform: skewy(-13deg);
         top: 21px;
         width: 58%;
         right: 0;
         z-index:2;
+        @media (max-width: 550px) {
+            width: 80%;
+        }
     }
     }
+    .page-in-right {
+        width: 100%;
+        height: 100%;
+        border: 3px solid $nav-bgc;
+        position: absolute;
+        background-color: #fff;
+        padding: 5px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        overflow: hidden;
+        box-shadow: 6px 4px 10px 3px white;
+        @media (max-width: 550px) {
+            box-shadow: 1px 6px 4px 1px white;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            border-top-left-radius: 0;
+        }
+    &:nth-child(1) {
+        z-index:0;
+    }
+    &:nth-child(2) {
+        transform: skewy(5deg);
+        top: 11px;
+        width: 80%;
+        left: 0;
+        z-index:1;
+        @media (max-width: 550px) {
+            width: 90%;
+        }
+    }
+    &:nth-child(3) {
+        transform: skewy(13deg);
+        top: 21px;
+        width: 58%;
+        left: 0;
+        z-index:2;
+        @media (max-width: 550px) {
+            width: 80%;
+        }
+
+    }
+    }
+}
 }
 } // bak-project

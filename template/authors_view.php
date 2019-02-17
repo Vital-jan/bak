@@ -43,9 +43,9 @@
 
     // список авторів 
     echo "<div id='authors-books'>";
-    if ($current_author) echo "<a id='folder-list' href='.'><img src='../assets/img/books2.png'>Список авторів ...</a>";
 
     echo "<ul id='author-list'>";
+    if ($current_author) echo "<a id='folder-list' class='visible' href='.'><img src='../assets/img/books2.png'>Список авторів ...</a>";
     foreach($authors as $key=>$value) {
         $photo = "<span class='author-photo'></span>";
         if ($value['photo'] != '') $photo = "<img class='author-photo' src='".AUTHOR_PHOTO_FOLDER."{$value['photo']}'>";
