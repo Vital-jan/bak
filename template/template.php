@@ -1,52 +1,53 @@
-<!DOCTYPE html>
-
 <?
-	const ROOT = "/bak";
+session_start();
+	const PHPFOLDER = "/bak/php_ajax/";
 
-	require $_SERVER['DOCUMENT_ROOT'].ROOT."/php_ajax/connect.php";
+	require $_SERVER['DOCUMENT_ROOT'].PHPFOLDER."connect.php";
 	$query = getQuery('admin','');
 	$content = mysql_fetch_assoc($query);
 	$nav_array = array( // Головне меню
 		array(
 		"name"=>"Головна",
-		"path"=>ROOT,
+		"path"=>ROOTFOLDER,
 		"file"=>"main_view"),
 		array (
 			"name"=>"Про нас",
-			"path"=>ROOT."/about",
+			"path"=>ROOTFOLDER."about",
 			"file"=>"about_view"),
 		array (
 			"name"=>"Книги",
-			"path"=>ROOT."/books",
+			"path"=>ROOTFOLDER."books",
 			"file"=>"book_view"),
 		array (
 			"name"=>"Автори",
-			"path"=>ROOT."/authors",
+			"path"=>ROOTFOLDER."authors",
 			"file"=>"authors_view"),
 		array (
 			"name"=>"Новини",
-			"path"=>ROOT."/news",
+			"path"=>ROOTFOLDER."news",
 			"file"=>"news_view"),
 		array (
 			"name"=>"Контакти",
-			"path"=>ROOT."/contacts",
+			"path"=>ROOTFOLDER."contacts",
 			"file"=>"contacts_view"),
 		);
 ?>
 
-<html lang="en">
+<html lang="uk">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<?
 	require "{$view_file_title}.php"
 	?>
-	<link rel="stylesheet" href="<?=ROOT?>/assets/styles.css">
-	<link rel="shortcut icon" href="<?=ROOT?>/assets/img/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="<?=ROOTFOLDER?>assets/styles.css">
+	<link rel="shortcut icon" href="<?=ROOTFOLDER?>assets/img/favicon.ico" type="image/x-icon">
 </head>
 
 <body class="bak-project">
-	<button id="login-button" type=button>Авторизуватись</button>
+	<a href="<?=ROOTFOLDER?>admin">
+	<button id="login-button" type=button style="z-index: 1000">Авторизуватись</button>
+	</a>
 
 	<header>
 		<div class="logo">
@@ -87,11 +88,14 @@
 	
 </body>
 <script>
+	document.addEventListener("DOMContentLoaded", ()=>{
+	let interval;
+	
 	let btnLogin = document.querySelector('#login-button')
 	btnLogin.addEventListener('click', (event)=>{
 		if (btnLogin.style.opacity != 1) return;
-		alert('Authorization');
 	});
+
 	btnLogin.addEventListener('mouseenter', (event)=>{
 		interval = setTimeout(() => {
 			btnLogin.style.opacity=1;
@@ -99,12 +103,8 @@
 	});
 	btnLogin.addEventListener('mouseout', (event)=>{
 		btnLogin.style.opacity=0;
+		clearTimeout(interval);
 	});
-
-	// document.querySelector('#nav-button').addEventListener('click', ()=>{
-	// 	let btn = document.querySelector('#smart-nav');
-	// 	if (btn.style.display == 'block') {btn.style.display = 'none'} else btn.style.display = 'block';
-	// })
 
 	document.body.addEventListener('click', (event)=>{
 		let btn = document.querySelector('#nav-button');
@@ -115,5 +115,7 @@
 		}
 		nav.style.display = nav.style.display == 'block' ? 'none' : 'block';
 	})
+	}) // onload
 </script>
+
 </html>

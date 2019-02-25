@@ -16,7 +16,7 @@
   right: 0;
   margin: 10px;
   display: none;
-  z-index: 3;
+  z-index: 10;
 }
 
 @media (max-width: 500px) {
@@ -27,8 +27,13 @@
 
 .bak-project #login-button {
   position: absolute;
-  z-index: 4;
+  z-index: 10;
   opacity: 0;
+}
+
+.bak-project .edit-button {
+  width: 30px;
+  cursor: pointer;
 }
 
 .bak-project .vert-align {
@@ -58,7 +63,7 @@
 }
 
 .bak-project header {
-  z-index: 1;
+  z-index: 10;
   width: 100%;
   height: 133px;
   position: fixed;
@@ -97,6 +102,10 @@
   color: #2c5461;
 }
 
+.bak-project nav a:hover {
+  color: black;
+}
+
 .bak-project nav a:active {
   color: #2c5461;
 }
@@ -117,7 +126,7 @@
   display: none;
   top: 60px;
   right: 0;
-  z-index: 3;
+  z-index: 10;
   background-color: #fff;
   border-radius: 8px;
   padding: 20px 50px;
@@ -166,15 +175,21 @@
   margin: 50px 0;
 }
 
-.bak-project main .main-content img {
-  width: 30%;
-  height: 30%;
-  border-radius: 10px;
-  border-bottom-left-radius: 0;
+.bak-project main .main-content .img {
+  text-align: center;
+  margin: 150px 0 0 0;
+  padding: 0;
+  display: block;
+}
+
+.bak-project main .main-content .img img {
+  max-width: 90%;
 }
 
 .bak-project main .main-content p {
   text-align: justify;
+  font-size: 1.2em;
+  color: #071e25;
 }
 
 @media (max-width: 992px) {
@@ -290,6 +305,7 @@
 }
 
 .bak-project main .book-right .book-item {
+  opacity: 0;
   padding: 10px 0 20px 10px;
   width: 45%;
   display: -webkit-box;
@@ -494,7 +510,7 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin: 15px 0;
+  margin: 0;
   background: -webkit-gradient(linear, right top, left top, from(white), to(#9adff4));
   background: linear-gradient(to left, white, #9adff4);
 }
@@ -757,6 +773,7 @@
 }
 
 .bak-project #pages .page {
+  cursor: pointer;
   height: 300px;
   width: 300px;
   position: relative;
@@ -779,59 +796,24 @@
       -ms-flex-pack: start;
           justify-content: flex-start;
   text-align: justify;
+  overflow: hidden;
   -webkit-box-shadow: -8px 0px 7px 6px white;
           box-shadow: -8px 0px 7px 6px white;
 }
 
-@media (max-width: 550px) {
-  .bak-project #pages .page .page-in {
-    -webkit-box-shadow: 0px 0px 7px 6px white;
-            box-shadow: 0px 0px 7px 6px white;
-  }
+.bak-project #pages .page .page-in:hover {
+  border-color: #32c2ee;
 }
 
 .bak-project #pages .page .page-in h5 {
   margin: 0 0 5px 0;
+  overflow: hidden;
 }
 
 .bak-project #pages .page .page-in span {
   font-size: 0.9em;
   line-height: 1.5em;
   overflow: hidden;
-}
-
-.bak-project #pages .page .page-in:nth-child(1) {
-  z-index: 0;
-}
-
-.bak-project #pages .page .page-in:nth-child(2) {
-  -webkit-transform: skewy(-5deg);
-          transform: skewy(-5deg);
-  top: 11px;
-  width: 80%;
-  right: 0;
-  z-index: 1;
-}
-
-@media (max-width: 550px) {
-  .bak-project #pages .page .page-in:nth-child(2) {
-    width: 90%;
-  }
-}
-
-.bak-project #pages .page .page-in:nth-child(3) {
-  -webkit-transform: skewy(-13deg);
-          transform: skewy(-13deg);
-  top: 21px;
-  width: 58%;
-  right: 0;
-  z-index: 2;
-}
-
-@media (max-width: 550px) {
-  .bak-project #pages .page .page-in:nth-child(3) {
-    width: 80%;
-  }
 }
 
 .bak-project #pages .page .page-in-right {
@@ -844,54 +826,21 @@
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   overflow: hidden;
-  -webkit-box-shadow: 6px 4px 10px 3px white;
-          box-shadow: 6px 4px 10px 3px white;
+  -webkit-box-shadow: 5px 0px 8px -2px rgba(0, 0, 0, 0.5);
+          box-shadow: 5px 0px 8px -2px rgba(0, 0, 0, 0.5);
 }
 
-@media (max-width: 550px) {
-  .bak-project #pages .page .page-in-right {
-    -webkit-box-shadow: 1px 6px 4px 1px white;
-            box-shadow: 1px 6px 4px 1px white;
-  }
+.bak-project #pages .page .page-in-right:hover {
+  border-color: #32c2ee;
+}
+
+.bak-project #pages .page .page-in-right div {
+  left: 0;
 }
 
 .bak-project #pages .page .page-in-right img {
   width: 100%;
   height: 100%;
   border-top-left-radius: 0;
-}
-
-.bak-project #pages .page .page-in-right:nth-child(1) {
-  z-index: 0;
-}
-
-.bak-project #pages .page .page-in-right:nth-child(2) {
-  -webkit-transform: skewy(5deg);
-          transform: skewy(5deg);
-  top: 11px;
-  width: 80%;
-  left: 0;
-  z-index: 1;
-}
-
-@media (max-width: 550px) {
-  .bak-project #pages .page .page-in-right:nth-child(2) {
-    width: 90%;
-  }
-}
-
-.bak-project #pages .page .page-in-right:nth-child(3) {
-  -webkit-transform: skewy(13deg);
-          transform: skewy(13deg);
-  top: 21px;
-  width: 58%;
-  left: 0;
-  z-index: 2;
-}
-
-@media (max-width: 550px) {
-  .bak-project #pages .page .page-in-right:nth-child(3) {
-    width: 80%;
-  }
 }
 /*# sourceMappingURL=styles.css.map */

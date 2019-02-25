@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <?
-// require "../php_ajax/connect.php";
 $query = getQuery('admin','');
 $contacts = mysql_fetch_assoc($query);
-echo "<p>{$contacts['about']}</p>";
+$login = getLogin();
 ?>
+<div class="main-content">
+    <p>
+    <?if ($login):?>
+        <img class='edit-button' id='edit' src='../assets/img/edit-button.png'>
+    <?endif;?>
+
+    <?=$contacts['about']?>
+    </p>
+</div>

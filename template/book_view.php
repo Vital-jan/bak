@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?
     $current_folder = $_GET['folder'];
     
@@ -38,6 +37,7 @@
         $books[$n]['assemble'] = substr($books[$n]['assemble'], 0, strlen($books[$n]['assemble']) - 2);
     }    
 
+    $login = getLogin();
 ?>
 <div class="books">
     
@@ -47,12 +47,21 @@
     ?>
         <ul>
             <? // відображення списку розділів
+                if ($login) {
+                    if ($current_folder) echo "<button type='button'> Додати книгу </button><br>"; else 
+                    echo "<button type='button'> Додати розділ </button><br>";
+                };
+
                 foreach($folders as $key=>$value) { 
                     $active_class = $value['folder_id'] == $current_folder ? "class='active'" : '';
                     if (!$current_folder) $active_class = "class = 'visible'";
+                    $btns = '';
+                    if ($login) $btns = "<img class='edit-button' src='../assets/img/edit-button.png'>";
+                    if ($value['cnt'] < 1) $btns .= "<img class='edit-button' id='edit' src='../assets/img/close.png'";
                     echo "
                     <a {$active_class} href='?folder={$value['folder_id']}'>
                     <li >
+                    {$btns}
                     <img id='open-book' src='../assets/img/openbook.png'>
                     <img id='close-book' src='../assets/img/book.png'>
                     <span>
@@ -64,9 +73,10 @@
             ?>
         </ul>
     </div>
-    
-    <div class="book-right"> 
-            <? // відображення списку книг
+
+    <? // відображення списку книг
+            echo "<div class='book-right'>";
+
             if (isset($books)) {
 
             $photo_folder = BOOK_PHOTO_FOLDER;
@@ -95,6 +105,17 @@
     </div>
 </div>
 <script>
+    document.addEventListener("DOMContentLoaded", ()=>{
+    let margin = 0;
+    let el = document.querySelectorAll('.book-left li');
+    let interval = setInterval(()=>{
+        if (margin > 20) clearInterval(interval);
+        margin++;
+        el.forEach((i)=>{
+            i.style.margin = `${margin}px 0`;
+        })
+    }, 10);
+
     let currentBook;
     document.querySelector('.book-right').addEventListener('click',(event)=>{
         let el = event.target;
@@ -105,4 +126,27 @@
         window.scrollBy(0, -200)
         currentBook = el;
     })
+let bookItemList = document.querySelectorAll('.book-item');
+let bil = [];
+let bilOpc = [];
+
+let itemTimeout = 50;
+for (let n = 0; n < bookItemList.length; n++) {
+    setTimeout(()=>{
+        bil.push;
+        bilOpc.push(0);
+        bil[n] = setInterval(()=>{
+            if (bilOpc[n] < 1) {
+                bilOpc[n] += 0.05;
+                bookItemList[n].style.opacity = bilOpc[n];
+                }
+                else {
+                    bookItemList[n].style.opacity = 1;
+                    clearInterval(bil[n].interval);
+            }
+        }, 20);
+    }, itemTimeout);
+    itemTimeout += 50;
+}
+}) // onload
 </script>

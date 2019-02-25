@@ -1,6 +1,29 @@
 // -------------------------------------------------
+function ajax(sqlQuery, action, phpPath=''){
+  // возвращает результат fetch запроса в виде JSON
+  // sqlQuery - текст sql запроса на выборку
+  // action - функция-обработчик результата запроса
+  // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
+// -------------------------------------------------
+  let data = new FormData;
+  data.append('body', sqlQuery);
+  fetch(phpPath, {
+      method: "POST",
+      body: data
+    }) 
+      .then(function(response){
+          if (response.status == 200) {}// удачный ajax запрос
+           else {}// неудачный ajax запрос
+          return response.json();
+      })
+      .then(action)
+      .catch(function(error) {
+          alert('Error!' + error)
+      });
+  } // function
+
 function queryGet(sqlQuery, action, phpPath=''){
-  // возвращает результат sql запроса в виде JSON
+  // возвращает результат fetch запроса в виде JSON
   // sqlQuery - текст sql запроса на выборку
   // action - функция-обработчик результата запроса
   // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса

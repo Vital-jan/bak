@@ -2,6 +2,7 @@
 <?
     $current_author = $_GET['author'];
     $photo_folder = BOOK_PHOTO_FOLDER;
+    $login = getLogin();
 
     // завантажуємо з бд авторів
     $query = mysql_query("SELECT authors.author, authors.author_id, Count(*) AS cnt, bookauthor.book, books.book, authors.photo, authors.describe FROM
@@ -45,10 +46,17 @@
     echo "<div id='authors-books'>";
 
     echo "<ul id='author-list'>";
+    if ($login) {
+        echo "<button type='button'> Додати автора </button><br>"; 
+    };
     if ($current_author) echo "<a id='folder-list' class='visible' href='.'><img src='../assets/img/books2.png'>Список авторів ...</a>";
     foreach($authors as $key=>$value) {
         $photo = "<span class='author-photo'></span>";
         if ($value['photo'] != '') $photo = "<img class='author-photo' src='".AUTHOR_PHOTO_FOLDER."{$value['photo']}'>";
+
+        $btns = '';
+        if ($login) $btns = "<img class='edit-button' src='../assets/img/edit-button.png'>";
+        if ($value['cnt'] < 1) $btns .= "<img class='edit-button' src='../assets/img/close.png'";
 
         $active_item = '';
         if ($value['author_id']==$current_author) $active_item = 'active-item';
@@ -58,14 +66,13 @@
         echo
             "<a href='?author={$value['author_id']}' id='books-by-author' class='{$active_item}{$active_class}'>".
             "<li class='author'>".
-            // "<div class='author-describe' data-author='{$value['author_id']}'>".
+            "{$btns}".
                 "<span class='author-name '>{$describe}{$value['author']}</span>".
                 "{$photo}".
             "<span class='books-by-author'>".
                 "<img class='books click' src='../assets/img/openbook.png' class='click' >".
                 "<span class='bage click'>{$value['cnt']}</span>".
             "</span>".
-            // "</div>".
             "</li>".
             "</a>";
             if ($value['author_id'] == $current_author  && $value['describe'])
@@ -107,6 +114,7 @@
 
     echo "</div>";
     echo "</div>"; //<div id='authors-books'>
+
 ?>
 
 <script>
@@ -125,5 +133,29 @@
         window.scrollBy(0, -200)
         currentBook = el;
     })
+
+// плавне відображення списку книг
+let bookItemList = document.querySelectorAll('.book-item');
+let bil = [];
+let bilOpc = [];
+
+let itemTimeout = 50;
+for (let n = 0; n < bookItemList.length; n++) {
+    setTimeout(()=>{
+        bil.push;
+        bilOpc.push(0);
+        bil[n] = setInterval(()=>{
+            if (bilOpc[n] < 1) {
+                bilOpc[n] += 0.05;
+                bookItemList[n].style.opacity = bilOpc[n];
+                }
+                else {
+                    bookItemList[n].style.opacity = 1;
+                    clearInterval(bil[n].interval);
+            }
+        }, 20);
+    }, itemTimeout);
+    itemTimeout += 50;
+}
 
 </script>

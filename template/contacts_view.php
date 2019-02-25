@@ -8,6 +8,11 @@ $shops = array();
 while ($cRecord = mysql_fetch_assoc($query)) {
 	$shops[] = $cRecord;
 }
+$login = getLogin();
+
+if ($login) {
+	echo "<button type='button'> Редагувати контакти </button><br>"; 
+};
 
 ?>
 
@@ -31,13 +36,25 @@ while ($cRecord = mysql_fetch_assoc($query)) {
 	</h2>
 
 	<div id="shop-list">
+<?
+if ($login) {
+	echo "<button type='button'> Додати книгарню </button><br>"; 
+};
+?>
+
 		<h2>Інтернет книгарні:</h2>
 		<ul>
 			<?
+			    if ($login) $btns = "<img class='edit-button' src='../assets/img/edit-button.png'><img class='edit-button' src='../assets/img/close.png'>";
+
 				foreach($shops as $key=>$value) {
-					if ($value['www'] == 1) echo "<li class='shop-item'> <a href='http://{$value['url']}' target='blanc'>{$value['url']}</a></li>";
+					if ($value['www'] == 1) echo "
+					<li class='shop-item'>
+					${btns}
+					<a href='http://{$value['url']}' target='blanc'>{$value['url']}</a>
+					</li>";
 				}
-			?>
+				?>
 		</ul>
 		<br>
 		<h2>Книгарні:</h2>
@@ -46,6 +63,7 @@ while ($cRecord = mysql_fetch_assoc($query)) {
 			foreach($shops as $key=>$value) {
 				if ($value['www'] != 1) {
 					echo "<h3 class='shop-title'> {$value['title']}</h3>".
+					$btns.
 					"<p class='shop-item'>{$value['content']}</p>";
 					
 				}
