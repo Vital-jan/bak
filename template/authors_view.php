@@ -116,8 +116,10 @@
     echo "</div>"; //<div id='authors-books'>
 
 ?>
-
+<script src='../assets/js/explorer.js'></script>
 <script>
+    document.addEventListener("DOMContentLoaded", ()=>{
+
     let currentBook;
 
     document.querySelector('#author-list').addEventListener('click', (event)=>{ // вішаємо обробник кліку по автору
@@ -128,34 +130,35 @@
         let el = event.target;
         while (!el.matches('.book-item')) el = el.parentElement;
         el.classList.toggle('book-view');
+        fade(el, 300);
         if (currentBook) if (currentBook != el) currentBook.classList.remove('book-view');
         el.scrollIntoView();
         window.scrollBy(0, -200)
         currentBook = el;
     })
 
+// плавне відображення списку авторів
+let authorItemList = document.querySelectorAll('li.author');
+
+let itemTimeout = 30;
+authorItemList.forEach((i)=>{
+    setTimeout(()=>{
+        fade(i, 200);
+    }, itemTimeout);
+    itemTimeout += 30;
+});
+
 // плавне відображення списку книг
 let bookItemList = document.querySelectorAll('.book-item');
-let bil = [];
-let bilOpc = [];
 
-let itemTimeout = 50;
-for (let n = 0; n < bookItemList.length; n++) {
+itemTimeout = 50;
+bookItemList.forEach((i)=>{
     setTimeout(()=>{
-        bil.push;
-        bilOpc.push(0);
-        bil[n] = setInterval(()=>{
-            if (bilOpc[n] < 1) {
-                bilOpc[n] += 0.05;
-                bookItemList[n].style.opacity = bilOpc[n];
-                }
-                else {
-                    bookItemList[n].style.opacity = 1;
-                    clearInterval(bil[n].interval);
-            }
-        }, 20);
+        fade(i, 200);
     }, itemTimeout);
     itemTimeout += 50;
-}
+})
 
+
+}) //onload
 </script>

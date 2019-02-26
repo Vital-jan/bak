@@ -145,6 +145,7 @@
 }
 
 .bak-project main .main-content {
+  opacity: 0;
   width: 60%;
   position: relative;
   margin: auto;
@@ -234,6 +235,10 @@
   position: relative;
   top: 1px;
   margin-right: 5px;
+}
+
+.bak-project main .news-item {
+  opacity: 0;
 }
 
 .bak-project main .news-header {
@@ -663,6 +668,7 @@
 }
 
 .bak-project main #authors-books .author {
+  opacity: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

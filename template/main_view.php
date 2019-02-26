@@ -30,6 +30,7 @@ $login = getLogin();
             <?=$content['main']?>
         </p>
     </div>
+
 <div id="pages">
 
 <div class="page" id='page-news'>
@@ -57,8 +58,11 @@ $login = getLogin();
 </div>
 
 </div>
+<script src='assets/js/explorer.js'></script>
 <script>
-    
+    document.addEventListener("DOMContentLoaded", ()=>{
+
+    fade(document.querySelector('.main-content'), 300);
     const iteration = 25; // к-во ітерацій до мінімальної ширини
     const booksArray = [<?=json_encode($books)?>];
     const newsArray = [<?=json_encode($news)?>];
@@ -182,4 +186,6 @@ $login = getLogin();
             }
         }, 15)
     })
+
+}) // onload
 </script>

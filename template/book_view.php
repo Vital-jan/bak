@@ -104,6 +104,7 @@
             ?>
     </div>
 </div>
+<script src='../assets/js/explorer.js'></script>
 <script>
     document.addEventListener("DOMContentLoaded", ()=>{
     let margin = 0;
@@ -122,31 +123,22 @@
         while (!el.dataset.mainelement) el = el.parentElement;
         el.classList.toggle('book-view');
         if (currentBook) if (currentBook != el) currentBook.classList.remove('book-view');
+        fade(el, 300);
         el.scrollIntoView();
         window.scrollBy(0, -200)
         currentBook = el;
     })
-let bookItemList = document.querySelectorAll('.book-item');
-let bil = [];
-let bilOpc = [];
 
-let itemTimeout = 50;
-for (let n = 0; n < bookItemList.length; n++) {
+// плавне відображення списку книг
+let bookItemList = document.querySelectorAll('.book-item');
+
+let itemTimeout = 30;
+bookItemList.forEach((i)=>{
     setTimeout(()=>{
-        bil.push;
-        bilOpc.push(0);
-        bil[n] = setInterval(()=>{
-            if (bilOpc[n] < 1) {
-                bilOpc[n] += 0.05;
-                bookItemList[n].style.opacity = bilOpc[n];
-                }
-                else {
-                    bookItemList[n].style.opacity = 1;
-                    clearInterval(bil[n].interval);
-            }
-        }, 20);
+        fade(i, 300);
     }, itemTimeout);
-    itemTimeout += 50;
-}
+    itemTimeout += 30;
+})
+
 }) // onload
 </script>

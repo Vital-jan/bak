@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?
 $query = getQuery('admin','');
 $contacts = mysql_fetch_assoc($query);
@@ -13,3 +12,9 @@ $login = getLogin();
     <?=$contacts['about']?>
     </p>
 </div>
+<script src='../assets/js/explorer.js'></script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+    fade(document.querySelector('.main-content'), 300);
+})
+</script>

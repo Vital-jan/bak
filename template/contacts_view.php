@@ -1,6 +1,4 @@
-<!DOCTYPE html>
 <?
-// require "../php_ajax/connect.php";
 $query = getQuery('admin');
 $contacts = mysql_fetch_assoc($query);
 $query = getQuery('shops');
@@ -15,8 +13,7 @@ if ($login) {
 };
 
 ?>
-
-
+<div class="main-content">
 	<address>
 	<ul>
 		<li><?=$contacts['company']?></li>
@@ -70,9 +67,14 @@ if ($login) {
 				}
 		?>
 	</div>
-
+	</div>
+<script src='../assets/js/explorer.js'></script>
 <script>
+document.addEventListener("DOMContentLoaded", ()=>{
+	fade(document.querySelector('.main-content'), 300);
 	document.querySelector('#where-buy').addEventListener('click', (event)=>{
-		document.querySelector('#shop-list') .style.display = "block";
+		document.querySelector('#shop-list').style.display = "block";
 	});
+
+}) // onload
 </script>

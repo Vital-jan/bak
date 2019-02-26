@@ -19,6 +19,7 @@
             $btns = '';
             if ($login) $btns = "<img class='edit-button' src='../assets/img/edit-button.png'><img class='edit-button' src='../assets/img/close.png'>";
         echo "
+            <div class='news-item'>
             <h2 class='news-header'>
             <span class='news-date'>{$value['date']}</span>
             {$btns}
@@ -30,3 +31,18 @@
     }
 ?>
 
+<script src='../assets/js/explorer.js'></script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+
+    let itemTimeout = 50;
+    let newsList = document.querySelectorAll('.news-item');
+    
+    newsList.forEach((i)=>{
+        setTimeout(()=>{
+            fade(i, 300);
+        }, itemTimeout);
+        itemTimeout +=50;
+    })
+}) // onload
+</script>
