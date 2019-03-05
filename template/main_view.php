@@ -58,12 +58,29 @@ $login = getLogin();
 </div>
 
 </div>
-<script src='assets/js/explorer.js'></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", ()=>{
 
+    document.querySelector('#edit').addEventListener('click', (event)=>{ // кнопка редагування
+        modalWindow('Головна сторінка. Редагування.',
+        '<textarea id="main-content" style="width:100%; height:50%;"><?=$content['main']?></textarea>',
+        ['+Зберегти', '-Скасувати'],
+        (n)=>{
+            if (n != 0) return;
+            // збереження контенту в базі
+            queryUpdate('admin', `admin_id=1`,
+            [
+            ['main', document.querySelector('#main-content').value],
+            ], 
+            (response)=>{if (!response.sql) {alert('Помилка! Інформацію не збережено!')} else location.reload(true)}, '<?=PHP_PATH?>');
+        },
+        '80%', 300);
+    });
+
     fade(document.querySelector('.main-content'), 300);
-    const iteration = 25; // к-во ітерацій до мінімальної ширини
+
+    const iteration = 25; // к-во ітерацій до мінімальної ширини гортання сторінки
     const booksArray = [<?=json_encode($books)?>];
     const newsArray = [<?=json_encode($news)?>];
 

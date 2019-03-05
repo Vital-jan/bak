@@ -3,7 +3,8 @@ require 'connect.php';
 
 
  function str_check($str){
-    $str = strip_tags($str, '<br>');
+    $str = str_replace("<br/>", "\n", $str); 
+    $str = strip_tags($str);
     $str = htmlspecialchars ($str);
     $str = trim($str);
     $str = str_replace("\n", "<br/>", $str); 

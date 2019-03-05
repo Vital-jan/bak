@@ -1,12 +1,12 @@
 // -------------------------------------------------
-function ajax(sqlQuery, action, phpPath=''){
+function ajax(query, action, phpPath=''){
   // возвращает результат fetch запроса в виде JSON
   // sqlQuery - текст sql запроса на выборку
   // action - функция-обработчик результата запроса
   // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
 // -------------------------------------------------
   let data = new FormData;
-  data.append('body', sqlQuery);
+  data.append('body', query);
   fetch(phpPath, {
       method: "POST",
       body: data
@@ -22,8 +22,9 @@ function ajax(sqlQuery, action, phpPath=''){
       });
   } // function
 
+// -------------------------------------------------
 function queryGet(sqlQuery, action, phpPath=''){
-  // возвращает результат fetch запроса в виде JSON
+  // возвращает результат sql запроса в виде JSON
   // sqlQuery - текст sql запроса на выборку
   // action - функция-обработчик результата запроса
   // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
@@ -46,72 +47,103 @@ function queryGet(sqlQuery, action, phpPath=''){
   } // function
   
 // -------------------------------------------------
-  function queryUpdate(table, where, fdata, action, phpPath = '') {
-      // обновляет значения выбранного поля бд mysql
-      // table - имя таблицы
-      // where - выражение вида <field> = <value> для конструкции where sql запроса update
-      // fdata - список полей и их значений для конструкции set, вида: [['полей], [значение1], [поле2], [значение2], ... [поле n], [значение n]]
-      // поле, название которого начинается с #, будет считаться числовым. Нечисловые значения будут преобразованы в NULL.
-// -------------------------------------------------
+function queryUpdate(table, where, fdata, action, phpPath = '') {
+    // обновляет значения выбранного поля бд mysql
+    // table - имя таблицы
+    // where - выражение вида <field> = <value> для конструкции where sql запроса update
+    // fdata - список полей и их значений для конструкции set, вида: [['#поле1'], [значение1], ['поле2'], [значение2], ... ['поле n'], [значение n]]
+    // поле, название которого начинается символом '#', будет считаться числовым. Нечисловые значения в этом случае будут преобразованы в NULL.
+    // action - функция-обработчик результата запроса
+    // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
+    
+    // -------------------------------------------------
     let data = new FormData;
     data.append('$table', table);
     data.append('$where', where);
     fdata.forEach((i)=>{
-      data.append(i[0], i[1]);
+        data.append(i[0], i[1]);
     })
     fetch(phpPath+'mysqlupdate.php', {
-      method: "POST",
-      body: data
+        method: "POST",
+        body: data
     }) 
-      .then(function(response){
-          if (response.status == 200) {}// удачный ajax запрос
-           else {}// неудачный ajax запрос
-          return response.json();
-      })
-      .then(action)
-      .catch(function(error) {
-          alert('Error!' + error)
-      });
+    .then(function(response){
+        if (response.status == 200) {}// удачный ajax запрос
+        else {}// неудачный ajax запрос
+        return response.json();
+    })
+    .then(action)
+    .catch(function(error) {
+        alert('Error!' + error)
+    });
+} // queryUpdate
 
-  }
+// Пример:
+//   let form = document.forms.admin.elements;
+//   document.querySelector('#save').addEventListener('click',()=>{
+    //     queryUpdate('admin', `admin_id=1`, [
+        //     ['company', form.company.value],
+        //     ['address',form.address.value],
+        //     ['phone',form.phone.value],
+        //     ['phone',form.phone.value],
+        //     ['email',form.email.value],
+        //     ['about',form.about.value],
+        //     ['main',form.main.value],
+        //     ['footer',form.footer.value]
+        // ], 
+        // updateAdmin, '<?=PHP_PATH?>');
+        
+        // function updateAdmin(response) {
+            // if (!response.sql) alert('Помилка! Інформація не збережена.'+response.query+response.error);
+            // }
+            // })
+            // response.sql = true - в случае успешного запроса mysql
+            //                 false - если where == '' или неуспешного запроса mysql
+            // response.query - содержит тело sql запроса
+            // response.error - содержит текст ошибки mysql
+            
 // -------------------------------------------------
-  function queryInsert(table, fdata, action, phpPath = '') {
-      // вставляет новую запись и заполняет ее значениями
-      // table - имя таблицы
-      // fdata - список полей и их значений для конструкции set, вида: [['поле1], [значение1], [поле2], [значение2], ... [поле n], [значение n]]
-      // поле, название которого начинается символом '#', будет считаться числовым. Нечисловые значения будут преобразованы в NULL.
-// -------------------------------------------------
+function queryInsert(table, fdata, action, phpPath = '') {
+    // вставляет новую запись и заполняет ее значениями
+    // table - имя таблицы
+    // fdata - список полей и их значений для конструкции set, вида: [['поле1], [значение1], [поле2], [значение2], ... [поле n], [значение n]]
+    // поле, название которого начинается символом '#', будет считаться числовым. Нечисловые значения будут преобразованы в NULL.
+    // action - функция-обработчик результата запроса
+    // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
+    // -------------------------------------------------
     let data = new FormData;
     data.append('$table', table);
     fdata.forEach((i)=>{
-      data.append(i[0], i[1]);
+        data.append(i[0], i[1]);
     })
     fetch(phpPath+'mysqlinsert.php', {
-      method: "POST",
-      body: data
+        method: "POST",
+        body: data
     }) 
-      .then(function(response){
-          if (response.status == 200) {}// удачный ajax запрос
-           else {}// неудачный ajax запрос
-          return response.json();
-      })
-      .then(action)
-      .catch(function(error) {
-          alert('Error!' + error)
-      });
-
-  }
+    .then(function(response){
+        if (response.status == 200) {}// удачный ajax запрос
+        else {}// неудачный ajax запрос
+        return response.json();
+    })
+    .then(action)
+    .catch(function(error) {
+        alert('Error!' + error)
+    });
+    
+} // queryInsert
 
 // -------------------------------------------------
-  function queryDelete(table, where, action, phpPath = '') {
-      // удаляет выбранную запись
-      // table - имя таблицы
-      // where - тело конструкции where
-      // поле, название которого начинается символом '#', будет считаться числовым. Нечисловые значения будут преобразованы в NULL.
-// -------------------------------------------------
+function queryDelete(table, where, action, phpPath = '') {
+    // удаляет выбранную запись
+    // table - имя таблицы
+    // where - тело конструкции where
+    // action - функция-обработчик результата запроса
+    // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
+    // -------------------------------------------------
     let data = new FormData;
     data.append('$table', table);
     data.append('$where', where);
+    
     fetch(phpPath+'mysqldelete.php', {
       method: "POST",
       body: data
@@ -126,4 +158,4 @@ function queryGet(sqlQuery, action, phpPath=''){
           alert('Error!' + error)
       });
 
-  }
+  } // queryDelete

@@ -1,0 +1,199 @@
+/* ----- слайдер ----- */
+.slider {
+  margin: auto;
+  position: relative;
+}
+
+.slider img {
+  opacity: 0;
+  height: 100%;
+  position: absolute;
+  height: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.slider .circles {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  bottom: 10px;
+}
+
+.slider .circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  border: 5px solid white;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 2px;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.slider .circle:hover {
+  opacity: 0.9;
+}
+
+.slider .arrow {
+  color: white;
+  border: 1px solid darkgray;
+  background-color: gray;
+  opacity: 0.5;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+  line-height: 2rem;
+  margin: 0 5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.slider .arrow.no-active {
+  cursor: default;
+}
+
+.slider .arrow.no-active:hover {
+  opacity: 0.5;
+}
+
+.slider .arrow:hover {
+  opacity: 1;
+}
+
+.slider h3 {
+  font-weight: normal;
+  text-align: center;
+  font-size: 20px;
+  left: 0;
+  right: 0;
+  margin: 5px auto;
+  position: absolute;
+  bottom: -30px;
+  text-align: center;
+  height: 25px;
+  overflow: hidden;
+  opacity: 0;
+  font-family: sans-serif;
+}
+
+/* ----- Модальное окно ----- */
+div.modal-window {
+  width: 100%;
+  height: 100%;
+  z-index: 1000000000;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+div.modal-window div.modal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-radius: 10px;
+  border: 2px solid gray;
+  -webkit-box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
+          box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: 100px auto;
+  text-align: center;
+  overflow: hidden;
+}
+
+div.modal-window div.modal .header {
+  border-bottom: 1px solid gray;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 10px;
+}
+
+div.modal-window div.modal .header img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 4px;
+  cursor: pointer;
+}
+
+div.modal-window div.modal #modal-window-content {
+  padding: 10px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+div.modal-window div.modal #modal-window-content table {
+  display: block;
+}
+
+div.modal-window div.modal .footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  border-top: 1px solid gray;
+  padding: 10px;
+}
+
+div.modal-window div.modal button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid gray;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-weight: bold;
+}
+
+div.modal-window div.modal button:focus {
+  -webkit-box-shadow: 0px 0px 1px 1px black;
+          box-shadow: 0px 0px 1px 1px black;
+}
+
+div.modal-window div.modal button:hover {
+  -webkit-box-shadow: 0px 0px 1px 1px blue;
+          box-shadow: 0px 0px 1px 1px blue;
+}
+
+div.modal-window div.modal button * {
+  padding: 0 5px;
+}
+
+div.modal-window div.modal button img {
+  margin-right: 5px;
+  height: 20px;
+  position: relative;
+  top: -2px;
+}
+/*# sourceMappingURL=explorer.css.map */

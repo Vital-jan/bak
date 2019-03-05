@@ -33,7 +33,7 @@ foreach($_POST as $key=>$value) {
             $value = str_check($value);
         }
 
-        $values .= $value.',';
+        $values .= "'".$value."',";
         $keys .= $table.'.'.$key.',';
     }
 
@@ -44,8 +44,7 @@ foreach($_POST as $key=>$value) {
  $keys = "(".$keys;
 
  $query .= ' '.$keys.' VALUES '.$values;
- $result=false;
-//  exit (json_encode(array('Query:'=>$query)));
+ $result = false;
  $result = mysql_query($query);
  
  $sql = array('sql'=>$result, 'query' => $query, 'error'=>mysql_error());

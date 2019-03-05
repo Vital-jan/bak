@@ -11,7 +11,6 @@
     if ($login) {
         echo "<button type='button'> Додати новину </button><br>"; 
     };
-
     foreach($news as $key=>$value) {
             $value[header] = strip_tags($value[header],'<br>');
             $value[date] = strip_tags($value[date],'<br>');

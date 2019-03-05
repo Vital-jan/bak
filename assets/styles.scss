@@ -107,6 +107,7 @@ ul#smart-nav {
     margin: 10px;
     position: fixed;
     display: none;
+    opacity:0;
     top: 60px;
     right: 0;
     z-index: 10;
@@ -650,5 +651,24 @@ footer {
 
     }
     }
-
+form.admin {
+    text-align: left;
+    .invisible {
+        visibility: hidden;
+    }
+    span {
+        display: inline-block;
+        width: 20%;
+    }
+    input {
+        margin: 2px;
+        width: 60%;
+        &[type="checkbox"]{
+            width: auto;
+        }
+    }
+    textarea {
+        width: 60%;
+    }
+}
 } // bak-project

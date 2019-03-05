@@ -1,5 +1,4 @@
-// версия 1.0.3-26.02.2019
-const version = '1.0.3';
+// версия 1.1.0 - 01.03.2019
 
 // Подключение:
 // <script src="http://explorer.org.ua/framework/explorer.js"></script>
@@ -113,17 +112,52 @@ function starRateWrite(
   return s;
 }
 //========================================================================
-function toNumber(a) {
-  //преобразует строку в число, отбрасывая все ненужные символы перед и после цифр.
-  //======================================================================
-  // если строка не содержит цифр, возвращает NaN ()
+function toFloat(a) {
+  //преобразует строку в число, отбрасывая все нецифровые символы перед и после цифр.
+  // если строка пустая или не содержит цифр, возвращает NaN
   if (a.length == 0) return NaN;
   while (isNaN(parseFloat(a)) & (a.length > 0)) a = a.substring(1, a.length);
   a = parseFloat(a);
   return a;
 }
+// =======================================================================
+function toInteger(s) {
+  //преобразует строку в целое положительное число, отбрасывая все нецифровые символы перед и после цифр.
+  for (x = 0; x < s.length; x++) if(!isNaN(+parseInt(s[x]))) return parseInt(s.substring(x, s.length));
+  return NaN;
+}
+
+// // ========================================================================
+// function clearToNumber (s, minus = false, float = false) {
+// 	// ====================================================================
+// 	// убирает из строки все лишние символы, кроме цифр и спецсимволов
+//     // s - исходная строка
+//     // minus - допускаются ли отрицательные числа
+//     // decimal - допускаются ли вещественные числа
+//     let n = 0; // текущий символ
+//     let r = ''; // результат
+//     let dotAdd = float; // надо ли добавлять точку (добавляем только первую точку в строке если float = true)
+
+//     if (s[0] == '-') {
+//         n++;
+//         if (minus) r = '-';
+//     }
+    
+//     while (n < s.length) {
+//         if (s[n] == '.' && float == true) {
+//             r += '.';
+//             float = false;
+//         }
+//         if (s.charCodeAt(n) >= 48 && s.charCodeAt(n) <= 57) r += s[n];
+//         n++;
+//     }
+
+//     return r == '' ? '0' : r;
+// }
+
+
 // ==========================================================================
-function numberToString(n, d = 0) {
+function decimalSeparate(n, d = 0) {
   //возвращает строку в виде числа с разделителями групп разрядов
   // ========================================================================
   // numberToString (n [,d])
@@ -145,34 +179,6 @@ function numberToString(n, d = 0) {
   );
 }
 
-// ========================================================================
-function clearToNumber (s, minus = false, float = false) {
-	// ====================================================================
-	// убирает из строки все лишние символы, кроме цифр и спецсимволов
-    // s - исходная строка
-    // minus - допускаются ли отрицательные числа
-    // decimal - допускаются ли вещественные числа
-    let n = 0; // текущий символ
-    let r = ''; // результат
-    let dotAdd = float; // надо ли добавлять точку (добавляем только первую точку в строке если float = true)
-
-    if (s[0] == '-') {
-        n++;
-        if (minus) r = '-';
-    }
-    
-    while (n < s.length) {
-        if (s[n] == '.' && float == true) {
-            r += '.';
-            float = false;
-        }
-        if (s.charCodeAt(n) >= 48 && s.charCodeAt(n) <= 57) r += s[n];
-        n++;
-    }
-
-    return r == '' ? '0' : r;
-}
-
 //========================================================================
 function rnd(min, max) {
   //======================================================================
@@ -188,17 +194,6 @@ function digitalForward(n, d = 0) {
   let s = '' + n;
   while (s.length < d) s = '0' + s;
   return s;
-}
-
-// =======================================================================
-function parseIntBack(s) {
-  // =====================================================================
-  // отбрасывает все символы перед числом и после числа
-  // 'id120' возвратит 120
-  // 'id120abc21' возвратит 120
-  // 'abc' возвратит NaN
-  for (x = 0; x < s.length; x++) if(!isNaN(+parseInt(s[x]))) return parseInt(s.substring(x, s.length));
-  return NaN;
 }
 
 // =====================================================================
@@ -398,7 +393,7 @@ function modalWindow(
     // закрытие модального окна
     w.style.display = 'none';
     document.removeEventListener('keydown', escHandler);
-    document.body.style.overflow = "scroll";
+    document.body.style.overflow = "auto";
   }
 
   // если элемент "модальное окно" не существует, создаем и отображаем его.
@@ -413,10 +408,13 @@ function modalWindow(
   document.body.style.overflow = "hidden";
   modalWindow.style.display = "block";
   wnd = document.querySelector('.modal-window div.modal');
-  wnd.style.width = windowWidth + 'px';
+  if (typeof(windowWidth)=='number') windowWidth = windowWidth + 'px';
+  
+  wnd.style.width = windowWidth;
   wnd.style.color = color;
   wnd.style.backgroundColor = bgColor;
-  wnd.style.height = windowHeight + 'px';
+  if (typeof(windowHeight)=='number') windowHeight = windowHeight + 'px';
+  wnd.style.height = windowHeight;
 
   // наполняем окно контентом
   wnd.innerHTML = `
@@ -452,7 +450,7 @@ btns[btnDefault].focus();
 // назначаем обработчик событий для кнопок
 function btnHandler(e) {
   closeWindow(modalWindow);
-  action(parseIntBack(e.currentTarget.id));
+  action(toInteger(e.currentTarget.id));
 };
 btns.forEach((i, n) => {
   i.addEventListener('click', btnHandler);
@@ -497,7 +495,7 @@ btns.forEach((i, n) => {
     });
 }
 // Пример:
-// modalWindow('','Бажаєте запросити мене на співбесіду?' ,['+Так', '-Ні'], function (n){console.log('action');}, 300, 200, 'black', 'white', function(){})
+// modalWindow('','Бажаєте запросити мене на співбесіду?' ,['+Так', '-Ні'], function (n){console.log('action');}, '80%', 200, 'black', 'white', function(){})
 
 // ==================================================================================
 function runLine(text, el, time = 0) {

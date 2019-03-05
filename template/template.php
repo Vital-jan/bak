@@ -41,7 +41,10 @@ session_start();
 	require "{$view_file_title}.php"
 	?>
 	<link rel="stylesheet" href="<?=ROOTFOLDER?>assets/styles.css">
+	<link rel="stylesheet" href="<?=ROOTFOLDER?>assets/explorer.css">
 	<link rel="shortcut icon" href="<?=ROOTFOLDER?>assets/img/favicon.ico" type="image/x-icon">
+	<script src="<?=ROOTFOLDER?>assets/js/explorer.js"></script>
+	<script src="<?=PHP_PATH?>/mysqlajax.js"></script>
 </head>
 
 <body class="bak-project">
@@ -114,6 +117,7 @@ session_start();
 			return;
 		}
 		nav.style.display = nav.style.display == 'block' ? 'none' : 'block';
+		if (nav.style.display == 'block') fade(nav, 300);
 	})
 	}) // onload
 </script>
