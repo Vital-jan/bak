@@ -693,6 +693,10 @@
   }
 }
 
+.bak-project main #authors-books .author a {
+  width: 100%;
+}
+
 .bak-project main #authors-books .author .books-by-author {
   position: relative;
 }
@@ -874,6 +878,6 @@
 }
 
 .bak-project form.admin textarea {
-  width: 60%;
+  width: 90%;
 }
 /*# sourceMappingURL=styles.css.map */

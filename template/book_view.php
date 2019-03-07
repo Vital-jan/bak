@@ -45,19 +45,19 @@
     <?
         if ($current_folder) echo "<a id='folder-list' class='visible' href='.'><img src='../assets/img/books2.png'>Список розділів ...</a>";
     ?>
-        <ul>
+        <ul id='folders'>
             <? // відображення списку розділів
                 if ($login) {
-                    if ($current_folder) echo "<button type='button'> Додати книгу </button><br>"; else 
-                    echo "<button type='button'> Додати розділ </button><br>";
+                    if ($current_folder) echo "<button id='book-add' type='button'> Додати книгу </button><br>"; else 
+                    echo "<button id='folder-add' type='button'> Додати розділ </button><br>";
                 };
 
                 foreach($folders as $key=>$value) { 
                     $active_class = $value['folder_id'] == $current_folder ? "class='active'" : '';
                     if (!$current_folder) $active_class = "class = 'visible'";
                     $btns = '';
-                    if ($login) $btns = "<img class='edit-button' src='../assets/img/edit-button.png'>";
-                    if ($value['cnt'] < 1) $btns .= "<img class='edit-button' id='edit' src='../assets/img/close.png'";
+                    if ($login) $btns = "<img id='folder-edit' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/edit-button.png'>";
+                    if ($value['cnt'] < 1) $btns .= "<img id='folder-del' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/close.png'";
                     echo "
                     <a {$active_class} href='?folder={$value['folder_id']}'>
                     <li >
@@ -104,11 +104,13 @@
             ?>
     </div>
 </div>
-<script src='../assets/js/explorer.js'></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", ()=>{
+
     let margin = 0;
     let el = document.querySelectorAll('.book-left li');
+
     let interval = setInterval(()=>{
         if (margin > 20) clearInterval(interval);
         margin++;
@@ -118,6 +120,7 @@
     }, 10);
 
     let currentBook;
+
     document.querySelector('.book-right').addEventListener('click',(event)=>{
         let el = event.target;
         while (!el.dataset.mainelement) el = el.parentElement;
@@ -139,6 +142,35 @@ bookItemList.forEach((i)=>{
     }, itemTimeout);
     itemTimeout += 30;
 })
+
+function addEditFolder(item) { // редагування-додавання розділу
+    if (item != null) {alert('edit folder'+item)} else alert('add folder')
+}
+
+document.querySelector('.book-left').addEventListener('click', (event)=>{ // обробка кліку edit, del та add для розділів
+    console.log(event.target.id)
+	if (event.target.id == 'folder-add') {
+		addEditFolder(null);
+    }
+    
+	if (event.target.id == 'folder-edit') {
+		addEditFolder(event.target.dataset.id);
+        }
+        
+	if (event.target.id == 'folder-del') { // видалення
+		modalWindow('Видалення розділу', 'Ви підтверджуєте видалення цього розділу?', ['Залишити', '-Видалити'], (n)=>{
+			if (n == 1) {
+				// queryDelete('authors', `author_id=${event.target.dataset.id}`, (response)=>{
+				// 	if (!response.sql) {console.log(response)} else {
+				// 		alert ('Запис видалено.');
+				// 		document.location.reload(true);
+				// 	}
+                // }, '<?=PHP_PATH?>');
+			}
+		}, '60%');
+	};
+})
+
 
 }) // onload
 </script>

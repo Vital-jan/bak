@@ -170,7 +170,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 		if (item == null) { // додавання магазину
 			addEditForm ('Додати магазин');
-
 		}
 		else { // редагування магазину
 			addEditForm('Редагувати магазин', item);
@@ -200,7 +199,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		}
 	}
 
-	document.body.addEventListener('click', (event)=>{ // обробка кліку edit та add
+	document.body.addEventListener('click', (event)=>{ // обробка кліку edit, del та add
 		if (event.target.id == 'shop-add') {
 			addEdit(null);
 		}

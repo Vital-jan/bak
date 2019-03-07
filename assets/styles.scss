@@ -505,6 +505,9 @@ main {
         @media (max-width: 768px) {
             width: 70%;
         }
+        a {
+            width: 100%;
+        }
         .books-by-author {
             position: relative;
             .bage {
@@ -668,7 +671,7 @@ form.admin {
         }
     }
     textarea {
-        width: 60%;
+        width: 90%;
     }
 }
 } // bak-project
