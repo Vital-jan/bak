@@ -7,9 +7,11 @@
     // завантажуємо з бд авторів
     $where = $current_author ? "where authors.author_id={$current_author}":'';
     
-    $query = mysql_query("SELECT authors.author, authors.author_id, cnt, authors.photo, authors.describe FROM authors LEFT JOIN (SELECT bookauthor.author, Count(*) as cnt FROM bookauthor group by bookauthor.author ) AS authorcount ON authors.author_id = authorcount.author
+    $query = mysql_query(
+        "SELECT authors.author, authors.author_id, cnt, authors.photo, authors.describe FROM authors LEFT JOIN (SELECT bookauthor.author, Count(*) as cnt FROM bookauthor group by bookauthor.author ) AS authorcount ON authors.author_id = authorcount.author
     {$where} 
-    ORDER BY cnt DESC");
+    ORDER BY cnt DESC"
+    );
 
     $authors = array();
     

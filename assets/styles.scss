@@ -378,6 +378,9 @@ main {
         .book-left { // список розділів
             width: 35%;
             margin-right: 5%;
+            button {
+                margin: 15px 0;
+            }
             @media (max-width: 768px) {
                 width: 100%;
             }
@@ -391,53 +394,55 @@ main {
             align-items: center;
             margin: 0;
             background: linear-gradient(to left, white, $nav-bgc);
-        }
-        span {
-            width: 80%;
-            &.bage {
-                width: 2em;
-                font-size: 0.8em;
-                text-align: center;
-                box-shadow: 1px 1px 1px 1px $button;
-                padding: 3px 0;
-                border-radius: 50%;
-            }
-        }
-        a {
-            text-decoration: none;
-            display: none;
-            &.active {
-                display: block;
-            }
-            @media (max-width: 768px) {
+            a {
+                text-decoration: none;
                 display: none;
-            }
-            &.visible {
-                display: block;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                &.active {
+                    display: flex;
+                }
+                @media (max-width: 768px) {
+                    display: none;
+                }
+                &.visible {
+                    display: flex;
+                }
+                span {
+                    width: 80%;
+                    &.bage {
+                        width: 2em;
+                        font-size: 0.8em;
+                        text-align: center;
+                        box-shadow: 1px 1px 1px 1px $button;
+                        padding: 3px 0;
+                        border-radius: 50%;
+                    }
+                }
+                img#close-book {
+                    height: 1em;
+                    margin-right: 5px;
+                    display: block;
+                }
+                img#open-book {
+                    display: none;
+                }
+                .active { // активний розділ
+                    font-weight: bold;
+                    font-size: 1.1em;
+                    img#open-book {
+                        height: 1em;
+                        margin-right: 10px;
+                        display: flex;
+                    }
+                    img#close-book {
+                        display: none;
+                    }
+                }
             }
         }
-        img#close-book {
-            height: 1em;
-            margin-right: 5px;
-            display: block;
-        }
-        img#open-book {
-            display: none;
-        }
-        .active { // активний розділ
-            font-weight: bold;
-            font-size: 1.1em;
-            img#open-book {
-                height: 1em;
-                margin-right: 10px;
-                display: block;
-            }
-            img#close-book {
-                display: none;
-            }
-    
-            }
-        }
+        } // .book-left
     }
 
     .shop-title { // сторінка контакти, розділи списку де купити

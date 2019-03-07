@@ -11,12 +11,17 @@
     }
 
     // розділи книг
-    $query = mysql_query("SELECT 
-        folders.folder_id, folders.folder, count(*) as cnt
-        FROM folders
-        left join books on books.folder = folders.folder_id
-        GROUP BY folders.folder_id
-        ORDER BY cnt DESC");
+    $where = $current_folder ? "where folders.folder_id={$current_folder}" : '';
+
+    $query = mysql_query(
+    "SELECT 
+    folders.folder_id, folders.folder, cnt from folders left join 
+    (select books.folder, count(*) as cnt from books group by books.folder) as sel
+    on sel.folder = folders.folder_id
+    {$where}
+    ORDER BY cnt DESC
+    ");
+
     $folders = array();
     while ($cRecord = mysql_fetch_assoc($query)) {
         if ($cRecord['folder_id'] == $current_folder) array_unshift($folders, $cRecord); else {
@@ -55,20 +60,24 @@
                 foreach($folders as $key=>$value) { 
                     $active_class = $value['folder_id'] == $current_folder ? "class='active'" : '';
                     if (!$current_folder) $active_class = "class = 'visible'";
-                    $btns = '';
+
+                    $btns = ''; // кнопки edit та del
                     if ($login) $btns = "<img id='folder-edit' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/edit-button.png'>";
-                    if ($value['cnt'] < 1) $btns .= "<img id='folder-del' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/close.png'";
+                    if ($value['cnt'] < 1) $btns .= "<img id='folder-del' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/close.png'>";
+
                     echo "
-                    <a {$active_class} href='?folder={$value['folder_id']}'>
-                    <li >
+                    <li>
                     {$btns}
+                    <a {$active_class} href='?folder={$value['folder_id']}'>
                     <img id='open-book' src='../assets/img/openbook.png'>
                     <img id='close-book' src='../assets/img/book.png'>
                     <span>
                     {$value['folder']}
                     </span>
                     <span class='bage'>{$value['cnt']}</span>
-                    </li></a>";
+                    </a>
+                    </li>
+                    ";
                 }
             ?>
         </ul>

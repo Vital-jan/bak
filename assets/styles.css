@@ -496,6 +496,10 @@
   margin-right: 5%;
 }
 
+.bak-project main .books .book-left button {
+  margin: 15px 0;
+}
+
 @media (max-width: 768px) {
   .bak-project main .books .book-left {
     width: 100%;
@@ -521,11 +525,41 @@
   background: linear-gradient(to left, white, #9adff4);
 }
 
-.bak-project main .books .book-left span {
+.bak-project main .books .book-left li a {
+  text-decoration: none;
+  display: none;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+
+.bak-project main .books .book-left li a.active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .bak-project main .books .book-left li a {
+    display: none;
+  }
+}
+
+.bak-project main .books .book-left li a.visible {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.bak-project main .books .book-left li a span {
   width: 80%;
 }
 
-.bak-project main .books .book-left span.bage {
+.bak-project main .books .book-left li a span.bage {
   width: 2em;
   font-size: 0.8em;
   text-align: center;
@@ -535,47 +569,30 @@
   border-radius: 50%;
 }
 
-.bak-project main .books .book-left a {
-  text-decoration: none;
-  display: none;
-}
-
-.bak-project main .books .book-left a.active {
-  display: block;
-}
-
-@media (max-width: 768px) {
-  .bak-project main .books .book-left a {
-    display: none;
-  }
-}
-
-.bak-project main .books .book-left a.visible {
-  display: block;
-}
-
-.bak-project main .books .book-left img#close-book {
+.bak-project main .books .book-left li a img#close-book {
   height: 1em;
   margin-right: 5px;
   display: block;
 }
 
-.bak-project main .books .book-left img#open-book {
+.bak-project main .books .book-left li a img#open-book {
   display: none;
 }
 
-.bak-project main .books .book-left .active {
+.bak-project main .books .book-left li a .active {
   font-weight: bold;
   font-size: 1.1em;
 }
 
-.bak-project main .books .book-left .active img#open-book {
+.bak-project main .books .book-left li a .active img#open-book {
   height: 1em;
   margin-right: 10px;
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
-.bak-project main .books .book-left .active img#close-book {
+.bak-project main .books .book-left li a .active img#close-book {
   display: none;
 }
 
