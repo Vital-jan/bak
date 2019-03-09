@@ -62,8 +62,8 @@
                     if (!$current_folder) $active_class = "class = 'visible'";
 
                     $btns = ''; // кнопки edit та del
-                    if ($login) $btns = "<img id='folder-edit' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/edit-button.png'>";
-                    if ($value['cnt'] < 1) $btns .= "<img id='folder-del' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/close.png'>";
+                    if ($login) $btns = "<img id='folder-edit' data-id='{$value['folder_id']}' class='edit-button' src='../assets/img/edit-button.png'>";
+                    if ($value['cnt'] < 1) $btns .= "<img id='folder-del' data-id='{$value['folder_id']}' class='edit-button' src='../assets/img/close.png'>";
 
                     echo "
                     <li>
@@ -153,11 +153,58 @@ bookItemList.forEach((i)=>{
 })
 
 function addEditFolder(item) { // редагування-додавання розділу
-    if (item != null) {alert('edit folder'+item)} else alert('add folder')
-}
+    // if (item != null) {alert('edit folder'+item)} else alert('add folder')
+    function addEditForm(header, number = null) { // форма редагування - додавання
+			modalWindow(header, `
+			<form name='addEditFolder'  class="admin">
+			<ul>
+				<li><input type='text' placeholder='Розділ' name='folder'></li>
+			</ul>
+			`
+			, ['+Зберегти', '-Скасувати'], (btn)=>{
+				let formAdmin = document.forms.addEditFolder;
+				if (btn == 0) { // збереження форми в базі
+					if (!item) { // додаваня запису
+					queryInsert('folders', [
+						['folder', formAdmin.folder.value],
+					], (response)=>{
+						if (!response.sql) {console.log(response)} else {
+							alert ('Запис додано.');
+							document.location.reload(true);
+						};
+					}, '<?=PHP_PATH?>');
+				} // додаваня запису
+					if (item != null) { // редагування запису
+					queryUpdate('folders', `folders.folder_id=${item}`, [
+						['folder', formAdmin.folder.value],
+					], (response)=>{
+						if (!response.sql) {console.log(response)} else {
+							alert ('Запис змінено.');
+							document.location.reload(true);
+						};
+					}, '<?=PHP_PATH?>');
+				} // редагування запису
+
+				} // збереження форми в базі
+			},
+			'80%', 300); // modalwindow
+
+        } // addEditForm
+
+        if (item == null) { // додавання
+			addEditForm ('Додати розділ');
+		}
+		else { // редагування
+            addEditForm('Редагувати розділ', item);
+            let formAdmin = document.forms.addEditFolder;
+			queryGet(`select * from folders where folder_id=${item}`, (response)=>{ // отримуємо елемент з бази
+                // наповнюємо поля форми
+				formAdmin.folder.value = response[0].folder;
+			}, '<?=PHP_PATH?>')
+		}
+} // addEditFolder
 
 document.querySelector('.book-left').addEventListener('click', (event)=>{ // обробка кліку edit, del та add для розділів
-    console.log(event.target.id)
 	if (event.target.id == 'folder-add') {
 		addEditFolder(null);
     }
@@ -167,14 +214,15 @@ document.querySelector('.book-left').addEventListener('click', (event)=>{ // о�
         }
         
 	if (event.target.id == 'folder-del') { // видалення
+
 		modalWindow('Видалення розділу', 'Ви підтверджуєте видалення цього розділу?', ['Залишити', '-Видалити'], (n)=>{
 			if (n == 1) {
-				// queryDelete('authors', `author_id=${event.target.dataset.id}`, (response)=>{
-				// 	if (!response.sql) {console.log(response)} else {
-				// 		alert ('Запис видалено.');
-				// 		document.location.reload(true);
-				// 	}
-                // }, '<?=PHP_PATH?>');
+				queryDelete('folders', `folder_id=${event.target.dataset.id}`, (response)=>{
+					if (!response.sql) {console.log(response)} else {
+						alert ('Запис видалено.');
+						document.location.reload(true);
+					}
+                }, '<?=PHP_PATH?>');
 			}
 		}, '60%');
 	};

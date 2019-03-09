@@ -561,6 +561,7 @@
 
 .bak-project main .books .book-left li a span.bage {
   width: 2em;
+  height: 2em;
   font-size: 0.8em;
   text-align: center;
   -webkit-box-shadow: 1px 1px 1px 1px #e3e7ec;
