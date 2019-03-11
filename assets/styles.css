@@ -362,6 +362,13 @@
   width: 100%;
 }
 
+.bak-project main .book-right .book-item span.btns img {
+  margin: 5px;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border: none;
+}
+
 .bak-project main .book-right .book-item span.book-author {
   color: #072d3a;
   font-style: italic;
@@ -888,6 +895,7 @@
 
 .bak-project form.admin input {
   margin: 2px;
+  padding: 5px;
   width: 60%;
 }
 
@@ -897,5 +905,6 @@
 
 .bak-project form.admin textarea {
   width: 90%;
+  padding: 5px;
 }
 /*# sourceMappingURL=styles.css.map */

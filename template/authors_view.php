@@ -134,7 +134,9 @@
 
     document.querySelector('.book-right').addEventListener('click',(event)=>{// вішаємо обробник кліку по книзі
         let el = event.target;
-        while (!el.matches('.book-item')) el = el.parentElement;
+        while (el != null && !el.matches('.book-item')) el = el.parentElement;
+        if (el == null) return;
+
         el.classList.toggle('book-view');
         fade(el, 300);
         if (currentBook) if (currentBook != el) currentBook.classList.remove('book-view');

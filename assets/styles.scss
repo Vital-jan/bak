@@ -274,6 +274,13 @@ main {
             span {
                 display: block;
                 width: 100%;
+            &.btns {
+                img {
+                    margin: 5px;
+                    box-shadow: none;
+                    border: none;
+                }
+            }
             &.book-author {
                 color: $color-bold;
                 font-style: italic;
@@ -671,6 +678,7 @@ form.admin {
     }
     input {
         margin: 2px;
+        padding: 5px;
         width: 60%;
         &[type="checkbox"]{
             width: auto;
@@ -678,6 +686,7 @@ form.admin {
     }
     textarea {
         width: 90%;
+        padding: 5px;
     }
 }
 } // bak-project

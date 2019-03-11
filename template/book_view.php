@@ -22,14 +22,20 @@
     ORDER BY cnt DESC
     ");
 
-    $folders = array();
+    $folders = array(); 
     while ($cRecord = mysql_fetch_assoc($query)) {
+        $flist .= "<option id='folder-select' value='{$cRecord['folder_id']}'>{$cRecord['folder']}</option>";
         if ($cRecord['folder_id'] == $current_folder) array_unshift($folders, $cRecord); else {
-        $folders[] = $cRecord;
+            $folders[] = $cRecord;
         }
     }
-
-    // автори книг
+    
+    $query = mysql_query("SELECT * from folders ORDER BY folders.folder ASC");// для поля select редагування книг
+    $flist = '';
+    while ($cRecord = mysql_fetch_assoc($query)) {
+        $flist .= "<option id='folder-select' value='{$cRecord['folder_id']}'>{$cRecord['folder']}</option>";
+    }
+    
     $query = mysql_query("SELECT bookauthor.bookauthor_id, bookauthor.book,  authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id order by bookauthor.book");
     $bookauthors = array();
     while ($cRecord = mysql_fetch_assoc($query)) {
@@ -45,7 +51,6 @@
     $login = getLogin();
 ?>
 <div class="books">
-    
     <div class="book-left">
     <?
         if ($current_folder) echo "<a id='folder-list' class='visible' href='.'><img src='../assets/img/books2.png'>Список розділів ...</a>";
@@ -92,13 +97,18 @@
             foreach($books as $key=>$value){
                 if ($value['folder'] == $current_folder) 
                 {
+                    $btns = ''; // кнопки edit та del
+                    if ($login) $btns = "<img id='book-edit' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/edit-button.png'>";
+                    $btns .= "<img id='book-del' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/close.png'>";
+
                     $price = $value['price'] ? "Ціна: {$value['price']} грн" : '';
                     $available = $value['available'] ? "Наявність: Так" : 'Наявність: Ні';
                     $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pero.png'> {$value['assemble']}" : '';
 
                     $book_picture = $value['picture'] != '' ? "<img src='{$photo_folder}{$value['picture']}'>" : '';
-                    echo "<div class='book-item' data-mainelement='1' data-book='{$value['book_id']}'>
+                    echo "<div class='book-item' data-book='{$value['book_id']}'>
                     <div>
+                    <span class='btns'> {$btns} </span>
                         <span class='book-name'>&laquo;{$value['book']}&raquo; </span>
                         <span class='book-author'> {$writer} </span>
                         <span class='book-describe'>{$value['describe']}</span>
@@ -120,7 +130,7 @@
     let margin = 0;
     let el = document.querySelectorAll('.book-left li');
 
-    let interval = setInterval(()=>{
+    let interval = setInterval(()=>{ // плавне відображення розділів
         if (margin > 20) clearInterval(interval);
         margin++;
         el.forEach((i)=>{
@@ -128,11 +138,130 @@
         })
     }, 10);
 
-    let currentBook;
+    let currentBook; // обрана книга
 
-    document.querySelector('.book-right').addEventListener('click',(event)=>{
+    function addBook() {
+        modalWindow('Створити книгу', `
+			<form name='addBook'  class="admin">
+			<ul>
+                <h3>Книга буде додана в поточний розділ. Пізніше розділ книги можна змінити.</h3>
+				<li>Назва книги:<input type='text' placeholder='Назва книги' name='book'></li>
+			</ul>
+			`
+			, ['+Створити та редагувати', '-Скасувати'], (btn)=>{
+				let formAdmin = document.forms.addBook;
+				if (btn == 0) { // збереження форми в базі (додаваня запису)
+					queryInsert('books', [
+						['book', formAdmin.book.value],
+						['#folder', <?=$current_folder?>]
+					], (response)=>{
+						if (!response.sql) {console.log(response)} else {
+							alert ('Запис додано.');
+							document.location.reload(true);
+						};
+					}, '<?=PHP_PATH?>'); 
+				} // збереження форми в базі
+			},
+			'80%', 300); // modalwindow
+    }
+
+    function editBook(item) { // редагування книги
+
+        function selectRefresh (id, value){ // оновлення ел-тів select.
+            let itemList = document.querySelectorAll(`select option#${id}`);
+            itemList.forEach((i, n)=> {
+                i.removeAttribute('selected');
+                if (i.value == value) i.setAttribute('selected',''); 
+                if (i.value == '' && value == null) i.setAttribute('selected','');
+            });
+        }
+        console.log('<?=$folders_list?>')
+			modalWindow('Редагувати книгу', `
+			<form name='editBook'  class="admin">
+			<ul>
+				<li>Книга:<input type='text' placeholder='Книга' name='book'></li>
+                <li>Розділ:
+                    <select name='folder'>
+                    <?=$flist?>
+                    </select>
+                </li>
+
+				<li>Опис:</li>
+				<li><textarea placeholder='Опис книги' name='describe' rows=5></textarea></li>
+				<li>Ціна:<input type='text' placeholder='Ціна' name='price'></li>
+				<li>Наявність:
+                    <select name="available">
+                        <option value="" id="available"></option>
+                        <option value="0" id="available">Ні</option>
+                        <option value="1" id="available">Так</option>
+                    </select>
+                </li>
+				<li>Зображення:<input type='text' placeholder='Оберіть файл...' name='picture' disabled></li>
+			</ul>
+			`
+			, ['+Зберегти', '-Скасувати'], (btn)=>{
+				let formAdmin = document.forms.editBook;
+				if (btn == 0) { // збереження форми в базі
+					if (!item) {
+                        alert('Помилка! Не обрано книгу.');
+                        return;
+				    } 
+					if (item != null) { // редагування запису
+					queryUpdate('books', `books.book_id=${item}`, [
+						['book', formAdmin.book.value],
+						['describe', formAdmin.describe.value],
+						['#price', formAdmin.price.value],
+						['picture', formAdmin.picture.value],
+						['available', formAdmin.available.value],
+						['folder', formAdmin.folder.value]
+					], (response)=>{
+						if (!response.sql) {console.log(response)} else {
+							alert ('Запис змінено.');
+							document.location.reload(true);
+						};
+					}, '<?=PHP_PATH?>');
+				} // редагування запису
+
+				} // збереження форми в базі
+			},
+			'80%', 500); // modalwindow
+
+            let formAdmin = document.forms.editBook;
+			queryGet(`select * from books where book_id=${item}`, (response)=>{ // отримуємо елемент з бази
+                // наповнюємо поля форми
+				formAdmin.book.value = response[0].book;
+				formAdmin.describe.value = response[0].describe;
+				formAdmin.price.value = response[0].price;
+				formAdmin.picture.value = response[0].picture;
+                selectRefresh('available', response[0].available);
+                selectRefresh('folder-select', response[0].folder);
+			}, '<?=PHP_PATH?>')
+
+    }
+
+    document.querySelector('.book-right').addEventListener('click',(event)=>{ // обробник кліку по книзі
         let el = event.target;
-        while (!el.dataset.mainelement) el = el.parentElement;
+        if (el.id == 'book-edit') { // кнопка edit
+            editBook(el.dataset.id);
+            return;
+        }
+        if (el.id == 'book-del') { // кнопка del
+            modalWindow('Видалення книги', 'Ви підтверджуєте видалення цієї книги?', ['Залишити', '-Видалити'], (n)=>{
+			if (n == 1) {
+				queryDelete('books', `book_id=${el.dataset.id}`, (response)=>{
+					if (!response.sql) {console.log(response)} else {
+						alert ('Запис видалено.');
+						document.location.reload(true);
+					}
+                }, '<?=PHP_PATH?>');
+			}
+		}, '60%');
+        return;
+        }
+
+        while (el != null && !el.matches('.book-item')) el = el.parentElement;
+        if (el == null) return;
+
         el.classList.toggle('book-view');
         if (currentBook) if (currentBook != el) currentBook.classList.remove('book-view');
         fade(el, 300);
@@ -153,7 +282,6 @@ bookItemList.forEach((i)=>{
 })
 
 function addEditFolder(item) { // редагування-додавання розділу
-    // if (item != null) {alert('edit folder'+item)} else alert('add folder')
     function addEditForm(header, number = null) { // форма редагування - додавання
 			modalWindow(header, `
 			<form name='addEditFolder'  class="admin">
@@ -204,16 +332,21 @@ function addEditFolder(item) { // редагування-додавання ро
 		}
 } // addEditFolder
 
-document.querySelector('.book-left').addEventListener('click', (event)=>{ // обробка кліку edit, del та add для розділів
-	if (event.target.id == 'folder-add') {
+document.querySelector('.book-left').addEventListener('click', (event)=>{ // обробка кліку edit, del та add для розділів та add для книг
+
+	if (event.target.id == 'book-add') { // додати книгу
+		addBook();
+    }
+
+	if (event.target.id == 'folder-add') { // додати розділ
 		addEditFolder(null);
     }
     
-	if (event.target.id == 'folder-edit') {
+	if (event.target.id == 'folder-edit') { // редагувати розділ
 		addEditFolder(event.target.dataset.id);
         }
         
-	if (event.target.id == 'folder-del') { // видалення
+	if (event.target.id == 'folder-del') { // видалення розділу
 
 		modalWindow('Видалення розділу', 'Ви підтверджуєте видалення цього розділу?', ['Залишити', '-Видалити'], (n)=>{
 			if (n == 1) {
