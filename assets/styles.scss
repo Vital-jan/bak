@@ -594,6 +594,25 @@ main {
         }
     }
 }
+
+#picture-list {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0 5px;
+    overflow-y: scroll;
+    width: 80%;
+    height: 50%;
+    border: 2px solid black;
+    border-bottom: none;
+    img {
+        max-height: 30%;
+        margin: 10px;
+        cursor: pointer;
+    }
+}
+
 } // main
 
 footer {
@@ -696,7 +715,7 @@ form.admin {
         overflow-x: hidden;
         margin-bottom: 10px;
         height: 5em;
-            
+        
         img {
             max-width: 1em;
             max-height: 1em;
@@ -707,16 +726,18 @@ form.admin {
         }
     }
     #bookauthor-select {
-        height: 40%;
+        height: 65%;
         display: none;
-        position: fixed;
-        top: 150px;
+        position: absolute;
+        top: 50px;
         left: 150px;
         background-color: white;
+        padding: 10px;
+        border: 2px solid gray;
         li {
             cursor: pointer;
         }
     }
-
 } // form.admin
+
 } // bak-project

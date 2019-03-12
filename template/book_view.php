@@ -1,6 +1,16 @@
 <?
     $current_folder = $_GET['folder'];
     
+    $pictures = scandir(BOOK_PHOTO_FOLDER);
+    array_shift($pictures);
+    array_shift($pictures);
+    $picture_list = "<div id='picture-list'>";
+    $path = BOOK_PHOTO_FOLDER;
+    foreach($pictures as $value) {
+        $picture_list .= "<img class='picture-item' src='{$path}{$value}'>";
+    }
+    $picture_list .= "</div>";
+
     // книги
     if ($current_folder) {
     $query = mysql_query("SELECT * FROM books WHERE deleted = 0 ORDER BY book");
@@ -136,6 +146,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", ()=>{
 
+    let currentBook; // обрана книга
+    
     let margin = 0;
     let el = document.querySelectorAll('.book-left li');
 
@@ -147,9 +159,8 @@
         })
     }, 10);
 
-    let currentBook; // обрана книга
 
-    function addBook() {
+    function addBook() { // Додати книгу ------------------------------------------------
         modalWindow('Створити книгу', `
 			<form name='addBook'  class="admin">
 			<ul>
@@ -185,7 +196,7 @@
             }
         };
 
-    function editBook(item) { // редагування книги
+    function editBook(item) { // редагування книги ----------------------------------------------------
 
         function selectRefresh (id, value){ // оновлення ел-тів select.
             let itemList = document.querySelectorAll(`select option#${id}`);
@@ -221,7 +232,7 @@
                         <option value="1" id="available">Так</option>
                     </select>
                 </li>
-				<li>Зображення:<input type='text' placeholder='Оберіть файл...' name='picture' disabled></li>
+				<li>Зображення:<input type='text' placeholder='Оберіть зображення...' name='picture' disabled></li>
 			</ul>
 			`
 			, ['+Зберегти', '-Скасувати'], (btn)=>{
@@ -415,6 +426,10 @@ document.querySelector('.book-left').addEventListener('click', (event)=>{ // о�
 	};
 })
 
+document.querySelector('#picture-list').addEventListener('click', (event)=>{
+    console.log(event.target.getAttribute('src'))
+    console.log(event.target.tagName)
+})
 
 }) // onload
 </script>

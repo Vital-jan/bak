@@ -1,15 +1,6 @@
 <?
 require 'connect.php';
 
-
- function str_check($str){
-    $str = strip_tags($str, '<br>');
-    $str = htmlspecialchars ($str);
-    $str = trim($str);
-    $str = str_replace("\n", "<br/>", $str); 
-    return $str;
-}
-
 $query = "INSERT INTO ";
 $table = '';
 $keys = "";

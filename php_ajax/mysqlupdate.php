@@ -1,17 +1,17 @@
 <?
 require 'connect.php';
 
- function str_check($str){
-    $str = str_replace("<br/>", "\n", $str); 
-    $str = str_replace("`", "'", $str); 
-    $str = str_replace("&", "~~", $str); 
-    $str = strip_tags($str);
-    $str = htmlspecialchars ($str, ENT_QUOTES);
-    $str = trim($str);
-    $str = str_replace("\n", "<br/>", $str); 
-    $str = str_replace("~~", "&", $str); 
-    return $str;
-}
+//  function str_check($str){
+//     $str = str_replace("<br/>", "\n", $str); 
+//     $str = str_replace("`", "'", $str); 
+//     $str = str_replace("&", "~~", $str); 
+//     $str = strip_tags($str);
+//     $str = htmlspecialchars ($str, ENT_QUOTES);
+//     $str = trim($str);
+//     $str = str_replace("\n", "<br/>", $str); 
+//     $str = str_replace("~~", "&", $str); 
+//     return $str;
+// }
 
 $query = "UPDATE ";
 $where = "";
