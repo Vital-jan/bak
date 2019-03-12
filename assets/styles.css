@@ -907,4 +907,36 @@
   width: 90%;
   padding: 5px;
 }
+
+.bak-project form.admin #bookauthor, .bak-project form.admin #bookauthor-select {
+  padding: 5px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 30%;
+  overflow-x: hidden;
+  margin-bottom: 10px;
+  height: 5em;
+}
+
+.bak-project form.admin #bookauthor img, .bak-project form.admin #bookauthor-select img {
+  max-width: 1em;
+  max-height: 1em;
+  cursor: pointer;
+  position: relative;
+  top: 2px;
+  margin-right: 3px;
+}
+
+.bak-project form.admin #bookauthor-select {
+  height: 40%;
+  display: none;
+  position: fixed;
+  top: 150px;
+  left: 150px;
+  background-color: white;
+}
+
+.bak-project form.admin #bookauthor-select li {
+  cursor: pointer;
+}
 /*# sourceMappingURL=styles.css.map */

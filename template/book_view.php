@@ -36,6 +36,7 @@
         $flist .= "<option id='folder-select' value='{$cRecord['folder_id']}'>{$cRecord['folder']}</option>";
     }
     
+    // перелік авторів для кожної книги
     $query = mysql_query("SELECT bookauthor.bookauthor_id, bookauthor.book,  authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id order by bookauthor.book");
     $bookauthors = array();
     while ($cRecord = mysql_fetch_assoc($query)) {
@@ -48,7 +49,15 @@
         $books[$n]['assemble'] = substr($books[$n]['assemble'], 0, strlen($books[$n]['assemble']) - 2);
     }    
 
+    // перелік авторів для поля додавання авторів
+    $query = mysql_query("SELECT authors.author, authors.author_id  FROM authors order by author ASC");
+    $authors = '';
+    while ($cRecord = mysql_fetch_assoc($query)) {
+        $authors .= "<li data-id='{$cRecord['author_id']}'>{$cRecord['author']}</li>";
+    }
+
     $login = getLogin();
+
 ?>
 <div class="books">
     <div class="book-left">
@@ -148,7 +157,7 @@
 				<li>Назва книги:<input type='text' placeholder='Назва книги' name='book'></li>
 			</ul>
 			`
-			, ['+Створити та редагувати', '-Скасувати'], (btn)=>{
+			, ['+Створити', '-Скасувати'], (btn)=>{
 				let formAdmin = document.forms.addBook;
 				if (btn == 0) { // збереження форми в базі (додаваня запису)
 					queryInsert('books', [
@@ -165,6 +174,17 @@
 			'80%', 300); // modalwindow
     }
 
+        function bookauthorCreate(item){ // створити перелік авторів поточної книги
+            queryGet('SELECT bookauthor.bookauthor_id, bookauthor.book, authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id', bookauthorResolve, '<?=PHP_PATH?>');
+            function bookauthorResolve(resolve) {
+            let s = '';
+            resolve.forEach((i)=>{
+                if (i.book == item) s += `<li><img src='../assets/img/close.png' title='Вилучити автора' data-id='${i.bookauthor_id}'>${i.author}</li>`;
+            })
+            document.querySelector('form #bookauthor').innerHTML = s;
+            }
+        };
+
     function editBook(item) { // редагування книги
 
         function selectRefresh (id, value){ // оновлення ел-тів select.
@@ -175,7 +195,6 @@
                 if (i.value == '' && value == null) i.setAttribute('selected','');
             });
         }
-        console.log('<?=$folders_list?>')
 			modalWindow('Редагувати книгу', `
 			<form name='editBook'  class="admin">
 			<ul>
@@ -188,6 +207,12 @@
 
 				<li>Опис:</li>
 				<li><textarea placeholder='Опис книги' name='describe' rows=5></textarea></li>
+                <li>Автори:</li>
+                <ul id="bookauthor"></ul>
+                <li><button id='author-add' type="button">Додати автора</button></li>
+                <ul id="bookauthor-select">
+                <?=$authors?>
+                </ul>
 				<li>Ціна:<input type='text' placeholder='Ціна' name='price'></li>
 				<li>Наявність:
                     <select name="available">
@@ -226,6 +251,34 @@
 			},
 			'80%', 500); // modalwindow
 
+document.querySelector('#bookauthor').addEventListener('click', (event)=>{
+    if (!event.target.dataset.id) return;
+    console.log('delete ', event.target.dataset.id)
+    queryDelete('bookauthor', `bookauthor.bookauthor_id=${event.target.dataset.id}`, (response)=>{
+                    bookauthorCreate(item)
+                },
+                '<?=PHP_PATH?>');
+
+})
+
+document.querySelector('#author-add').addEventListener('click', (event)=>{
+    document.querySelector('#bookauthor-select').style.display = 'block';
+})
+
+document.querySelector('#bookauthor-select').addEventListener('mouseleave', (event)=>{
+    event.target.style.display = 'none';
+})
+
+document.querySelector('#bookauthor-select').addEventListener('click', (event)=>{
+    queryInsert('bookauthor', [
+                        ['#book', item],
+                        ['#author', `${event.target.dataset.id}`]
+                    ], ()=>{
+                        bookauthorCreate(item);
+                    }, '<?=PHP_PATH?>');
+
+})
+
             let formAdmin = document.forms.editBook;
 			queryGet(`select * from books where book_id=${item}`, (response)=>{ // отримуємо елемент з бази
                 // наповнюємо поля форми
@@ -235,6 +288,7 @@
 				formAdmin.picture.value = response[0].picture;
                 selectRefresh('available', response[0].available);
                 selectRefresh('folder-select', response[0].folder);
+                bookauthorCreate(item);
 			}, '<?=PHP_PATH?>')
 
     }

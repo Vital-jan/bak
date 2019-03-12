@@ -688,5 +688,35 @@ form.admin {
         width: 90%;
         padding: 5px;
     }
-}
+    #bookauthor, #bookauthor-select {
+        padding: 5px;
+        border: 1px solid gray;
+        border-radius: 5px;
+        width: 30%;
+        overflow-x: hidden;
+        margin-bottom: 10px;
+        height: 5em;
+            
+        img {
+            max-width: 1em;
+            max-height: 1em;
+            cursor: pointer;
+            position: relative;
+            top: 2px;
+            margin-right: 3px;
+        }
+    }
+    #bookauthor-select {
+        height: 40%;
+        display: none;
+        position: fixed;
+        top: 150px;
+        left: 150px;
+        background-color: white;
+        li {
+            cursor: pointer;
+        }
+    }
+
+} // form.admin
 } // bak-project
