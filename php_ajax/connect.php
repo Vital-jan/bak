@@ -23,10 +23,10 @@
 
     function str_check($str){ // валідація тексту перед збереженням в БД
         $str = str_replace("<br/>", "\n", $str); 
-        $str = str_replace("`", "'", $str); 
         $str = str_replace("&", "~~", $str); 
         $str = strip_tags($str);
         $str = htmlspecialchars ($str, ENT_QUOTES);
+        $str = str_replace("`", "&#96;", $str); 
         $str = trim($str);
         $str = str_replace("\n", "<br/>", $str); 
         $str = str_replace("~~", "&", $str); 

@@ -595,23 +595,6 @@ main {
     }
 }
 
-#picture-list {
-    display: flex;
-    position: relative;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 0 5px;
-    overflow-y: scroll;
-    width: 80%;
-    height: 50%;
-    border: 2px solid black;
-    border-bottom: none;
-    img {
-        max-height: 30%;
-        margin: 10px;
-        cursor: pointer;
-    }
-}
 
 } // main
 
@@ -736,6 +719,49 @@ form.admin {
         border: 2px solid gray;
         li {
             cursor: pointer;
+        }
+    }
+    #picture-list {
+        display: none;
+        position: absolute;
+        background-color: lightgray;
+        top: 20px;
+        left: 20px;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 0 5px;
+        overflow-y: scroll;
+        width: 80%;
+        height: 80%;
+        border: 2px solid black;
+        border-radius: 8px;
+        box-shadow: 2px 2px 3px 2px gray;
+        div {
+            width: 25%;
+            height: 50%;
+            margin: 10px;
+            display: flex;
+            // align-items: center;
+            justify-content: center;
+        img {
+            max-height: 100%;
+            max-width: 100%;
+            cursor: pointer;
+            &:hover {
+                transform: scale(1.5);
+                transition-delay: 0.5s;
+                transition-duration: 0.2s;
+            }
+            &.del-picture {
+                position: relative;
+                top: -9px;
+                left: -11px;
+                width: 20px;
+                height: 20px;
+                border: 2px solid black;
+                border-radius: 50%;
+            }
+        }
         }
     }
 } // form.admin

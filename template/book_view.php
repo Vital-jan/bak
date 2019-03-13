@@ -1,24 +1,33 @@
 <?
     $current_folder = $_GET['folder'];
     
+    
+    // книги
+    if ($current_folder || 1==1) {
+        $query = mysql_query("SELECT * FROM books WHERE deleted = 0 ORDER BY book");
+        $books = array();
+        while ($cRecord = mysql_fetch_assoc($query)) {
+            $books[] = $cRecord;
+        }
+    }
+    
+    $bookpict = array();
+    foreach($books as $key=>$value) {
+        $bookpict[$value['picture']] = $value['book'];
+    }
+    
+    // каталог зображень книг (html)
     $pictures = scandir(BOOK_PHOTO_FOLDER);
     array_shift($pictures);
     array_shift($pictures);
     $picture_list = "<div id='picture-list'>";
     $path = BOOK_PHOTO_FOLDER;
     foreach($pictures as $value) {
-        $picture_list .= "<img class='picture-item' src='{$path}{$value}'>";
+        $del = '';
+        if (!$bookpict[$value]) $del = "<img data-id='del' class='del-picture' src='../assets/img/close.png'>";
+        $picture_list .= "<div><img src='{$path}{$value}'>${del}</div>";
     }
     $picture_list .= "</div>";
-
-    // книги
-    if ($current_folder) {
-    $query = mysql_query("SELECT * FROM books WHERE deleted = 0 ORDER BY book");
-    $books = array();
-    while ($cRecord = mysql_fetch_assoc($query)) {
-        $books[] = $cRecord;
-        }
-    }
 
     // розділи книг
     $where = $current_folder ? "where folders.folder_id={$current_folder}" : '';
@@ -46,7 +55,7 @@
         $flist .= "<option id='folder-select' value='{$cRecord['folder_id']}'>{$cRecord['folder']}</option>";
     }
     
-    // перелік авторів для кожної книги
+    // перелік авторів через кому для кожної книги
     $query = mysql_query("SELECT bookauthor.bookauthor_id, bookauthor.book,  authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id order by bookauthor.book");
     $bookauthors = array();
     while ($cRecord = mysql_fetch_assoc($query)) {
@@ -218,13 +227,13 @@
 
 				<li>Опис:</li>
 				<li><textarea placeholder='Опис книги' name='describe' rows=5></textarea></li>
-                <li>Автори:</li>
+                <li>Автори:<button style='display: inline-block; margin: 5px 15px' id='author-add' type="button">Додати автора</button></li>
                 <ul id="bookauthor"></ul>
-                <li><button id='author-add' type="button">Додати автора</button></li>
                 <ul id="bookauthor-select">
                 <?=$authors?>
                 </ul>
-				<li>Ціна:<input type='text' placeholder='Ціна' name='price'></li>
+                <?=$picture_list?> 
+				<li>Ціна:<input style='width:30%' type='text' placeholder='Ціна' name='price'></li>
 				<li>Наявність:
                     <select name="available">
                         <option value="" id="available"></option>
@@ -232,7 +241,10 @@
                         <option value="1" id="available">Так</option>
                     </select>
                 </li>
-				<li>Зображення:<input type='text' placeholder='Оберіть зображення...' name='picture' disabled></li>
+                <li>Зображення:<input style='width:30%' type='text' placeholder='Оберіть зображення...' name='picture' disabled>
+                <button style='display: inline-block' type='button' id='picture-choice'>Обрати зображення</button>
+                <button style='display: inline-block' type='button' id='picture-upload'>Завантажити зображення</button>
+                </li>
 			</ul>
 			`
 			, ['+Зберегти', '-Скасувати'], (btn)=>{
@@ -260,7 +272,33 @@
 
 				} // збереження форми в базі
 			},
-			'80%', 500); // modalwindow
+            '80%', 500); // modalwindow
+
+
+document.querySelector('#picture-choice').addEventListener('click', (event)=>{ // вибір зображення
+    document.querySelector('#picture-list').style.display = 'flex';
+})
+
+document.querySelector('#picture-list').addEventListener('mouseleave', (event)=>{ // вибір зображення
+    event.target.style.display = 'none';
+})
+
+document.querySelector('#picture-list').addEventListener('click', (event)=>{ // вибір зображення
+    if (event.target.tagName == 'IMG') {
+        if (event.target.dataset.id == 'del') {
+            console.log('delete', event.target.getAttribute('src'));
+            return;
+        }
+        let l = '<?=BOOK_PHOTO_FOLDER?>'.length;
+        let s = event.target.getAttribute('src');
+        formAdmin.picture.value = s.substr(l, s.length);
+        event.currentTarget.style.display = 'none';
+        }
+})
+
+document.querySelector('#picture-upload').addEventListener('click', (event)=>{ // завантаження зображення
+    alert('upload image')
+})
 
 document.querySelector('#bookauthor').addEventListener('click', (event)=>{
     if (!event.target.dataset.id) return;
@@ -424,11 +462,6 @@ document.querySelector('.book-left').addEventListener('click', (event)=>{ // о�
 			}
 		}, '60%');
 	};
-})
-
-document.querySelector('#picture-list').addEventListener('click', (event)=>{
-    console.log(event.target.getAttribute('src'))
-    console.log(event.target.tagName)
 })
 
 }) // onload
