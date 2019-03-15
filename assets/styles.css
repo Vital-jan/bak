@@ -884,6 +884,16 @@
   text-align: left;
 }
 
+.bak-project form.admin .button {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: 0.8em;
+  background-color: #dfdbdb;
+  margin: 5px;
+  cursor: pointer;
+}
+
 .bak-project form.admin .invisible {
   visibility: hidden;
 }
@@ -891,6 +901,10 @@
 .bak-project form.admin span {
   display: inline-block;
   width: 20%;
+}
+
+.bak-project form.admin select {
+  padding: 5px;
 }
 
 .bak-project form.admin input {
@@ -901,6 +915,13 @@
 
 .bak-project form.admin input[type="checkbox"] {
   width: auto;
+}
+
+.bak-project form.admin input[type="file"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 .bak-project form.admin textarea {

@@ -669,8 +669,18 @@ footer {
 
     }
     }
+
 form.admin {
     text-align: left;
+    .button {
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: 5px;
+        font-size: 0.8em;
+        background-color: #dfdbdb;
+        margin: 5px;
+        cursor: pointer;
+    }
     .invisible {
         visibility: hidden;
     }
@@ -678,12 +688,21 @@ form.admin {
         display: inline-block;
         width: 20%;
     }
+    select {
+        padding: 5px;
+    }
     input {
         margin: 2px;
         padding: 5px;
         width: 60%;
         &[type="checkbox"]{
             width: auto;
+        }
+        &[type="file"] {
+            opacity:0;
+            width: 0;
+            height: 0;
+            overflow:hidden;
         }
     }
     textarea {

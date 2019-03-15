@@ -435,11 +435,11 @@ function modalWindow(
     let s = buttons[n];
     if (s[0] == '+') {
       s = '<img src = "http://explorer.org.ua/framework/img/ok.png">' + s.slice(1, s.length);
-      btnType = 'submit';
+      // btnType = 'submit';
     }
     if (s[0] == '-') s = '<img src = "http://explorer.org.ua/framework/img/cancel.png">' + s.slice(1, s.length);
     
-    footer.innerHTML += `<button type="${btnType}" id="modal-btn${n}">${s}</button>`;
+    footer.innerHTML += `<button class='button' type="${btnType}" id="modal-btn${n}">${s}</button>`;
   }
 
 let btns = document.querySelectorAll('.footer button');

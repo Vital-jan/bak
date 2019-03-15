@@ -3,7 +3,7 @@ function ajax(query, action, phpPath=''){
   // возвращает результат fetch запроса в виде JSON
   // sqlQuery - текст sql запроса на выборку
   // action - функция-обработчик результата запроса
-  // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
+  // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
 // -------------------------------------------------
   let data = new FormData;
   data.append('body', query);
@@ -23,11 +23,41 @@ function ajax(query, action, phpPath=''){
   } // function
 
 // -------------------------------------------------
+function upLoad(file, action, phpPath='', type = '', size = 0){
+  // возвращает JSON вида: {filename, error, upload} при успешном - error=0, upload=true.
+  // error == 1: превышен размер файла; error == 2: нарушен тип файла
+  // file - объект files[0], возвращаемый input type='file'
+  // action - функция-обработчик результата запроса
+  // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
+  // type - проверка типа файла. Если не задан - не проверяется.
+  // size - ограничение размера файла. Если не задан - не проверяется.
+// -------------------------------------------------
+  let data = new FormData;
+  data.append('file', file);
+  data.append('type', type);
+  data.append('size', size);
+
+  fetch(phpPath+'upload.php', {
+      method: "POST",
+      body: data
+    }) 
+      .then(function(response){
+          if (response.status == 200) {}// удачный ajax запрос
+           else {}// неудачный ajax запрос
+          return response.json();
+      })
+      .then(action)
+      .catch(function(error) {
+          alert('Error!' + error)
+      });
+  } // function
+
+// -------------------------------------------------
 function queryGet(sqlQuery, action, phpPath=''){
   // возвращает результат sql запроса в виде JSON
   // sqlQuery - текст sql запроса на выборку
   // action - функция-обработчик результата запроса
-  // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
+  // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
 // -------------------------------------------------
   let data = new FormData;
   data.append('body', sqlQuery);
@@ -54,7 +84,7 @@ function queryUpdate(table, where, fdata, action, phpPath = '') {
     // fdata - список полей и их значений для конструкции set, вида: [['#поле1'], [значение1], ['поле2'], [значение2], ... ['поле n'], [значение n]]
     // поле, название которого начинается символом '#', будет считаться числовым. Нечисловые значения в этом случае будут преобразованы в NULL.
     // action - функция-обработчик результата запроса
-    // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
+    // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
     
     // -------------------------------------------------
     let data = new FormData;
@@ -109,7 +139,7 @@ function queryInsert(table, fdata, action, phpPath = '') {
     // fdata - список полей и их значений для конструкции set, вида: [['поле1], [значение1], [поле2], [значение2], ... [поле n], [значение n]]
     // поле, название которого начинается символом '#', будет считаться числовым. Нечисловые значения будут преобразованы в NULL.
     // action - функция-обработчик результата запроса
-    // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
+    // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
     // -------------------------------------------------
     let data = new FormData;
     data.append('$table', table);
@@ -138,7 +168,7 @@ function queryDelete(table, where, action, phpPath = '') {
     // table - имя таблицы
     // where - тело конструкции where
     // action - функция-обработчик результата запроса
-    // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса
+    // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
     // -------------------------------------------------
     let data = new FormData;
     data.append('$table', table);

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* ----- слайдер ----- */
 .slider {
   margin: auto;
@@ -129,9 +130,10 @@ div.modal-window div.modal {
 
 div.modal-window div.modal .header {
   border-bottom: 1px solid gray;
-  font-size: 1.2em;
+  font-size: 20px;
   font-weight: bold;
   padding: 10px;
+  height: 50px;
 }
 
 div.modal-window div.modal .header img {
@@ -146,6 +148,7 @@ div.modal-window div.modal #modal-window-content {
   padding: 10px;
   overflow-y: auto;
   overflow-x: auto;
+  height: 80%;
 }
 
 div.modal-window div.modal #modal-window-content table {
@@ -158,11 +161,15 @@ div.modal-window div.modal .footer {
   display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   border-top: 1px solid gray;
   padding: 10px;
+  height: 50px;
 }
 
-div.modal-window div.modal button {
+div.modal-window div.modal .footer .button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -176,24 +183,22 @@ div.modal-window div.modal button {
   font-weight: bold;
 }
 
-div.modal-window div.modal button:focus {
+div.modal-window div.modal .footer .button:focus {
   -webkit-box-shadow: 0px 0px 1px 1px black;
           box-shadow: 0px 0px 1px 1px black;
 }
 
-div.modal-window div.modal button:hover {
+div.modal-window div.modal .footer .button:hover {
   -webkit-box-shadow: 0px 0px 1px 1px blue;
           box-shadow: 0px 0px 1px 1px blue;
 }
 
-div.modal-window div.modal button * {
+div.modal-window div.modal .footer .button * {
   padding: 0 5px;
 }
 
-div.modal-window div.modal button img {
+div.modal-window div.modal .footer .button img {
   margin-right: 5px;
   height: 20px;
-  position: relative;
-  top: -2px;
 }
 /*# sourceMappingURL=explorer.css.map */

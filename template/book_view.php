@@ -197,11 +197,16 @@
         function bookauthorCreate(item){ // створити перелік авторів поточної книги
             queryGet('SELECT bookauthor.bookauthor_id, bookauthor.book, authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id', bookauthorResolve, '<?=PHP_PATH?>');
             function bookauthorResolve(resolve) {
-            let s = '';
+            let s = "<li>Автори: <img src='../assets/img/add.png' id='author-add'></li>";
+            
             resolve.forEach((i)=>{
                 if (i.book == item) s += `<li><img src='../assets/img/close.png' title='Вилучити автора' data-id='${i.bookauthor_id}'>${i.author}</li>`;
             })
             document.querySelector('form #bookauthor').innerHTML = s;
+            document.querySelector('#author-add').addEventListener('click', (event)=>{
+                document.querySelector('#bookauthor-select').style.display = 'block';
+            })
+
             }
         };
 
@@ -225,25 +230,31 @@
                     </select>
                 </li>
 
-				<li>Опис:</li>
 				<li><textarea placeholder='Опис книги' name='describe' rows=5></textarea></li>
-                <li>Автори:<button style='display: inline-block; margin: 5px 15px' id='author-add' type="button">Додати автора</button></li>
-                <ul id="bookauthor"></ul>
+                <li>
+                    <ul id="bookauthor"></ul>
+                </li>
                 <ul id="bookauthor-select">
                 <?=$authors?>
                 </ul>
                 <?=$picture_list?> 
-				<li>Ціна:<input style='width:30%' type='text' placeholder='Ціна' name='price'></li>
-				<li>Наявність:
+				<li>Ціна:<input style='width:30%' type='text' placeholder='Ціна' name='price'>
+				Наявність:
                     <select name="available">
                         <option value="" id="available"></option>
                         <option value="0" id="available">Ні</option>
                         <option value="1" id="available">Так</option>
                     </select>
                 </li>
-                <li>Зображення:<input style='width:30%' type='text' placeholder='Оберіть зображення...' name='picture' disabled>
-                <button style='display: inline-block' type='button' id='picture-choice'>Обрати зображення</button>
-                <button style='display: inline-block' type='button' id='picture-upload'>Завантажити зображення</button>
+                <hr>
+                <li>Зображення:<input style='width:20%' type='text' placeholder='Оберіть зображення...' name='picture' disabled>
+                <button class='button' type='button' id='picture-clear'>Очистити</button>
+                <button class='button' type='button' id='picture-choice'>Змінити зображення</button>
+
+                <label class='button'>
+                Завантажити зображення
+                <input type='file' id='picture-upload' name="file" ></input>
+                </label>
                 </li>
 			</ul>
 			`
@@ -296,13 +307,23 @@ document.querySelector('#picture-list').addEventListener('click', (event)=>{ // 
         }
 })
 
-document.querySelector('#picture-upload').addEventListener('click', (event)=>{ // завантаження зображення
-    alert('upload image')
+document.querySelector('#picture-upload').addEventListener('change', (event)=>{ // завантаження зображення
+    upLoad(event.target.files[0], (response)=>{
+        console.log(response.filename, response.error, response.upload);
+        if (response.error == 0 && response.upload) {
+            formAdmin.picture.value = response.filename;
+            alert(`Файл ${response.filename} завантажено.`);
+        }
+    }, '<?=PHP_PATH?>', 'image/jpeg', 1)
 })
+
+document.querySelector('#picture-clear').addEventListener('click', (event)=>{ // очистка зображення
+    formAdmin.picture.value = '';
+})
+
 
 document.querySelector('#bookauthor').addEventListener('click', (event)=>{
     if (!event.target.dataset.id) return;
-    console.log('delete ', event.target.dataset.id)
     queryDelete('bookauthor', `bookauthor.bookauthor_id=${event.target.dataset.id}`, (response)=>{
                     bookauthorCreate(item)
                 },
@@ -310,9 +331,6 @@ document.querySelector('#bookauthor').addEventListener('click', (event)=>{
 
 })
 
-document.querySelector('#author-add').addEventListener('click', (event)=>{
-    document.querySelector('#bookauthor-select').style.display = 'block';
-})
 
 document.querySelector('#bookauthor-select').addEventListener('mouseleave', (event)=>{
     event.target.style.display = 'none';
