@@ -60,6 +60,10 @@
 
 .bak-project .click {
   cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .bak-project header {
@@ -808,6 +812,13 @@
           box-shadow: 0 -5px 25px 10px white;
 }
 
+.bak-project #pages {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
 .bak-project #pages .page {
   cursor: pointer;
   height: 300px;
@@ -884,6 +895,10 @@
   text-align: left;
 }
 
+.bak-project form.admin * {
+  margin: 2px 0;
+}
+
 .bak-project form.admin .button {
   padding: 5px;
   border: 1px solid black;
@@ -900,11 +915,24 @@
 
 .bak-project form.admin span {
   display: inline-block;
-  width: 20%;
 }
 
 .bak-project form.admin select {
   padding: 5px;
+}
+
+.bak-project form.admin .wait {
+  position: relative;
+  left: -30px;
+  background-color: #fff;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 0 5px 5px;
+  visibility: hidden;
+}
+
+.bak-project form.admin .wait img {
+  width: 40px;
 }
 
 .bak-project form.admin input {
@@ -922,6 +950,8 @@
   width: 0;
   height: 0;
   overflow: hidden;
+  z-index: -1;
+  position: relative;
 }
 
 .bak-project form.admin textarea {

@@ -1,10 +1,7 @@
 <?
 session_start();
 	const PHPFOLDER = "/bak/php_ajax/";
-
 	require $_SERVER['DOCUMENT_ROOT'].PHPFOLDER."connect.php";
-	$query = getQuery('admin','');
-	$content = mysql_fetch_assoc($query);
 	$nav_array = array( // Головне меню
 		array(
 		"name"=>"Головна",

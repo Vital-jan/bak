@@ -6,9 +6,10 @@
     const AUTHOR_PHOTO_FOLDER = '../assets/img/authors/';
     const BOOK_PHOTO_FOLDER = '../assets/img/books/';
     
+    const ROOTFOLDER = "/bak/";
+    
     const PHP_PATH = '/bak/php_ajax/'; // папка .php файлів та модулю mysqlajax.js
 
-    const ROOTFOLDER = "/bak/";
     // в цій папці повинні знаходитись:
     // connect.php
     // mysqlajax.js
@@ -50,6 +51,38 @@
             $array[] = $cRecord;
         }
         return $array;
+    }
+
+    function filename_parse($file) {
+        if (!$file || $file == '') return false;
+        $name = basename($file);
+        $path = substr($file, 0, strlen($file) - strlen($name));
+        $index = strpos($name, '.');
+        if ($index === false) {
+            $name = $file;
+            $ext = '';
+        }
+        else {
+            $exp = explode('.', $name);
+            $ext = $exp[1];
+            if ($ext) $ext = '.'.$ext;
+            $name = $exp[0];
+        }
+        return array('path'=>$path, 'name'=>$name, 'ext'=>$ext);
+    }
+
+    function filename_generate($file) {
+        if (!$file || $file == '') return false;
+        $fa = filename_parse($file);
+        if (!$fa) return false;
+        
+        $counter = 0;
+        $new_file = $file;
+        while (file_exists($file)) {
+            $file = $fa['path'].$fa['name'].$counter.$fa['ext'];
+            $counter++;
+        }
+        return $file;
     }
 
 ?>

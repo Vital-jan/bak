@@ -62,7 +62,7 @@ $login = getLogin();
 <script>
     document.addEventListener("DOMContentLoaded", ()=>{
 
-    document.querySelector('#edit').addEventListener('click', (event)=>{ // кнопка редагування
+    if (document.querySelector('#edit')) document.querySelector('#edit').addEventListener('click', (event)=>{ // кнопка редагування
         modalWindow('Головна сторінка. Редагування.',
         '<textarea id="main-content" style="width:100%; height:50%;"><?=$content['main']?></textarea>',
         ['+Зберегти', '-Скасувати'],

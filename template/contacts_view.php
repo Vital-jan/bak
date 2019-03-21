@@ -75,7 +75,7 @@ if ($login) {
 document.addEventListener("DOMContentLoaded", ()=>{
 	fade(document.querySelector('.main-content'), 300);
 
-    document.querySelector('#edit').addEventListener('click', (event)=>{ // кнопка редагування контактів
+    if (document.querySelector('#edit')) document.querySelector('#edit').addEventListener('click', (event)=>{ // кнопка редагування контактів
         modalWindow('Контактна інформація. Редагування.',
 		`<form name="admin" class="admin">
 			<ul>

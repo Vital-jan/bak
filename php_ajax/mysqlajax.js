@@ -189,3 +189,25 @@ function queryDelete(table, where, action, phpPath = '') {
       });
 
   } // queryDelete
+
+  function queryDelFile(fileName, action, phpPath = '') {
+      if (!fileName) return false;
+
+      let data = new FormData;
+      data.append('file', fileName);
+
+      fetch(phpPath+'del_file.php', {
+        method: "POST",
+        body: data
+      }) 
+        .then(function(response){
+            if (response.status == 200) {}// удачный ajax запрос
+             else {}// неудачный ajax запрос
+            return response.json();
+        })
+        .then(action)
+        .catch(function(error) {
+            alert('Error!' + error)
+        });
+        
+    }

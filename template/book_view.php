@@ -24,7 +24,7 @@
     $path = BOOK_PHOTO_FOLDER;
     foreach($pictures as $value) {
         $del = '';
-        if (!$bookpict[$value]) $del = "<img data-id='del' class='del-picture' src='../assets/img/close.png'>";
+        if (!$bookpict[$value]) $del = "<img data-id='del' data-file='{$value}' class='del-picture' src='../assets/img/close.png'>";
         $picture_list .= "<div><img src='{$path}{$value}'>${del}</div>";
     }
     $picture_list .= "</div>";
@@ -126,8 +126,7 @@
                 if ($value['folder'] == $current_folder) 
                 {
                     $btns = ''; // кнопки edit та del
-                    if ($login) $btns = "<img id='book-edit' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/edit-button.png'>";
-                    $btns .= "<img id='book-del' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/close.png'>";
+                    if ($login) $btns = "<img id='book-edit' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/edit-button.png'>"."<img id='book-del' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/close.png'>";
 
                     $price = $value['price'] ? "Ціна: {$value['price']} грн" : '';
                     $available = $value['available'] ? "Наявність: Так" : 'Наявність: Ні';
@@ -219,7 +218,7 @@
                 if (i.value == value) i.setAttribute('selected',''); 
                 if (i.value == '' && value == null) i.setAttribute('selected','');
             });
-        }
+        }//----------
 			modalWindow('Редагувати книгу', `
 			<form name='editBook'  class="admin">
 			<ul>
@@ -253,8 +252,9 @@
 
                 <label class='button'>
                 Завантажити зображення
-                <input type='file' id='picture-upload' name="file" ></input>
+                <input type='file' id='picture-upload' name="file" accept='image/*'></input>
                 </label>
+                <span class='wait'>Uploading... <img src='../assets/img/book.gif'></span>
                 </li>
 			</ul>
 			`
@@ -290,14 +290,18 @@ document.querySelector('#picture-choice').addEventListener('click', (event)=>{ /
     document.querySelector('#picture-list').style.display = 'flex';
 })
 
-document.querySelector('#picture-list').addEventListener('mouseleave', (event)=>{ // вибір зображення
+document.querySelector('#picture-list').addEventListener('mouseleave', (event)=>{ // закриття вікна вибору зображень
     event.target.style.display = 'none';
 })
 
-document.querySelector('#picture-list').addEventListener('click', (event)=>{ // вибір зображення
+document.querySelector('#picture-list').addEventListener('click', (event)=>{ // видалення зображення (лише тих, що не прив'язані до жодної книги)
     if (event.target.tagName == 'IMG') {
         if (event.target.dataset.id == 'del') {
-            console.log('delete', event.target.getAttribute('src'));
+            if (confirm(`Видалити ${event.target.dataset.file} ?`)) {
+                queryDelFile(`<?=BOOK_PHOTO_FOLDER?>${event.target.dataset.file}`, (response)=>{
+                    if (response.error == 0) {alert ('Файл видалено.')} else alert('Помилка! Файл не видалено.');
+                }, '<?=PHP_PATH?>')
+            }
             return;
         }
         let l = '<?=BOOK_PHOTO_FOLDER?>'.length;
@@ -308,13 +312,19 @@ document.querySelector('#picture-list').addEventListener('click', (event)=>{ // 
 })
 
 document.querySelector('#picture-upload').addEventListener('change', (event)=>{ // завантаження зображення
+    document.querySelector('.wait').style.visibility = 'visible';
+    setTimeout(()=>{
+    document.querySelector('.wait').style.visibility = 'hidden';
     upLoad(event.target.files[0], (response)=>{
-        console.log(response.filename, response.error, response.upload);
         if (response.error == 0 && response.upload) {
             formAdmin.picture.value = response.filename;
             alert(`Файл ${response.filename} завантажено.`);
         }
-    }, '<?=PHP_PATH?>', 'image/jpeg', 1)
+        if (response.error == 1) alert("Перевищено розмір файлу 200Mb.")
+        if (response.error == 2) alert("Невірний формат файлу.")
+        console.log(response.upload)
+    }, '<?=PHP_PATH?>', 'image', 209715200)
+}, 1000);
 })
 
 document.querySelector('#picture-clear').addEventListener('click', (event)=>{ // очистка зображення

@@ -54,6 +54,7 @@ li {
 
 .click {
     cursor: pointer;
+    user-select: none;
 }
 
 header {
@@ -357,6 +358,7 @@ main {
         }
 
         #folder-list { // кнопка <список розділів>, <список авторів>
+            // position:fixed;
             background-color: $button;
             background: linear-gradient(to right, $button, #fff);
             border-radius: 8px;
@@ -611,6 +613,7 @@ footer {
 }
 
 #pages {
+    user-select: none;
 .page   {
     cursor: pointer;
     height: 300px;
@@ -672,6 +675,9 @@ footer {
 
 form.admin {
     text-align: left;
+    * {
+        margin: 2px 0;
+    }
     .button {
         padding: 5px;
         border: 1px solid black;
@@ -686,10 +692,21 @@ form.admin {
     }
     span {
         display: inline-block;
-        width: 20%;
     }
     select {
         padding: 5px;
+    }
+    .wait {
+        position: relative;
+        left: -30px;
+        background-color: #fff;
+        border: 1px solid gray;
+        border-radius: 5px;
+        padding: 0 5px 5px;
+        visibility: hidden;
+        img {
+            width: 40px;
+        }
     }
     input {
         margin: 2px;
@@ -703,6 +720,8 @@ form.admin {
             width: 0;
             height: 0;
             overflow:hidden;
+            z-index: -1;
+            position: relative;
         }
     }
     textarea {
