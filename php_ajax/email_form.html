@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src='mysqlajax.js'></script>
+</head>
+<body>
+    <form name='form' action=''>
+        <input type="text" name="mailto" id="" placeholder='mailto:' value='vitaljan@gmail.com'><br>
+        <input type="text" name="subj" placeholder='subject:' id=""><br>
+        <input type="text" name="msg" placeholder='message:' id=""><br>
+        <input type="text" name="from" placeholder='from:' id=""><br>
+        <button type='button' id='btn'>send</button>
+    </form>
+</body>
+<script>
+    function action(response){
+        alert(response.send, response.error)
+    }
+
+    document.querySelector('#btn').addEventListener('click', ()=>{
+        sendMail(
+            document.forms.form.mailto.value,
+            document.forms.form.subj.value,
+            document.forms.form.msg.value,
+            document.forms.form.from.value,
+            action, ''
+        )
+    })
+</script>
+</html>

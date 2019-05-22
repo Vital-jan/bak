@@ -102,8 +102,8 @@ function addEdit(item) { // редагування та додавання за�
 			queryGet(`select * from news where news_id=${item}`, (response)=>{ // отримуємо елемент з бази
                 // наповнюємо поля форми
 				formAdmin.date.value = response[0].date;
-				formAdmin.header.value = response[0].header;
-				formAdmin.content.value = response[0].content;
+				formAdmin.header.value = htmlEncode(response[0].header);
+				formAdmin.content.value = htmlEncode(response[0].content);
 			}, '<?=PHP_PATH?>')
 		}
 

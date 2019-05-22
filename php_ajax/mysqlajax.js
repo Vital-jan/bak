@@ -1,9 +1,38 @@
+
+function sendMail (mailTo, subj, message, from, action, phpPath = '') {
+// -------------------------------------------------
+    // отправляет email
+    // параметр from передает заголовок "от кого", отображаемый в почтовом клиенте (ключевое слово "From: " добавляется автоматически)
+    // action() - функция-обработчик результата запроса
+    // [phpPath] - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
+  let data = new FormData;
+    data.append('mail_to', mailTo);
+    data.append('subj', subj);
+    data.append('message', message);
+    data.append('from', from);
+
+    fetch(phpPath+'sendmail.php', {
+        method: "POST",
+        body: data
+      }) 
+        .then(function(response){
+            if (response.status == 200) {}// удачный ajax запрос
+             else {}// неудачный ajax запрос
+            return response.json();
+        })
+        .then(action)
+        .catch(function(error) {
+            alert('Error!' + error)
+        });
+  
+} // function
+
 // -------------------------------------------------
 function ajax(query, action, phpPath=''){
   // возвращает результат fetch запроса в виде JSON
-  // sqlQuery - текст sql запроса на выборку
+  // query - тело ajax запроса
   // action - функция-обработчик результата запроса
-  // phpPath - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
+  // [phpPath] - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
 // -------------------------------------------------
   let data = new FormData;
   data.append('body', query);
@@ -108,7 +137,8 @@ function queryUpdate(table, where, fdata, action, phpPath = '') {
     });
 } // queryUpdate
 
-// Пример:
+// ----------- Пример: ------------
+
 //   let form = document.forms.admin.elements;
 //   document.querySelector('#save').addEventListener('click',()=>{
     //     queryUpdate('admin', `admin_id=1`, [
@@ -190,8 +220,10 @@ function queryDelete(table, where, action, phpPath = '') {
 
   } // queryDelete
 
+  // -------------------------------------------------
   function queryDelFile(fileName, action, phpPath = '') {
-      if (!fileName) return false;
+// -------------------------------------------------
+if (!fileName) return false;
 
       let data = new FormData;
       data.append('file', fileName);
@@ -210,4 +242,23 @@ function queryDelete(table, where, action, phpPath = '') {
             alert('Error!' + error)
         });
         
+    }
+
+// -------------------------------------------------
+    function htmlEncode(str) {
+// -------------------------------------------------
+// убирает спецсимволы и возвращает строку в том виде, в котором она отображается браузером.
+// Применяется для полей input, значение которых получено из БД.
+    while (str.search('<br>') != -1) str = str.replace('<br>','~~~');
+    while (str.search('<br/>') != -1) str = str.replace('<br/>','~~~');
+    let el = document.querySelector('#html-encode-element');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'html-encode-element';
+            el.style.display = 'none';
+            el.innerHTML = str;
+        }
+    str = el.innerText;
+    while (str.search('~~~') != -1) str = str.replace('~~~', '\n');
+    return str;
     }

@@ -46,8 +46,15 @@ session_start();
 
 <body class="bak-project">
 	<a href="<?=ROOTFOLDER?>admin">
-	<button id="login-button" type=button style="z-index: 1000">Авторизуватись</button>
+		<button id="login-button" type=button>Log in</button>
 	</a>
+
+	<form action='<?=ROOTFOLDER?>admin/logout.php'>
+	<?
+	$login = getLogin();
+	if ($login) echo '<button id="logout-button" type=submit>Log out</button>';
+	?>
+	</form>
 
 	<header>
 		<div class="logo">
@@ -98,7 +105,7 @@ session_start();
 
 	btnLogin.addEventListener('mouseenter', (event)=>{
 		interval = setTimeout(() => {
-			btnLogin.style.opacity=1;
+			if (!'<?=$login?>') btnLogin.style.opacity=1;
 		}, 3000);
 	});
 	btnLogin.addEventListener('mouseout', (event)=>{

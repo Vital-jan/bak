@@ -1,6 +1,6 @@
 <?
     $current_folder = $_GET['folder'];
-    
+    $book_item = $_GET['book'];
     
     // книги
     if ($current_folder || 1==1) {
@@ -154,8 +154,14 @@
 <script>
     document.addEventListener("DOMContentLoaded", ()=>{
 
-    let currentBook; // обрана книга
-    
+    function scrollToBook (item) { // прокрутка до книги в разі переходу зі сторінки "Автори"
+        let elem = document.querySelector(`[data-book='${item}']`);
+        if (elem) elem.scrollIntoView(true);
+        window.scrollBy(0, -200)
+    }
+
+    let currentBook = <? if (isset ($book_item)) echo $book_item; else echo 'null'?>; // // обрана книга в разі переходу зі сторінки "Автори"
+
     let margin = 0;
     let el = document.querySelectorAll('.book-left li');
 
@@ -411,6 +417,8 @@ bookItemList.forEach((i)=>{
     }, itemTimeout);
     itemTimeout += 30;
 })
+
+scrollToBook(currentBook);
 
 function addEditFolder(item) { // редагування-додавання розділу
     function addEditForm(header, number = null) { // форма редагування - додавання

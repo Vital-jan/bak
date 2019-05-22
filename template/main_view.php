@@ -6,8 +6,6 @@ $query = mysql_query("SELECT news.date, news.content FROM news WHERE deleted = 0
 $news = array();
 
 while ($cRecord = mysql_fetch_assoc($query)) {
-    $cRecord['content'] = strip_tags($cRecord['content']);
-    $cRecord['content'] = htmlspecialchars($cRecord['content']);
     if ($cRecord['content'] != '') $news[] = $cRecord;
 
 }

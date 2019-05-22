@@ -31,11 +31,19 @@
 
     document.querySelector('#login').addEventListener('click', ()=>{
         if (document.forms.admin.password.value == '') return;
-        ajax(document.forms.admin.password.value,checkPassword,'login.php');
+        ajax(document.forms.admin.password.value, checkPassword, 'login.php');
     })
 
-    document.querySelector('#remind').addEventListener('click', ()=>{
+    function remindPassword(j){
+        if (j.send) {
+            alert('Пароль надіслано на email, зазначений в розділі "Контакти". Щоб повернутись на головну сторінку натисніть "Ок"');
+            document.location.href = '<?=ROOTFOLDER?>';
+        }
+        else alert('Помилка надсилання паролю');
+    };
 
+    document.querySelector('#remind').addEventListener('click', ()=>{
+        ajax('', remindPassword, 'remind.php');
     })
 </script>
 </html>

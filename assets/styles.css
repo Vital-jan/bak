@@ -27,8 +27,16 @@
 
 .bak-project #login-button {
   position: absolute;
-  z-index: 10;
+  z-index: 1000;
   opacity: 0;
+}
+
+.bak-project #logout-button {
+  position: absolute;
+  z-index: 1000;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 10px;
 }
 
 .bak-project .edit-button {
@@ -363,7 +371,10 @@
 
 .bak-project main .book-right .book-item span {
   display: block;
-  width: 100%;
+}
+
+.bak-project main .book-right .book-item span.book-folder {
+  display: none;
 }
 
 .bak-project main .book-right .book-item span.btns img {
@@ -424,6 +435,7 @@
   display: block;
   width: 100%;
   height: auto;
+  cursor: default;
 }
 
 .bak-project main .book-right .book-item.book-view div {
@@ -450,6 +462,22 @@
 .bak-project main .book-right .book-item.book-view .book-author {
   margin-bottom: 10px;
   text-align: center;
+  width: 100%;
+}
+
+.bak-project main .book-right .book-item.book-view .book-folder {
+  display: inline-block;
+  margin: auto;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.bak-project main .book-right .book-item.book-view .book-folder a {
+  text-decoration: none;
+}
+
+.bak-project main .book-right .book-item.book-view .book-folder img {
+  margin-right: 10px;
 }
 
 .bak-project main .book-right .book-item.book-view .book-describe {
@@ -842,7 +870,7 @@
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
-  text-align: justify;
+  text-align: left;
   overflow: hidden;
   -webkit-box-shadow: -8px 0px 7px 6px white;
           box-shadow: -8px 0px 7px 6px white;

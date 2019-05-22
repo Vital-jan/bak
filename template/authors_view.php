@@ -5,26 +5,42 @@
     $login = getLogin();
 
     // завантажуємо з бд авторів
-    $where = $current_author ? "where authors.author_id={$current_author}":'';
+    $where = $current_author ? "where author_id={$current_author}":'';
     
-    $query = mysql_query(
-        "SELECT authors.author, authors.author_id, cnt, authors.photo, authors.describe FROM authors LEFT JOIN (SELECT bookauthor.author, Count(*) as cnt FROM bookauthor group by bookauthor.author ) AS authorcount ON authors.author_id = authorcount.author
-    {$where} 
-    ORDER BY cnt DESC"
-    );
-
+    // $query = mysql_query(
+    //     "SELECT authors.author, authors.author_id, cnt, authors.photo, authors.describe FROM authors LEFT JOIN (SELECT distinct bookauthor.author, Count(*) as cnt FROM bookauthor group by bookauthor.author ) AS authorcount ON authors.author_id = authorcount.author
+    // {$where} 
+    // ORDER BY cnt DESC"
+    // );
+    $selectauthors = "select *, count(*) as cnt from 
+    (select distinct bookauthor.book, bookauthor.author, authors.author_id, authors.author as authorname, `authors`.describe, `authors`.photo from bookauthor left join authors on bookauthor.author=author_id)
+    as s1 
+    {$where}
+    group by author 
+    order by cnt desc";
+    $query = mysql_query($selectauthors);
     $authors = array();
-    
     while ($cRecord = mysql_fetch_assoc($query)) {
         if ($cRecord['author_id'] == $current_author) array_unshift($authors, $cRecord); else { // обраного автора на перше місце
-        $authors[] = $cRecord;
+            $authors[] = $cRecord;
         }
     }
 
     // завантажуємо книги авторів
-    $query = mysql_query("SELECT bookauthor.book, books.book, books.book_id, bookauthor.author as authorID, books.describe, books.price, books.available, books.picture
+    $query = mysql_query("SELECT DISTINCT
+    bookauthor.book,
+    books.book,
+    books.book_id,
+    bookauthor.author AS authorID,
+    books.`describe`,
+    books.price,
+    books.available,
+    books.picture,
+    folders.folder,
+    folders.folder_id
     FROM bookauthor
-    LEFT JOIN books ON bookauthor.book = books.book_id
+        LEFT JOIN books ON bookauthor.book = books.book_id
+            LEFT JOIN folders ON folders.folder_id = books.folder
     ");
 
     $books = array();
@@ -73,7 +89,7 @@
         "<li class='author'>".
         "{$btns}".
             "<a href='?author={$value['author_id']}' id='books-by-author' class='{$active_item}{$active_class}'>".
-                "<span class='author-name '>{$describe}{$value['author']}</span>".
+                "<span class='author-name '>{$describe}{$value['authorname']}</span>".
                 "{$photo}".
             "<span class='books-by-author'>".
                 "<img class='books click' src='../assets/img/openbook.png' class='click' >".
@@ -99,6 +115,7 @@
         foreach($books as $key=>$value){
         if ($value['authorID'] == $current_author) 
     {
+                $root = ROOTFOLDER;
                 $price = $value['price'] ? "Ціна: {$value['price']} грн" : '';
                 $available = $value['available'] ? "Наявність: Так" : 'Наявність: Ні';
                 $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pen.png'> {$value['assemble']}" : '';
@@ -108,6 +125,11 @@
                 <div>
                 <span class='book-name'>&laquo;{$value['book']}&raquo; </span>
                 <span class='book-author'> {$writer} </span>
+                <span class='book-folder'>
+                    <a href='{$root}/books/?folder={$value['folder_id']}&book={$value['book_id']}' title='Перейти до розділу {$value['folder']}'>
+                        <img class='writer' src='../assets/img/books2.png'>{$value['folder']}
+                    </a>
+                </span>
                 <span class='book-describe'>{$value['describe']}</span>
                 </div>
                 <span class='img'> {$book_picture} </span>
@@ -141,7 +163,7 @@
         fade(el, 300);
         if (currentBook) if (currentBook != el) currentBook.classList.remove('book-view');
         el.scrollIntoView();
-        window.scrollBy(0, -200)
+        window.scrollBy(0, -200);
         currentBook = el;
     })
 // плавне відображення списку авторів
