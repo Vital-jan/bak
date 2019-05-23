@@ -1,0 +1,157 @@
+/* ----- слайдер ----- */
+.slider {
+    margin: auto;
+    position: relative;
+    img {
+        opacity:0;
+        height: 100%;
+        position: absolute;
+        height: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .circles {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 10px;
+    }
+    .circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: white;
+        border: 5px solid white;
+        box-sizing: border-box;
+        margin: 2px;
+        opacity: 0.6;
+        cursor: pointer;
+            &:hover {
+                opacity: 0.9;
+            }
+    }
+    .arrow {
+        color: white;
+        border: 1px solid darkgray;
+        background-color: gray;
+        opacity: 0.5;
+        font-weight: bold;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        font-size: 2rem;
+        line-height: 2rem;
+        margin: 0 5px;
+        cursor: pointer;
+        user-select: none;
+            &.no-active {
+                cursor: default;
+                &:hover {
+                    opacity: 0.5;
+                }
+            }
+            &:hover {
+                opacity:1;
+            }
+        }
+    h3 {
+        font-weight: normal;
+        text-align: center;
+        font-size: 20px;
+        left: 0;
+        right: 0;
+        margin: 5px auto;
+        position: absolute;
+        bottom: -30px;
+        text-align: center;
+        height: 25px;
+        overflow: hidden;
+        opacity: 0;
+	    font-family: sans-serif;
+    }
+}
+/* ----- Модальное окно ----- */
+div.modal-window {
+    width: 100%;
+    height: 100%;
+    z-index: 1000000000;
+    background-color: rgba(0,0,0,.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+
+div.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px;
+    border: 2px solid gray;
+    box-shadow: 3px 3px 3px 3px rgba(0,0,0,.5);
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 100px auto;
+    text-align: center;
+    overflow: hidden;
+
+.header {
+    border-bottom: 1px solid gray;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    height: 50px;
+    img {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 4px;
+        cursor: pointer;
+    }
+}
+
+.modal-window-content {
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 80%;
+    table{
+        display: block;
+    }
+}
+
+.footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid gray;
+    padding: 10px;
+    height: 50px;
+    .button {
+        display: flex;
+        align-items: center;
+        border: 1px solid gray;
+        border-radius: 8px;
+        cursor: pointer;
+        padding: 5px 10px;
+        font-weight: bold;
+        &:focus {
+            box-shadow: 0px 0px 1px 1px black;
+        }
+        &:hover {
+            box-shadow: 0px 0px 1px 1px blue;
+        }
+        * {
+            padding: 0 5px;
+        }
+        img{
+            margin-right: 5px;
+            height: 20px;
+        }
+    }
+}
+
+}
+}

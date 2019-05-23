@@ -37,7 +37,8 @@ function ajax(query, action, file, phpPath=''){
 // -------------------------------------------------
   let data = new FormData;
   data.append('body', query);
-  fetch(phpPath + '/' + file, {
+  if (phpPath.length > 0) phpPath += '/' + file;
+  fetch(phpPath + file, {
       method: "POST",
       body: data
     }) 

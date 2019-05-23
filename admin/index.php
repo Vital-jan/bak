@@ -31,7 +31,7 @@
 
     document.querySelector('#login').addEventListener('click', ()=>{
         if (document.forms.admin.password.value == '') return;
-        ajax(document.forms.admin.password.value, checkPassword, 'login.php');
+        ajax(document.forms.admin.password.value, checkPassword, 'login.php', '');
     })
 
     function remindPassword(j){

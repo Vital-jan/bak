@@ -144,14 +144,14 @@ div.modal-window div.modal .header img {
   cursor: pointer;
 }
 
-div.modal-window div.modal #modal-window-content {
+div.modal-window div.modal .modal-window-content {
   padding: 10px;
   overflow-y: auto;
   overflow-x: auto;
   height: 80%;
 }
 
-div.modal-window div.modal #modal-window-content table {
+div.modal-window div.modal .modal-window-content table {
   display: block;
 }
 

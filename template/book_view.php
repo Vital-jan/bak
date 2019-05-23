@@ -69,10 +69,11 @@
     }    
 
     // перелік авторів для поля додавання авторів
-    $query = mysql_query("SELECT authors.author, authors.author_id  FROM authors order by author ASC");
+    $query = mysql_query("select author_id, `authors`.author, cnt from authors left join (select *, count(*) as cnt from bookauthor group by author) as sel2 on author_id = sel2.author");
     $authors = '';
     while ($cRecord = mysql_fetch_assoc($query)) {
-        $authors .= "<li data-id='{$cRecord['author_id']}'>{$cRecord['author']}</li>";
+        $del_btn = $cRecord['cnt'] == null ? "<img src='../assets/img/close.png' data-delauthor={$cRecord['author_id']} data-delauthortext={$cRecord['author']}>" : "";
+        $authors .= "<li data-id='{$cRecord['author_id']}'>{$del_btn}{$cRecord['author']}</li>";
     }
 
     $login = getLogin();
@@ -154,7 +155,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", ()=>{
 
-    function scrollToBook (item) { // прокрутка до книги в разі переходу зі сторінки "Автори"
+    function scrollToBook (item) { // прокрутка до книги в разі переходу з іншої сторінки
         let elem = document.querySelector(`[data-book='${item}']`);
         if (elem) elem.scrollIntoView(true);
         window.scrollBy(0, -200)
@@ -354,11 +355,11 @@ document.querySelector('#bookauthor').addEventListener('click', (event)=>{
 })
 
 
-document.querySelector('#bookauthor-select').addEventListener('mouseleave', (event)=>{
+document.querySelector('#bookauthor-select').addEventListener('mouseleave', (event)=>{ // закриття вікна долучення автора до книги
     event.target.style.display = 'none';
 })
 
-document.querySelector('#bookauthor-select').addEventListener('click', (event)=>{
+document.querySelector('#bookauthor-select').addEventListener('click', (event)=>{ // долучення автора до книги
     queryInsert('bookauthor', [
                         ['#book', item],
                         ['#author', `${event.target.dataset.id}`]
@@ -366,6 +367,16 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
                         bookauthorCreate(item);
                     }, '<?=PHP_PATH?>');
 
+})
+
+document.querySelector('#bookauthor-select').addEventListener('click', (event)=>{ //видалення безкнижкового автора з бази
+    if (event.target.dataset.delauthor) {
+        modalWindow(`Видалити автора`,`Бажаєте видалити автора ${event.target.dataset.delauthortext} з бази даних?`, ['Залишити', '-Видалити'], (n)=>{
+            if (n == 1) queryDelete('authors', `author_id=${event.target.dataset.delauthor}`, (response)=>{
+                if (response.sql) alert('Видалено. Після поновлення сторінки автор видалиться з переліку.')
+            }, '<?=PHP_PATH?>')
+        }, undefined,undefined,undefined,undefined,undefined,undefined,undefined, 'modal-window2');
+    }
 })
 
             let formAdmin = document.forms.editBook;
