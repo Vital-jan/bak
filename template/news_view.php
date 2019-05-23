@@ -12,19 +12,21 @@
         echo "<button type='button' id='news-add'> Додати новину </button><br>"; 
     };
     foreach($news as $key=>$value) {
-            $value[header] = strip_tags($value[header],'<br>');
-            $value[date] = strip_tags($value[date],'<br>');
-            $value[content] = strip_tags($value[content],'<br>');
             $btns = '';
-            if ($login) $btns = "<img class='edit-button' id='news-edit' data-id={$value['news_id']} src='../assets/img/edit-button.png'><img class='edit-button' id='news-del' data-id={$value['news_id']} src='../assets/img/close.png'>";
+			if ($login) $btns = "<img class='edit-button' id='news-edit' data-id={$value['news_id']} src='../assets/img/edit-button.png'><img class='edit-button' id='news-del' data-id={$value['news_id']} src='../assets/img/close.png'>";
+			$path = NEWS_PHOTO_FOLDER.$value['picture'];
+			$img = ($value['picture'] != '' && $value['picture'] != null) ? "<img class='news-img' id='news-img' src='{$path}'>" : '';
         echo "
-            <div class='news-item'>
-            <h2 class='news-header'>
+			<div class='news-item'>
+			{$img}
+			<h2 class='news-header'>
             <span class='news-date'>{$value['date']}</span>
             {$btns}
             {$value['header']}
             </h2>
-            <p class='news-content'>{$value['content']}</p>
+			<p class='news-content'>
+				{$value['content']}
+			</p>
             </div>
             ";
     }
@@ -33,6 +35,10 @@
 <script src='../assets/js/explorer.js'></script>
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
+
+	document.body.addEventListener('click', (event)=>{
+		if (event.target.id == 'news-img') event.target.classList.toggle('news-img-large');
+	})
 
     let itemTimeout = 50;
     let newsList = document.querySelectorAll('.news-item');

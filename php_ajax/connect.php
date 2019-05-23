@@ -5,6 +5,7 @@
     const DB_PASS = '';
     const AUTHOR_PHOTO_FOLDER = '../assets/img/authors/';
     const BOOK_PHOTO_FOLDER = '../assets/img/books/';
+    const NEWS_PHOTO_FOLDER = '../assets/img/news/';
     
     const ROOTFOLDER = "/bak/";
     
@@ -42,7 +43,7 @@
     }
 
     function getQuery($table, $query = '') {
-    return mysql_query("SELECT * FROM {$table} {$query}", $GLOBALS['db']);
+        return mysql_query("SELECT * FROM {$table} {$query}", $GLOBALS['db']);
     }
 
     function get_array($query) {

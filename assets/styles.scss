@@ -202,9 +202,7 @@ main {
         margin-right: 5px;
     }
     .news-item {
-        opacity: 0;
-    }
-    .news-header { // сторінка новини
+        margin: auto;
         @media (max-width:992px) {
             width: 80%;
         }
@@ -212,6 +210,24 @@ main {
             width: 95%;
         }
         width: 60%;
+        opacity: 0;
+        img {
+            &.news-img {
+            height: 8rem;
+            width: auto;
+            float: right;
+            margin-left: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            }
+            &.news-img-large {
+                height: auto;
+                box-shadow: 2px 2px 5px 5px gray;
+                max-width: 100%;
+            }
+        }
+    }
+    .news-header { // сторінка новини
         margin: auto;
         font-size: 1.5rem;
         margin-top: 20px;
@@ -224,19 +240,12 @@ main {
         margin-bottom: 10px;
     }
     .news-content {
-        @media (max-width:992px) {
-            width: 80%;
-        }
-        @media (max-width:768px) {
-            width: 95%;
-        }
-        width: 60%;
-        position: relative;
         margin: 15px auto;
         padding: 0 10px 15px;
         text-align: justify;
         font-size: 1rem;
         border-bottom: 1px solid $nav-bgc;
+        background-color: #fff;
     }
 
     .book-right { // список книг для сторінки "книги" та "автори"
