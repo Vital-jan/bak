@@ -304,7 +304,6 @@ main {
             &.img {
                 width: 35%;
                 text-align: center;
-        
             }
             img {
                 max-width: 80px;
@@ -701,6 +700,9 @@ form.admin {
     * {
         margin: 2px 0;
     }
+    li {
+        clear:both;
+    }
     .button {
         padding: 5px;
         border: 1px solid black;
@@ -716,6 +718,14 @@ form.admin {
     span {
         display: inline-block;
     }
+    #img-book {
+        width: auto;
+        max-height: 140px;
+        text-align: center;
+        float:right;
+        margin-right: 98px;
+    }
+
     select {
         padding: 5px;
     }
@@ -758,7 +768,10 @@ form.admin {
         width: 30%;
         overflow-x: hidden;
         margin-bottom: 10px;
-        height: 5em;
+        height: 7em;
+        float:left;
+        display: block;
+        margin-right: 20px;
         
         img {
             max-width: 1em;
@@ -826,4 +839,23 @@ form.admin {
     }
 } // form.admin
 
+form#change-psw {
+    border: 1px solid $nav-bgc;
+    border-radius: 10px;
+    width: 30%;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: none;
+    * {
+        margin-bottom: 10px;
+        display: block;
+    }
+    input {
+        width: 60%;
+    }
+    span {
+        font-size: 0.8em;
+        color: red;
+    }
+}
 } // bak-project

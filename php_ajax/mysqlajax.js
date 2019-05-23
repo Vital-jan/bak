@@ -28,15 +28,16 @@ function sendMail (mailTo, subj, message, from, action, phpPath = '') {
 } // function
 
 // -------------------------------------------------
-function ajax(query, action, phpPath=''){
+function ajax(query, action, file, phpPath=''){
   // возвращает результат fetch запроса в виде JSON
   // query - тело ajax запроса
   // action - функция-обработчик результата запроса
+  // file - .php файл обработчик запроса
   // [phpPath] - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
 // -------------------------------------------------
   let data = new FormData;
   data.append('body', query);
-  fetch(phpPath, {
+  fetch(phpPath + '/' + file, {
       method: "POST",
       body: data
     }) 
@@ -248,6 +249,7 @@ if (!fileName) return false;
     function htmlEncode(str) {
 // -------------------------------------------------
 // убирает спецсимволы и возвращает строку в том виде, в котором она отображается браузером.
+// заменяет <br> и <br/> на \n
 // Применяется для полей input, значение которых получено из БД.
     while (str.search('<br>') != -1) str = str.replace('<br>','~~~');
     while (str.search('<br/>') != -1) str = str.replace('<br/>','~~~');
@@ -262,3 +264,21 @@ if (!fileName) return false;
     while (str.search('~~~') != -1) str = str.replace('~~~', '\n');
     return str;
     }
+
+// ПРИМЕРЫ: ==============================================================
+// вызов ajax
+    // ajax(body, (param)=>{
+    //     if (param.confirm) {
+    //         // анализируем ответ сервера
+    //     }
+    // }, 'checkpass.php', '<?=ROOTFOLDER?>admin'/* ROOTFOLDER/admin - путь к папке с файлом checkpass.php*/);
+    
+    // ----- файл checkpass.php: --------------------------
+    // <?
+    // $array = array('confirm'=>0);
+    // if (isset($_POST)) {
+    //     if ($_POST['body'] == 'истинное выражение') $array['confirm'] = 1;
+    // }
+
+    // exit (json_encode($array));
+    // ?>

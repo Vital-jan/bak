@@ -235,21 +235,27 @@
                     </select>
                 </li>
 
-				<li><textarea placeholder='Опис книги' name='describe' rows=5></textarea></li>
+                <li><textarea placeholder='Опис книги' name='describe' rows=5></textarea></li>
+                
+                <ul id="bookauthor-select">
+                    <?=$authors?>
+                </ul>
+                
+                <?=$picture_list?> 
+
                 <li>
                     <ul id="bookauthor"></ul>
+                    <img id="img-book" class="book-img" src="">
+                    Ціна:<input style='width:30%' type='text' placeholder='Ціна' name='price'>
+                    <br>
+                    Наявність:
+                        <select name="available">
+                            <option value="" id="available"></option>
+                            <option value="0" id="available">Ні</option>
+                            <option value="1" id="available">Так</option>
+                        </select>
                 </li>
-                <ul id="bookauthor-select">
-                <?=$authors?>
-                </ul>
-                <?=$picture_list?> 
-				<li>Ціна:<input style='width:30%' type='text' placeholder='Ціна' name='price'>
-				Наявність:
-                    <select name="available">
-                        <option value="" id="available"></option>
-                        <option value="0" id="available">Ні</option>
-                        <option value="1" id="available">Так</option>
-                    </select>
+                <li>
                 </li>
                 <hr>
                 <li>Зображення:<input style='width:20%' type='text' placeholder='Оберіть зображення...' name='picture' disabled>
@@ -289,7 +295,7 @@
 
 				} // збереження форми в базі
 			},
-            '80%', 500); // modalwindow
+            '80%', '70%'); // modalwindow
 
 
 document.querySelector('#picture-choice').addEventListener('click', (event)=>{ // вибір зображення
@@ -368,7 +374,8 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
 				formAdmin.book.value = response[0].book;
 				formAdmin.describe.value = response[0].describe;
 				formAdmin.price.value = response[0].price;
-				formAdmin.picture.value = response[0].picture;
+                formAdmin.picture.value = response[0].picture;
+                document.querySelector('form.admin #img-book').setAttribute('src', '<?=BOOK_PHOTO_FOLDER?>' + response[0].picture);
                 selectRefresh('available', response[0].available);
                 selectRefresh('folder-select', response[0].folder);
                 bookauthorCreate(item);

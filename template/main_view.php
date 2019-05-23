@@ -6,9 +6,10 @@ $query = mysql_query("SELECT news.date, news.content FROM news WHERE deleted = 0
 $news = array();
 
 while ($cRecord = mysql_fetch_assoc($query)) {
-    if ($cRecord['content'] != '') $news[] = $cRecord;
-
-}
+    $cRecord['content'] = strip_tags($cRecord['content']);
+    if ($cRecord['content'] != '') 
+        $news[] = $cRecord;
+    }
 
 $query = mysql_query("SELECT books.picture FROM books WHERE deleted = 0 ORDER BY RAND()");
 $books = array();
@@ -33,10 +34,10 @@ $login = getLogin();
 
 <div class="page" id='page-news'>
     <h4>Останні новини</h4>
-    <div class="page-in"><h5><?=strip_tags($news[3]['date'])?></h5><span><?=strip_tags($news[3]['content'])?></span></div>
-    <div class="page-in"><h5><?=strip_tags($news[2]['date'])?></h5><span><?=strip_tags($news[2]['content'])?></span></div>
-    <div class="page-in"><h5><?=strip_tags($news[1]['date'])?></h5><span><?=strip_tags($news[1]['content'])?></span></div>
-    <div class="page-in"><h5><?=strip_tags($news[0]['date'])?></h5><span><?=strip_tags($news[0]['content'])?></span></div>
+    <div class="page-in"><h5><?=($news[3]['date'])?></h5><span><?=($news[3]['content'])?></span></div>
+    <div class="page-in"><h5><?=($news[2]['date'])?></h5><span><?=($news[2]['content'])?></span></div>
+    <div class="page-in"><h5><?=($news[1]['date'])?></h5><span><?=($news[1]['content'])?></span></div>
+    <div class="page-in"><h5><?=($news[0]['date'])?></h5><span><?=($news[0]['content'])?></span></div>
 </div>
 
 <div class="page" id='page-books'>

@@ -1,5 +1,5 @@
 <?
-$query = mysql_query('SELECT admin.company, admin.address, admin.phone, admin.email, admin.fb, admin.fb_view FROM admin');
+$query = mysql_query('SELECT admin.company, admin.address, admin.phone, admin.email, admin.fb, admin.fb_view, admin.password FROM admin');
 $contacts = mysql_fetch_assoc($query);
 $query = getQuery('shops');
 $shops = array();
@@ -9,7 +9,17 @@ while ($cRecord = mysql_fetch_assoc($query)) {
 $login = getLogin();
 
 if ($login) {
-	echo "<button type='button' id='edit'> Редагувати контакти </button><br>"; 
+	echo "<button type='button' id='edit'> Редагувати контакти </button><br><br>"; 
+	echo "<button type='button' id='psw'> Змінити пароль </button><br><br>";
+	echo "
+		<form id='change-psw' name = 'changepsw' action = ''>
+		<input type='password' id='psw-old' placeholder='Поточний пароль'>
+		<input type='password' id='psw1' placeholder='Новий пароль'>
+		<input type='password' id='psw2' placeholder='Підтвердження паролю'>
+		<span id='psw-message'></span>
+		<button type='button' id='save-psw' id='save-psw'>Зберегти пароль</button>
+		</form>
+	";
 };
 
 ?>
@@ -74,6 +84,58 @@ if ($login) {
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
 	fade(document.querySelector('.main-content'), 300);
+
+	// змінити пароль
+	document.querySelector('#psw').addEventListener('click', (event)=>{
+		document.querySelector('#change-psw').style.display='block';
+	})
+
+	document.querySelector('#save-psw').addEventListener('click', (event)=>{
+		
+		let pswOld = document.querySelector('#psw-old').value;
+		let psw1 = document.querySelector('#psw1').value;
+		let psw2 = document.querySelector('#psw2').value;
+		let msg = document.querySelector('#psw-message');
+
+		if (pswOld == '' || pswOld == null) {
+			msg.innerHTML = 'Заповніть поле "Поточний пароль"';
+			return;
+		};
+
+		if (psw1.length < 6) {
+			msg.innerHTML = 'Введіть пароль не коротше 6 символів';
+			return;
+		}
+
+		if (!psw1 || !psw2) {
+			msg.innerHTML = 'Заповніть поля пароль та підтвердження паролю';
+			return;
+		}
+
+		if (psw1 != psw2) {
+			msg.innerHTML = 'Новий пароль не співпадає з підтвердженням паролю';
+			return;
+		}
+		
+		ajax(pswOld, (confirm)=>{ // перевірка старого паролю
+			if (confirm.confirm) {
+				queryUpdate('admin', `password = ${pswOld}`, [
+						['password', psw1]
+					], (response)=>{
+						if (!response.sql) {console.log(response)} else {
+				document.changepsw.reset();
+				msg.innerHTML = 'Новий пароль збережено.';
+				setTimeout(()=>{
+					msg.innerHTML = '';
+					document.querySelector('#change-psw').style.display = 'none'}, 4000);
+					};
+				}, '<?=PHP_PATH?>');
+
+			} else msg.innerHTML = 'Невірний поточний пароль';
+		}, 'checkpass.php', '<?=ROOTFOLDER?>admin');
+		
+	})
+// ----------------------
 
     if (document.querySelector('#edit')) document.querySelector('#edit').addEventListener('click', (event)=>{ // кнопка редагування контактів
         modalWindow('Контактна інформація. Редагування.',

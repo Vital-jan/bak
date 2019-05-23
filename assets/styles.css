@@ -927,6 +927,10 @@
   margin: 2px 0;
 }
 
+.bak-project form.admin li {
+  clear: both;
+}
+
 .bak-project form.admin .button {
   padding: 5px;
   border: 1px solid black;
@@ -943,6 +947,14 @@
 
 .bak-project form.admin span {
   display: inline-block;
+}
+
+.bak-project form.admin #img-book {
+  width: auto;
+  max-height: 140px;
+  text-align: center;
+  float: right;
+  margin-right: 98px;
 }
 
 .bak-project form.admin select {
@@ -994,7 +1006,10 @@
   width: 30%;
   overflow-x: hidden;
   margin-bottom: 10px;
-  height: 5em;
+  height: 7em;
+  float: left;
+  display: block;
+  margin-right: 20px;
 }
 
 .bak-project form.admin #bookauthor img, .bak-project form.admin #bookauthor-select img {
@@ -1076,5 +1091,28 @@
   height: 20px;
   border: 2px solid black;
   border-radius: 50%;
+}
+
+.bak-project form#change-psw {
+  border: 1px solid #9adff4;
+  border-radius: 10px;
+  width: 30%;
+  padding: 10px;
+  margin-bottom: 20px;
+  display: none;
+}
+
+.bak-project form#change-psw * {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.bak-project form#change-psw input {
+  width: 60%;
+}
+
+.bak-project form#change-psw span {
+  font-size: 0.8em;
+  color: red;
 }
 /*# sourceMappingURL=styles.css.map */
