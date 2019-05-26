@@ -29,7 +29,27 @@
 			</p>
             </div>
             ";
+	}
+	
+    // визначаємо зображення, пов'язані з новинами
+    $bookpict = array();
+    foreach($news as $key=>$value) {
+        $bookpict[$value['picture']] = $value['content'] ? true : false;
     }
+
+	// завантажуємо каталог зображень новин
+    $pictures = scandir(NEWS_PHOTO_FOLDER);
+    array_shift($pictures);
+    array_shift($pictures);
+    $picture_list = "<div id='picture-list'>";
+    $path = NEWS_PHOTO_FOLDER;
+    foreach($pictures as $value) {
+        $del = '';
+        if (!$bookpict[$value]) $del = "<img data-id='del' data-file='{$value}' class='del-picture' src='../assets/img/close.png'>";
+        $picture_list .= "<div><img src='{$path}{$value}'>${del}</div>";
+    }
+    $picture_list .= "</div>";
+
 ?>
 
 <script src='../assets/js/explorer.js'></script>
@@ -61,8 +81,18 @@ function addEdit(item) { // редагування та додавання за�
 				<li><input type='date' value='${cDate}' name='date'></li>
 				<li><input type='text' placeholder='Заголовок' name='header'></li>
                 <li><textarea name='content' rows='3' placeholder='Контент'></textarea></li>
-                <li><button type='button'>Обрати зображення</button></li>
-                <li><button type='button'>Завантажити зображення</button></li>
+                <li>
+				<img id="img-book" class="book-img" src="">
+
+                    Зображення: <input type='text' disabled='' name='picture' style='width:15%'>
+                    <button type='button' id='clear-btn'>Очистити зображення</button>
+                    <button type='button' id='change-btn'>Обрати зображення</button>
+                    <label class='button'>
+                        Завантажити зображення
+                        <input type='file' id='picture-upload' name="file" accept='image/*'></input>
+                    </label>
+                    <span class='wait'>Uploading... <img src='../assets/img/book.gif'></span>
+                </li>
 			</ul>
 			`
 			, ['+Зберегти', '-Скасувати'], (btn)=>{
@@ -72,7 +102,8 @@ function addEdit(item) { // редагування та додавання за�
 					queryInsert('news', [
 						['date', formAdmin.date.value],
 						['header', formAdmin.header.value],
-						['content', formAdmin.content.value]
+						['content', formAdmin.content.value],
+						['picture', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
 							alert ('Запис додано.');
@@ -84,7 +115,8 @@ function addEdit(item) { // редагування та додавання за�
 					queryUpdate('news', `news_id=${item}`, [
 						['date', formAdmin.date.value],
 						['header', formAdmin.header.value],
-						['content', formAdmin.content.value]
+						['content', formAdmin.content.value],
+						['picture', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
 							alert ('Запис змінено.');
@@ -95,7 +127,7 @@ function addEdit(item) { // редагування та додавання за�
 
 				} // збереження форми в базі
 			},
-			'80%', 300); // modalwindow
+			'80%', 420); // modalwindow
 
         } // addEditForm
         
@@ -110,6 +142,10 @@ function addEdit(item) { // редагування та додавання за�
 				formAdmin.date.value = response[0].date;
 				formAdmin.header.value = htmlEncode(response[0].header);
 				formAdmin.content.value = htmlEncode(response[0].content);
+				formAdmin.picture.value = response[0].picture;
+				let imgBook = document.querySelector('form.admin #img-book');
+                if (response[0].picture) {imgBook.setAttribute('src', '<?=NEWS_PHOTO_FOLDER?>' + response[0].picture)}
+                else imgBook.style.display = 'none';
 			}, '<?=PHP_PATH?>')
 		}
 

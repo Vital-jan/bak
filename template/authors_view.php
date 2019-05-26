@@ -7,17 +7,10 @@
     // завантажуємо з бд авторів
     $where = $current_author ? "where author_id={$current_author}":'';
     
-    // $query = mysql_query(
-    //     "SELECT authors.author, authors.author_id, cnt, authors.photo, authors.describe FROM authors LEFT JOIN (SELECT distinct bookauthor.author, Count(*) as cnt FROM bookauthor group by bookauthor.author ) AS authorcount ON authors.author_id = authorcount.author
-    // {$where} 
-    // ORDER BY cnt DESC"
-    // );
-    $selectauthors = "select *, count(*) as cnt from 
-    (select distinct bookauthor.book, bookauthor.author, authors.author_id, authors.author as authorname, `authors`.describe, `authors`.photo from bookauthor left join authors on bookauthor.author=author_id)
-    as s1 
-    {$where}
-    group by author 
-    order by cnt desc";
+    $selectauthors = "select `authors`.author as authorname, `authors`.author_id, `authors`.describe, `authors`.photo, sel3.cnt from authors left join 
+    (select author, count(*) as cnt from (select distinct author, book from bookauthor) as sel2 group by author) as sel3
+    on `authors`.author_id = sel3.author {$where} order by cnt desc";
+
     $query = mysql_query($selectauthors);
     $authors = array();
     while ($cRecord = mysql_fetch_assoc($query)) {
@@ -105,6 +98,25 @@
 
     }
     echo "</ul>";
+    // визначаємо зображення, пов'язані з авторами
+    $author_pict = array();
+    foreach($authors as $key=>$value) {
+        $author_pict[$value['photo']] = $value['authorname'] ? true : false;
+    }
+var_dump($author_pict);
+    // завантажуємо каталог зображень авторів
+    $pictures = scandir(AUTHOR_PHOTO_FOLDER);
+    array_shift($pictures);
+    array_shift($pictures);
+    $picture_list = "<div id='picture-list'>";
+    $path = AUTHOR_PHOTO_FOLDER;
+    foreach($pictures as $value) {
+        $del = '';
+        if (!$author_pict[$value]) $del = "<img data-id='del' data-file='{$value}' class='del-picture' src='../assets/img/close.png'>";
+        $picture_list .= "<div><img src='{$path}{$value}'>${del}</div>";
+    }
+    $picture_list .= "</div>";
+    
 
     // список книг
     echo "<div class='book-right'>";
@@ -195,8 +207,19 @@ function addEdit(item) {
 			<ul>
 				<li><input type='text' placeholder='Автор' name='author'></li>
                 <li><textarea name='describe' rows='5' placeholder='Про автора...'></textarea></li>
-                <li><button type='button'>Обрати зображення</button></li>
-                <li><button type='button'>Завантажити зображення</button></li>
+                <li>
+                <img id="img-book" class="book-img" src="">
+
+                    Зображення: <input type='text' disabled='' name='picture' style='width:15%'>
+                    <button type='button' id='clear-btn'>Очистити зображення</button>
+                    <button type='button' id='change-btn'>Обрати зображення</button>
+                    <br>
+                    <label class='button'>
+                        Завантажити зображення
+                        <input type='file' id='picture-upload' name="file" accept='image/*'></input>
+                    </label>
+                    <span class='wait'>Uploading... <img src='../assets/img/book.gif'></span>
+                </li>
 			</ul>
 			`
 			, ['+Зберегти', '-Скасувати'], (btn)=>{
@@ -205,7 +228,8 @@ function addEdit(item) {
 					if (!item) { // додаваня запису
 					queryInsert('authors', [
 						['author', formAdmin.author.value],
-						['describe', formAdmin.describe.value]
+						['describe', formAdmin.describe.value],
+						['photo', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
 							alert ('Запис додано.');
@@ -216,7 +240,8 @@ function addEdit(item) {
 					if (item != null) { // редагування запису
 					queryUpdate('authors', `authors.author_id=${item}`, [
 						['author', formAdmin.author.value],
-						['describe', formAdmin.describe.value]
+						['describe', formAdmin.describe.value],
+						['photo', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
 							alert ('Запис змінено.');
@@ -227,7 +252,7 @@ function addEdit(item) {
 
 				} // збереження форми в базі
 			},
-			'80%', 300); // modalwindow
+			'80%', 400); // modalwindow
 
         } // addEditForm
 
@@ -241,6 +266,11 @@ function addEdit(item) {
                 // наповнюємо поля форми
 				formAdmin.author.value = response[0].author;
 				formAdmin.describe.value = response[0].describe;
+				formAdmin.picture.value = response[0].photo;
+                let imgBook = document.querySelector('form.admin #img-book');
+                if (response[0].photo) {imgBook.setAttribute('src', '<?=AUTHOR_PHOTO_FOLDER?>' + response[0].photo)}
+                else imgBook.style.display = 'none';
+
 			}, '<?=PHP_PATH?>')
 		}
 

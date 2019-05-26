@@ -712,7 +712,7 @@ form.admin {
     li {
         clear:both;
     }
-    .button {
+    button, .button {
         padding: 5px;
         border: 1px solid black;
         border-radius: 5px;
@@ -787,7 +787,7 @@ form.admin {
             max-height: 1em;
             cursor: pointer;
             position: relative;
-            top: 2px;
+            top: 5px;
             margin-right: 3px;
         }
     }
@@ -806,6 +806,7 @@ form.admin {
     }
     #picture-list {
         display: none;
+        z-index: 999;
         position: absolute;
         background-color: lightgray;
         top: 20px;

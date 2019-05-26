@@ -11,12 +11,14 @@
         }
     }
     
+    // визначаємо зображення, пов'язані з книжками
     $bookpict = array();
     foreach($books as $key=>$value) {
-        $bookpict[$value['picture']] = $value['book'];
+
+        $bookpict[$value['picture']] = $value['book'] ? true : false;
     }
     
-    // каталог зображень книг (html)
+    // завантажуємо каталог зображень книг (html)
     $pictures = scandir(BOOK_PHOTO_FOLDER);
     array_shift($pictures);
     array_shift($pictures);
@@ -386,7 +388,9 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
 				formAdmin.describe.value = response[0].describe;
 				formAdmin.price.value = response[0].price;
                 formAdmin.picture.value = response[0].picture;
-                document.querySelector('form.admin #img-book').setAttribute('src', '<?=BOOK_PHOTO_FOLDER?>' + response[0].picture);
+                let imgBook = document.querySelector('form.admin #img-book');
+                if (response[0].picture) {imgBook.setAttribute('src', '<?=BOOK_PHOTO_FOLDER?>' + response[0].picture)}
+                else imgBook.style.display = 'none';
                 selectRefresh('available', response[0].available);
                 selectRefresh('folder-select', response[0].folder);
                 bookauthorCreate(item);
