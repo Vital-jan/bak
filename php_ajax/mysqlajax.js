@@ -54,7 +54,7 @@ function ajax(query, action, file, phpPath=''){
   } // function
 
 // -------------------------------------------------
-function upLoad(file, action, phpPath='', type = '', size = 0){
+function upLoad(file, path, action, phpPath='', type = '', size = 0){
   // возвращает JSON вида: {filename, error, upload} при успешном - error=0, upload=true.
   // error == 1: превышен размер файла; error == 2: нарушен тип файла
   // file - объект files[0], возвращаемый input type='file'
@@ -65,6 +65,7 @@ function upLoad(file, action, phpPath='', type = '', size = 0){
 // -------------------------------------------------
   let data = new FormData;
   data.append('file', file);
+  data.append('path', path);
   data.append('type', type);
   data.append('size', size);
 

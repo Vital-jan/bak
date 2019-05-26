@@ -98,12 +98,13 @@
 
     }
     echo "</ul>";
+
     // визначаємо зображення, пов'язані з авторами
     $author_pict = array();
     foreach($authors as $key=>$value) {
         $author_pict[$value['photo']] = $value['authorname'] ? true : false;
     }
-var_dump($author_pict);
+
     // завантажуємо каталог зображень авторів
     $pictures = scandir(AUTHOR_PHOTO_FOLDER);
     array_shift($pictures);
@@ -211,9 +212,10 @@ function addEdit(item) {
                 <img id="img-book" class="book-img" src="">
 
                     Зображення: <input type='text' disabled='' name='picture' style='width:15%'>
-                    <button type='button' id='clear-btn'>Очистити зображення</button>
-                    <button type='button' id='change-btn'>Обрати зображення</button>
+                    <button type='button' id='picture-clear'>Очистити зображення</button>
+                    <button type='button' id='picture-choice'>Обрати зображення</button>
                     <br>
+                    <?=$picture_list?>
                     <label class='button'>
                         Завантажити зображення
                         <input type='file' id='picture-upload' name="file" accept='image/*'></input>
@@ -232,7 +234,7 @@ function addEdit(item) {
 						['photo', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис додано.');
+							// alert ('Запис додано.');
 							document.location.reload(true);
 						};
 					}, '<?=PHP_PATH?>');
@@ -244,7 +246,7 @@ function addEdit(item) {
 						['photo', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис змінено.');
+							// alert ('Запис змінено.');
 							document.location.reload(true);
 						};
 					}, '<?=PHP_PATH?>');
@@ -273,6 +275,56 @@ function addEdit(item) {
 
 			}, '<?=PHP_PATH?>')
 		}
+
+// ---------------------------------------------------------------------------------------------------------------------
+let formAdmin = document.forms.addEdit;
+
+document.querySelector('#picture-choice').addEventListener('click', (event)=>{ // вибір зображення
+    document.querySelector('#picture-list').style.display = 'flex';
+})
+
+document.querySelector('#picture-list').addEventListener('mouseleave', (event)=>{ // закриття вікна вибору зображень
+    event.target.style.display = 'none';
+})
+
+document.querySelector('#picture-list').addEventListener('click', (event)=>{ // видалення зображення (лише тих, що не прив'язані до жодної книги)
+    if (event.target.tagName == 'IMG') {
+        if (event.target.dataset.id == 'del') {
+            if (confirm(`Видалити ${event.target.dataset.file} ?`)) {
+                queryDelFile(`<?=AUTHOR_PHOTO_FOLDER?>${event.target.dataset.file}`, (response)=>{
+                    if (response.error == 0) {alert ('Файл видалено.')} else alert('Помилка! Файл не видалено.');
+                }, '<?=PHP_PATH?>')
+            }
+            return;
+        }
+        let l = '<?=AUTHOR_PHOTO_FOLDER?>'.length;
+        let s = event.target.getAttribute('src');
+        formAdmin.picture.value = s.substr(l, s.length);
+        event.currentTarget.style.display = 'none';
+        }
+})
+
+document.querySelector('#picture-upload').addEventListener('change', (event)=>{ // завантаження зображення
+    document.querySelector('.wait').style.visibility = 'visible';
+    setTimeout(()=>{
+    document.querySelector('.wait').style.visibility = 'hidden';
+    upLoad(event.target.files[0], 'assets/img/authors/', (response)=>{
+        if (response.error == 0 && response.upload) {
+            formAdmin.picture.value = response.filename;
+            alert(`Файл ${response.filename} завантажено.`);
+        }
+        if (response.error == 1) alert("Перевищено розмір файлу 200Mb.")
+        if (response.error == 2) alert("Невірний формат файлу.")
+        console.log(response.upload)
+    }, '<?=PHP_PATH?>', 'image', 209715200)
+}, 1000);
+})
+
+document.querySelector('#picture-clear').addEventListener('click', (event)=>{ // очистка зображення
+    formAdmin.picture.value = '';
+})
+
+// -------------------------------
 
 } // addEdit
 

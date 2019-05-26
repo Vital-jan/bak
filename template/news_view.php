@@ -81,12 +81,15 @@ function addEdit(item) { // редагування та додавання за�
 				<li><input type='date' value='${cDate}' name='date'></li>
 				<li><input type='text' placeholder='Заголовок' name='header'></li>
                 <li><textarea name='content' rows='3' placeholder='Контент'></textarea></li>
-                <li>
+				<li>
+				<?=$picture_list?>
+
 				<img id="img-book" class="book-img" src="">
 
                     Зображення: <input type='text' disabled='' name='picture' style='width:15%'>
-                    <button type='button' id='clear-btn'>Очистити зображення</button>
-                    <button type='button' id='change-btn'>Обрати зображення</button>
+                    <button type='button' id='picture-clear'>Очистити зображення</button>
+					<button type='button' id='picture-choice'>Обрати зображення</button>
+					<br>
                     <label class='button'>
                         Завантажити зображення
                         <input type='file' id='picture-upload' name="file" accept='image/*'></input>
@@ -148,7 +151,55 @@ function addEdit(item) { // редагування та додавання за�
                 else imgBook.style.display = 'none';
 			}, '<?=PHP_PATH?>')
 		}
+// ---------------------------------------------------------------------------------------------------------------------
+let formAdmin = document.forms.addEdit;
 
+document.querySelector('#picture-choice').addEventListener('click', (event)=>{ // вибір зображення
+    document.querySelector('#picture-list').style.display = 'flex';
+})
+
+document.querySelector('#picture-list').addEventListener('mouseleave', (event)=>{ // закриття вікна вибору зображень
+    event.target.style.display = 'none';
+})
+
+document.querySelector('#picture-list').addEventListener('click', (event)=>{ // видалення зображення (лише тих, що не прив'язані до жодної книги)
+    if (event.target.tagName == 'IMG') {
+        if (event.target.dataset.id == 'del') {
+            if (confirm(`Видалити ${event.target.dataset.file} ?`)) {
+                queryDelFile(`<?=AUTHOR_PHOTO_FOLDER?>${event.target.dataset.file}`, (response)=>{
+                    if (response.error == 0) {alert ('Файл видалено.')} else alert('Помилка! Файл не видалено.');
+                }, '<?=PHP_PATH?>')
+            }
+            return;
+        }
+        let l = '<?=NEWS_PHOTO_FOLDER?>'.length;
+        let s = event.target.getAttribute('src');
+        formAdmin.picture.value = s.substr(l, s.length);
+        event.currentTarget.style.display = 'none';
+        }
+})
+
+document.querySelector('#picture-upload').addEventListener('change', (event)=>{ // завантаження зображення
+    document.querySelector('.wait').style.visibility = 'visible';
+    setTimeout(()=>{
+    document.querySelector('.wait').style.visibility = 'hidden';
+    upLoad(event.target.files[0], 'assets/img/news/', (response)=>{
+        if (response.error == 0 && response.upload) {
+            formAdmin.picture.value = response.filename;
+            alert(`Файл ${response.filename} завантажено.`);
+        }
+        if (response.error == 1) alert("Перевищено розмір файлу 200Mb.")
+        if (response.error == 2) alert("Невірний формат файлу.")
+        console.log(response.upload)
+    }, '<?=PHP_PATH?>', 'image', 209715200)
+}, 1000);
+})
+
+document.querySelector('#picture-clear').addEventListener('click', (event)=>{ // очистка зображення
+    formAdmin.picture.value = '';
+})
+
+// -------------------------------
 }
 
 	document.body.addEventListener('click', (event)=>{ // обробка кліку edit, del та add

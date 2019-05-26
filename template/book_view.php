@@ -17,7 +17,7 @@
 
         $bookpict[$value['picture']] = $value['book'] ? true : false;
     }
-    
+
     // завантажуємо каталог зображень книг (html)
     $pictures = scandir(BOOK_PHOTO_FOLDER);
     array_shift($pictures);
@@ -330,7 +330,7 @@ document.querySelector('#picture-upload').addEventListener('change', (event)=>{ 
     document.querySelector('.wait').style.visibility = 'visible';
     setTimeout(()=>{
     document.querySelector('.wait').style.visibility = 'hidden';
-    upLoad(event.target.files[0], (response)=>{
+    upLoad(event.target.files[0], 'assets/img/books/', (response)=>{
         if (response.error == 0 && response.upload) {
             formAdmin.picture.value = response.filename;
             alert(`Файл ${response.filename} завантажено.`);
