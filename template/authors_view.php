@@ -182,23 +182,23 @@
 // плавне відображення списку авторів
 let authorItemList = document.querySelectorAll('li.author');
 
-let itemTimeout = 30;
+let itemTimeout = 10;
 authorItemList.forEach((i)=>{
     setTimeout(()=>{
-        fade(i, 200);
+        fade(i, 30);
     }, itemTimeout);
-    itemTimeout += 30;
+    itemTimeout += 1;
 });
 
 // плавне відображення списку книг
 let bookItemList = document.querySelectorAll('.book-item');
 
-itemTimeout = 50;
+itemTimeout = 10;
 bookItemList.forEach((i)=>{
     setTimeout(()=>{
-        fade(i, 200);
+        fade(i, 100);
     }, itemTimeout);
-    itemTimeout += 50;
+    itemTimeout += 10;
 })
 
 function addEdit(item) {

@@ -15,7 +15,8 @@
             $btns = '';
 			if ($login) $btns = "<img class='edit-button' id='news-edit' data-id={$value['news_id']} src='../assets/img/edit-button.png'><img class='edit-button' id='news-del' data-id={$value['news_id']} src='../assets/img/close.png'>";
 			$path = NEWS_PHOTO_FOLDER.$value['picture'];
-			$img = ($value['picture'] != '' && $value['picture'] != null) ? "<img class='news-img' id='news-img' src='{$path}'>" : '';
+            $img = ($value['picture'] != '' && $value['picture'] != null) ? "<img class='news-img' id='news-img' src='{$path}'>" : '';
+            $value['content'] = html_entity_decode($value['content'], ENT_QUOTES);
         echo "
 			<div class='news-item'>
 			{$img}
@@ -60,14 +61,14 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		if (event.target.id == 'news-img') event.target.classList.toggle('news-img-large');
 	})
 
-    let itemTimeout = 50;
+    let itemTimeout = 0;
     let newsList = document.querySelectorAll('.news-item');
     
     newsList.forEach((i)=>{
         setTimeout(()=>{
-            fade(i, 300);
+            fade(i, 0);
         }, itemTimeout);
-        itemTimeout +=50;
+        itemTimeout +=0;
     })
 
 function addEdit(item) { // редагування та додавання запису (item == null: додавання, item!=null - редагування, де item - ідентифікатор - ключ БД)
@@ -79,8 +80,9 @@ function addEdit(item) { // редагування та додавання за�
 			<form name='addEdit'  class="admin">
 			<ul>
 				<li><input type='date' value='${cDate}' name='date'></li>
-				<li><input type='text' placeholder='Заголовок' name='header'></li>
-                <li><textarea name='content' rows='3' placeholder='Контент'></textarea></li>
+                <li><input type='text' placeholder='Заголовок' name='header'></li>
+                <li style='font-size: 0.8em'>Щоб вставити посилання, утримуйте Ctrl та клікніть лівою кнопкою в місці вставки</li>
+                <li><textarea name='content' rows='5' placeholder='Контент'></textarea></li>
 				<li>
 				<?=$picture_list?>
 
@@ -122,7 +124,7 @@ function addEdit(item) { // редагування та додавання за�
 						['picture', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис змінено.');
+							// alert ('Запис змінено.');
 							document.location.reload(true);
 						};
 					}, '<?=PHP_PATH?>');
@@ -154,6 +156,14 @@ function addEdit(item) { // редагування та додавання за�
 // ---------------------------------------------------------------------------------------------------------------------
 let formAdmin = document.forms.addEdit;
 
+formAdmin.content.addEventListener('click', (event)=>{// вставка посилання по ctrl + click
+    if (event.ctrlKey) {
+        let str = event.target.value;
+        str = str.substr(0,event.target.selectionStart) + localStorage.getItem('link') + str.substr(event.target.selectionStart, str.length);
+        event.target.value = str;
+    }
+    }) 
+
 document.querySelector('#picture-choice').addEventListener('click', (event)=>{ // вибір зображення
     document.querySelector('#picture-list').style.display = 'flex';
 })
@@ -166,7 +176,7 @@ document.querySelector('#picture-list').addEventListener('click', (event)=>{ // 
     if (event.target.tagName == 'IMG') {
         if (event.target.dataset.id == 'del') {
             if (confirm(`Видалити ${event.target.dataset.file} ?`)) {
-                queryDelFile(`<?=AUTHOR_PHOTO_FOLDER?>${event.target.dataset.file}`, (response)=>{
+                queryDelFile(`<?=NEWS_PHOTO_FOLDER?>${event.target.dataset.file}`, (response)=>{
                     if (response.error == 0) {alert ('Файл видалено.')} else alert('Помилка! Файл не видалено.');
                 }, '<?=PHP_PATH?>')
             }
@@ -188,10 +198,10 @@ document.querySelector('#picture-upload').addEventListener('change', (event)=>{ 
             formAdmin.picture.value = response.filename;
             alert(`Файл ${response.filename} завантажено.`);
         }
-        if (response.error == 1) alert("Перевищено розмір файлу 200Mb.")
+        if (response.error == 1) alert("Перевищено розмір файлу 2Mb.")
         if (response.error == 2) alert("Невірний формат файлу.")
-        console.log(response.upload)
-    }, '<?=PHP_PATH?>', 'image', 209715200)
+        if (response.error == 3) alert(response.errormessage)
+    }, '<?=PHP_PATH?>', 'image', 2097152)
 }, 1000);
 })
 

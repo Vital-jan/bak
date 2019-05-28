@@ -1,9 +1,16 @@
 <? // Загрузка графического файла на сервер
 require 'connect.php';
- $response = array('filename'=>$_FILES['file']['name'], 'error'=>0, 'upload'=>false);
+if (!isset($_FILES) || !$_FILES['file']['size']) {
+    $response = array('error'=>3, 'errormessage'=>'Max upload filesize for this server: '.ini_get(upload_max_filesize));
+    exit (json_encode($response));
+}
+$response = array('filename'=>$_FILES['file']['name'], 'error'=>0, 'upload'=>false);
+
 //  проверка размера и типа файла
 //  error = 1: непр. размер
 //  error = 2: непр. формат
+//  error = 3: не передан аргумент $_FILES
+
  if ($_FILES['file']['size'] > $_POST['size'] && $_POST['size'] > 0) $response['error'] = 1;
  if (substr($_FILES['file']['type'], 0, 5) != 'image') $response['error'] = 2;
  

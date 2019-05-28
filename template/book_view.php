@@ -129,7 +129,10 @@
                 if ($value['folder'] == $current_folder) 
                 {
                     $btns = ''; // кнопки edit та del
-                    if ($login) $btns = "<img id='book-edit' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/edit-button.png'>"."<img id='book-del' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/close.png'>";
+                    if ($login) $btns = "<img id='book-edit' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/edit-button.png' title='Редагувати'> ".
+                    "<img id='book-del' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/close.png' title='Видалити'>".
+                    "<img id='copy-link' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/copylink.png' title='Скопіювати посилання'>"
+                    ;
 
                     $price = $value['price'] ? "Ціна: {$value['price']} грн" : '';
                     $available = $value['available'] ? "Наявність: Так" : 'Наявність: Ні';
@@ -404,8 +407,9 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
             editBook(el.dataset.id);
             return;
         }
+
         if (el.id == 'book-del') { // кнопка del
-            modalWindow('Видалення книги', 'Ви підтверджуєте видалення цієї книги?', ['Залишити', '-Видалити'], (n)=>{
+            modalWindow('Видалення книги', `Ви підтверджуєте видалення цієї книги ${el.parentElement.nextElementSibling.innerText}?`, ['Залишити', '-Видалити'], (n)=>{
 			if (n == 1) {
 				queryDelete('books', `book_id=${el.dataset.id}`, (response)=>{
 					if (!response.sql) {console.log(response)} else {
@@ -416,6 +420,11 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
 			}
 		}, '60%');
         return;
+        }
+
+        if (el.id == 'copy-link') { // кнопка 'копіювати'
+            localStorage.setItem('link',`<a href='<?=ROOTFOLDER?>books/?folder=<?=$current_folder?>&book=${el.dataset.id}'>${el.parentElement.nextElementSibling.innerText}</a>`);
+            return;
         }
 
         while (el != null && !el.matches('.book-item')) el = el.parentElement;
@@ -432,12 +441,12 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
 // плавне відображення списку книг
 let bookItemList = document.querySelectorAll('.book-item');
 
-let itemTimeout = 30;
+let itemTimeout = 10;
 bookItemList.forEach((i)=>{
     setTimeout(()=>{
-        fade(i, 300);
+        fade(i, 100);
     }, itemTimeout);
-    itemTimeout += 30;
+    itemTimeout += 5;
 })
 
 scrollToBook(currentBook);

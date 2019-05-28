@@ -68,7 +68,6 @@ function upLoad(file, path, action, phpPath='', type = '', size = 0){
   data.append('path', path);
   data.append('type', type);
   data.append('size', size);
-
   fetch(phpPath+'upload.php', {
       method: "POST",
       body: data
@@ -80,7 +79,7 @@ function upLoad(file, path, action, phpPath='', type = '', size = 0){
       })
       .then(action)
       .catch(function(error) {
-          alert('Error!' + error)
+          alert('Error by mysqlajax.js, function upLoad: ' + error);
       });
   } // function
 
