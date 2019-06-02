@@ -559,24 +559,64 @@ function runLine(text, el, time = 0) {
                 let opc = start;
                 let opcPlus = (finish - start) / fps; // дельта opacity
                 el.style.opacity = opc;
+                el.style.visibility = 'visible';
                 let interval = setInterval(function() {
-    
-                    if (start < finish) {
-                        if (opc < finish) {opc += opcPlus}
+                  
+                  if (start < finish) {
+                    if (opc < finish) {opc += opcPlus}
                     else {
-                        opc = finish;
-                        clearInterval(interval);
-                       }
+                      opc = finish;
+                      clearInterval(interval);
                     }
-    
-                    if (finish < start) {
-                        if (opc > finish) {opc += opcPlus}
+                  }
+                  
+                  if (finish < start) {
+                    if (opc > finish) {opc += opcPlus
+                    }
                     else {
-                        opc = finish;
-                        clearInterval(interval);
+                      opc = finish;
+                      if (finish == 0) el.style.visibility = 'hidden'; // прячем элемент, если его opacity в конце == 0
+                      clearInterval(interval);
                         }
                     }
                     
                 el.style.opacity = opc;
                 }, time / fps);
     }
+
+    // -------------------------------------------------------
+    function popUpWindow(text, action, top = 200, time = 1500/* затримка в мс */, color = '#000', bgc = '#FFF', zInd = 999) {
+    // -------------------------------------------------------
+      let id = 'pop-up-window';
+      let el = document.querySelector(`#${id}`);
+      if (!el) {
+          el = document.createElement('div');
+          el.setAttribute('id', id);
+          document.body.appendChild(el);
+          el.addEventListener('click', (event)=>{if (el.style.opacity == 1) fade(el, time * 0.2, 1, 0);})
+          el.addEventListener('mouseleave', (event)=>{if (el.style.opacity == 1) fade(el, time * 0.2, 1, 0);})
+      }
+          el.innerHTML = `<span>${text}</span>`;
+          el.style.opacity = 1;
+          el.style.visibility = 'visible';
+          el.style.position = 'absolute';
+          el.style.top = `${top + window.pageYOffset}px`;
+          el.style.left = '0';
+          el.style.right = '0';
+          el.style.height = '2.5rem';
+          el.style.width = '50%';
+          el.style.margin = 'auto';
+          el.style.color = `${color}`;
+          el.style.backgroundColor = `${bgc}`;
+          el.style.padding = '0.5rem';
+          el.style.textAlign = 'center';
+          el.style.zIndex = `${zInd}`;
+          el.style.borderRadius = `10px`;
+          el.style.border = `1px solid ${color}`;
+          el.style.boxShadow = `4px 4px 5px 2px grey`;
+          let stm = setTimeout(()=>{
+              if (el.style.opacity == 1) fade(el, time * 0.1, 1, 0);
+              if (action) action();
+          }, time * 0.9)
+  }
+  

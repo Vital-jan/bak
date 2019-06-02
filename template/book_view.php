@@ -167,6 +167,10 @@
     }
 
     let currentBook = <? if (isset ($book_item)) echo $book_item; else echo 'null'?>; // // обрана книга в разі переходу зі сторінки "Автори"
+    if (currentBook) {
+        let currentBookEl = document.querySelector(`[data-book='${currentBook}']`);
+        currentBookEl.classList.toggle('book-view');
+    }
 
     let margin = 0;
     let el = document.querySelectorAll('.book-left li');
@@ -196,8 +200,7 @@
 						['#folder', <?=$current_folder?>]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис додано.');
-							document.location.reload(true);
+							popUpWindow ('Запис додано.', ()=>{document.location.reload(true)});
 						};
 					}, '<?=PHP_PATH?>'); 
 				} // збереження форми в базі
@@ -280,8 +283,7 @@
 				let formAdmin = document.forms.editBook;
 				if (btn == 0) { // збереження форми в базі
 					if (!item) {
-                        alert('Помилка! Не обрано книгу.');
-                        return;
+                        popUpWindow('Помилка! Не обрано книгу.', ()=>{return});
 				    } 
 					if (item != null) { // редагування запису
 					queryUpdate('books', `books.book_id=${item}`, [
@@ -293,8 +295,7 @@
 						['folder', formAdmin.folder.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис змінено.');
-							document.location.reload(true);
+							popUpWindow ('Запис змінено.', ()=>{document.location.reload(true)});
 						};
 					}, '<?=PHP_PATH?>');
 				} // редагування запису
@@ -317,7 +318,7 @@ document.querySelector('#picture-list').addEventListener('click', (event)=>{ // 
         if (event.target.dataset.id == 'del') {
             if (confirm(`Видалити ${event.target.dataset.file} ?`)) {
                 queryDelFile(`<?=BOOK_PHOTO_FOLDER?>${event.target.dataset.file}`, (response)=>{
-                    if (response.error == 0) {alert ('Файл видалено.')} else alert('Помилка! Файл не видалено.');
+                    if (response.error == 0) {popUpWindow ('Файл видалено.')} else popUpWindow('Помилка! Файл не видалено.',undefined,undefined,undefined,'red');
                 }, '<?=PHP_PATH?>')
             }
             return;
@@ -331,16 +332,15 @@ document.querySelector('#picture-list').addEventListener('click', (event)=>{ // 
 
 document.querySelector('#picture-upload').addEventListener('change', (event)=>{ // завантаження зображення
     document.querySelector('.wait').style.visibility = 'visible';
-    setTimeout(()=>{
+    let stm = setTimeout(()=>{
     document.querySelector('.wait').style.visibility = 'hidden';
     upLoad(event.target.files[0], 'assets/img/books/', (response)=>{
         if (response.error == 0 && response.upload) {
             formAdmin.picture.value = response.filename;
-            alert(`Файл ${response.filename} завантажено.`);
+            popUpWindow(`Файл ${response.filename} завантажено.`);
         }
-        if (response.error == 1) alert("Перевищено розмір файлу 200Mb.")
-        if (response.error == 2) alert("Невірний формат файлу.")
-        console.log(response.upload)
+        if (response.error == 1) popUpWindow("Перевищено розмір файлу 200Mb.")
+        if (response.error == 2) popUpWindow("Невірний формат файлу.")
     }, '<?=PHP_PATH?>', 'image', 209715200)
 }, 1000);
 })
@@ -378,7 +378,7 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
     if (event.target.dataset.delauthor) {
         modalWindow(`Видалити автора`,`Бажаєте видалити автора ${event.target.dataset.delauthortext} з бази даних?`, ['Залишити', '-Видалити'], (n)=>{
             if (n == 1) queryDelete('authors', `author_id=${event.target.dataset.delauthor}`, (response)=>{
-                if (response.sql) alert('Видалено. Після поновлення сторінки автор видалиться з переліку.')
+                if (response.sql) popUpWindow('Видалено. Після поновлення сторінки автор видалиться з переліку.')
             }, '<?=PHP_PATH?>')
         }, undefined,undefined,undefined,undefined,undefined,undefined,undefined, 'modal-window2');
     }
@@ -413,8 +413,7 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
 			if (n == 1) {
 				queryDelete('books', `book_id=${el.dataset.id}`, (response)=>{
 					if (!response.sql) {console.log(response)} else {
-						alert ('Запис видалено.');
-						document.location.reload(true);
+						popUpWindow ('Запис видалено.', ()=>{document.location.reload(true)});
 					}
                 }, '<?=PHP_PATH?>');
 			}
@@ -467,8 +466,8 @@ function addEditFolder(item) { // редагування-додавання ро
 						['folder', formAdmin.folder.value],
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис додано.');
-							document.location.reload(true);
+							popUpWindow ('Запис додано.', ()=>{document.location.reload(true);});
+							
 						};
 					}, '<?=PHP_PATH?>');
 				} // додаваня запису
@@ -477,8 +476,7 @@ function addEditFolder(item) { // редагування-додавання ро
 						['folder', formAdmin.folder.value],
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис змінено.');
-							document.location.reload(true);
+							popUpWindow ('Запис змінено.', ()=>{document.location.reload(true)});
 						};
 					}, '<?=PHP_PATH?>');
 				} // редагування запису
@@ -522,8 +520,7 @@ document.querySelector('.book-left').addEventListener('click', (event)=>{ // о�
 			if (n == 1) {
 				queryDelete('folders', `folder_id=${event.target.dataset.id}`, (response)=>{
 					if (!response.sql) {console.log(response)} else {
-						alert ('Запис видалено.');
-						document.location.reload(true);
+						popUpWindow ('Запис видалено.', ()=>{document.location.reload(true)});
 					}
                 }, '<?=PHP_PATH?>');
 			}

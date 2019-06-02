@@ -234,8 +234,7 @@ function addEdit(item) {
 						['photo', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							// alert ('Запис додано.');
-							document.location.reload(true);
+							popUpWindow('Запис додано', ()=>{document.location.reload(true)});
 						};
 					}, '<?=PHP_PATH?>');
 				} // додаваня запису
@@ -246,8 +245,7 @@ function addEdit(item) {
 						['photo', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							// alert ('Запис змінено.');
-							document.location.reload(true);
+							popUpWindow('Запис змінено', ()=>{document.location.reload(true)});
 						};
 					}, '<?=PHP_PATH?>');
 				} // редагування запису
@@ -292,7 +290,7 @@ document.querySelector('#picture-list').addEventListener('click', (event)=>{ // 
         if (event.target.dataset.id == 'del') {
             if (confirm(`Видалити ${event.target.dataset.file} ?`)) {
                 queryDelFile(`<?=AUTHOR_PHOTO_FOLDER?>${event.target.dataset.file}`, (response)=>{
-                    if (response.error == 0) {alert ('Файл видалено.')} else alert('Помилка! Файл не видалено.');
+                    if (response.error == 0) {popUpWindow ('Файл видалено.')} else popUpWindow('Помилка! Файл не видалено.');
                 }, '<?=PHP_PATH?>')
             }
             return;
@@ -311,10 +309,10 @@ document.querySelector('#picture-upload').addEventListener('change', (event)=>{ 
     upLoad(event.target.files[0], 'assets/img/authors/', (response)=>{
         if (response.error == 0 && response.upload) {
             formAdmin.picture.value = response.filename;
-            alert(`Файл ${response.filename} завантажено.`);
+            popUpWindow(`Файл ${response.filename} завантажено.`);
         }
-        if (response.error == 1) alert("Перевищено розмір файлу 200Mb.")
-        if (response.error == 2) alert("Невірний формат файлу.")
+        if (response.error == 1) popUpWindow("Перевищено розмір файлу 200Mb.")
+        if (response.error == 2) popUpWindow("Невірний формат файлу.")
         console.log(response.upload)
     }, '<?=PHP_PATH?>', 'image', 209715200)
 }, 1000);
@@ -340,8 +338,7 @@ document.querySelector('#picture-clear').addEventListener('click', (event)=>{ //
 				if (n == 1) {
 					queryDelete('authors', `author_id=${event.target.dataset.id}`, (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис видалено.');
-							document.location.reload(true);
+							popUpWindow ('Запис видалено.', ()=>{document.location.reload(true)});
 						}
                     }, '<?=PHP_PATH?>');
 				}

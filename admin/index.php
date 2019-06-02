@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Log-in page</title>
     <script src='../php_ajax/mysqlajax.js'></script>
+    <script src='../assets/js/explorer.js'></script>
 </head>
     <?
     require "../php_ajax/connect.php";
@@ -23,10 +24,9 @@
 <script>
     function checkPassword(j) {
         if (j.login) {
-            alert('Вітаємо! Авторизація успішна. Щоб повернутись на головну сторінку натисніть "Ок"');
-            document.location.href = '<?=ROOTFOLDER?>';
+            popUpWindow('Вітаємо! Авторизація успішна.', ()=>{document.location.href = '<?=ROOTFOLDER?>'});
         }
-        else alert('Невірний пароль');
+        else popUpWindow('Невірний пароль');
     }
 
     document.querySelector('#login').addEventListener('click', ()=>{
@@ -36,10 +36,9 @@
 
     function remindPassword(j){
         if (j.send) {
-            alert('Пароль надіслано на email, зазначений в розділі "Контакти". Щоб повернутись на головну сторінку натисніть "Ок"');
-            document.location.href = '<?=ROOTFOLDER?>';
+            popUpWindow('Пароль надіслано на email, зазначений в розділі "Контакти".');
         }
-        else alert('Помилка надсилання паролю');
+        else popUpWindow('Помилка надсилання паролю');
     };
 
     document.querySelector('#remind').addEventListener('click', ()=>{

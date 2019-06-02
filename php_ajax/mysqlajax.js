@@ -35,10 +35,11 @@ function ajax(query, action, file, phpPath=''){
   // file - .php файл обработчик запроса
   // [phpPath] - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
 // -------------------------------------------------
+console.log('ajax')
   let data = new FormData;
   data.append('body', query);
   if (phpPath.length > 0) phpPath += '/' + file;
-  fetch(phpPath + file, {
+  fetch(phpPath, {
       method: "POST",
       body: data
     }) 
@@ -49,7 +50,7 @@ function ajax(query, action, file, phpPath=''){
       })
       .then(action)
       .catch(function(error) {
-          alert('Error!' + error)
+          alert('mysqlajax.js error!' + error)
       });
   } // function
 

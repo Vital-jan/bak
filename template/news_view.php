@@ -16,19 +16,22 @@
 			if ($login) $btns = "<img class='edit-button' id='news-edit' data-id={$value['news_id']} src='../assets/img/edit-button.png'><img class='edit-button' id='news-del' data-id={$value['news_id']} src='../assets/img/close.png'>";
 			$path = NEWS_PHOTO_FOLDER.$value['picture'];
             $img = ($value['picture'] != '' && $value['picture'] != null) ? "<img class='news-img' id='news-img' src='{$path}'>" : '';
+            $img_large = ($value['picture'] != '' && $value['picture'] != null) ? "<img class='news-img-large' id='news-img-large' src='{$path}'>" : '';
             $value['content'] = html_entity_decode($value['content'], ENT_QUOTES);
+            if (!$img) $no_picture = ' no-picture';
         echo "
 			<div class='news-item'>
-			{$img}
 			<h2 class='news-header'>
             <span class='news-date'>{$value['date']}</span>
             {$btns}
             {$value['header']}
             </h2>
-			<p class='news-content'>
-				{$value['content']}
+			<p class='news-content{$no_picture}'>
+            {$value['content']}
 			</p>
+			{$img}
             </div>
+			{$img_large}
             ";
 	}
 	
@@ -57,8 +60,14 @@
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
 
+let openPicture;
+
 	document.body.addEventListener('click', (event)=>{
-		if (event.target.id == 'news-img') event.target.classList.toggle('news-img-large');
+        if (openPicture) openPicture.style.display = 'none';
+		if (event.target.id == 'news-img') {
+            openPicture = event.target.parentElement.nextElementSibling;
+            openPicture.style.display = 'block';
+        }
 	})
 
     let itemTimeout = 0;
@@ -111,8 +120,7 @@ function addEdit(item) { // редагування та додавання за�
 						['picture', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис додано.');
-							document.location.reload(true);
+							popUpWindow ('Запис додано.', ()=>{document.location.reload(true);});
 						};
 					}, '<?=PHP_PATH?>');
 				} // додаваня запису
@@ -124,8 +132,7 @@ function addEdit(item) { // редагування та додавання за�
 						['picture', formAdmin.picture.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							// alert ('Запис змінено.');
-							document.location.reload(true);
+							popUpWindow ('Запис змінено.', ()=>{document.location.reload(true);});
 						};
 					}, '<?=PHP_PATH?>');
 				} // редагування запису
@@ -177,7 +184,7 @@ document.querySelector('#picture-list').addEventListener('click', (event)=>{ // 
         if (event.target.dataset.id == 'del') {
             if (confirm(`Видалити ${event.target.dataset.file} ?`)) {
                 queryDelFile(`<?=NEWS_PHOTO_FOLDER?>${event.target.dataset.file}`, (response)=>{
-                    if (response.error == 0) {alert ('Файл видалено.')} else alert('Помилка! Файл не видалено.');
+                    if (response.error == 0) {popUpWindow ('Файл видалено.')} else popUpWindow('Помилка! Файл не видалено.');
                 }, '<?=PHP_PATH?>')
             }
             return;
@@ -196,11 +203,11 @@ document.querySelector('#picture-upload').addEventListener('change', (event)=>{ 
     upLoad(event.target.files[0], 'assets/img/news/', (response)=>{
         if (response.error == 0 && response.upload) {
             formAdmin.picture.value = response.filename;
-            alert(`Файл ${response.filename} завантажено.`);
+            popUpWindow(`Файл ${response.filename} завантажено.`);
         }
-        if (response.error == 1) alert("Перевищено розмір файлу 2Mb.")
-        if (response.error == 2) alert("Невірний формат файлу.")
-        if (response.error == 3) alert(response.errormessage)
+        if (response.error == 1) popUpWindow("Перевищено розмір файлу 2Mb.", undefined, undefined, 4)
+        if (response.error == 2) popUpWindow("Невірний формат файлу.", undefined, undefined, 4)
+        if (response.error == 3) popUpWindow(response.errormessage)
     }, '<?=PHP_PATH?>', 'image', 2097152)
 }, 1000);
 })
@@ -224,8 +231,7 @@ document.querySelector('#picture-clear').addEventListener('click', (event)=>{ //
 				if (n == 1) {
 					queryDelete('news', `news_id=${event.target.dataset.id}`, (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис видалено.');
-							document.location.reload(true);
+							popUpWindow ('Запис видалено.', ()=>{document.location.reload(true);});
 						}
 					}, '<?=PHP_PATH?>');
 				}

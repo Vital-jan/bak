@@ -9,7 +9,7 @@
     
     const ROOTFOLDER = "/bak/";
     
-    const PHP_PATH = '/bak/php_ajax/'; // папка .php файлів та модулю mysqlajax.js
+    define ('PHP_PATH', ROOTFOLDER.'php_ajax/'); // папка .php файлів та модулю mysqlajax.js
 
     // в цій папці повинні знаходитись:
     // connect.php

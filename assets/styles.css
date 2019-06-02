@@ -26,13 +26,13 @@
 }
 
 .bak-project #login-button {
-  position: absolute;
+  position: fixed;
   z-index: 1000;
   opacity: 0;
 }
 
 .bak-project #logout-button {
-  position: absolute;
+  position: fixed;
   z-index: 1000;
   margin: 10px;
   padding: 5px;
@@ -252,8 +252,20 @@
 
 .bak-project main .news-item {
   margin: auto;
-  width: 60%;
+  width: 70%;
+  padding-bottom: 10px;
   opacity: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-line-pack: justify;
+      align-content: space-between;
+  border-bottom: 1px solid #9adff4;
 }
 
 @media (max-width: 992px) {
@@ -270,41 +282,65 @@
 
 .bak-project main .news-item img.news-img {
   height: 8rem;
+  margin-bottom: 10px;
   width: auto;
-  float: right;
   margin-left: 10px;
-  margin-bottom: 20px;
   cursor: pointer;
 }
 
-.bak-project main .news-item img.news-img-large {
-  height: auto;
-  -webkit-box-shadow: 2px 2px 5px 5px gray;
-          box-shadow: 2px 2px 5px 5px gray;
-  max-width: 100%;
-}
-
-.bak-project main .news-header {
-  margin: auto;
+.bak-project main .news-item .news-header {
   font-size: 1.5rem;
   margin-top: 20px;
   padding: 0 10px;
+  width: 100%;
+  text-align: justify;
+  margin-bottom: 10px;
 }
 
-.bak-project main .news-date {
+@media (max-width: 768px) {
+  .bak-project main .news-item .news-header {
+    width: 100%;
+  }
+}
+
+.bak-project main .news-item .news-date {
   display: block;
   font-style: italic;
   font-size: 1rem;
   margin-bottom: 10px;
+  width: 60%;
 }
 
-.bak-project main .news-content {
-  margin: 15px auto;
+.bak-project main .news-item .news-content {
+  width: 60%;
   padding: 0 10px 15px;
   text-align: justify;
   font-size: 1rem;
-  border-bottom: 1px solid #9adff4;
   background-color: #fff;
+}
+
+@media (max-width: 768px) {
+  .bak-project main .news-item .news-content {
+    width: 100%;
+  }
+}
+
+.bak-project main .news-item .news-content.no-picture {
+  width: 100%;
+}
+
+.bak-project main .news-item .news-content.active {
+  height: auto;
+}
+
+.bak-project main img.news-img-large {
+  display: none;
+  height: auto;
+  margin: auto;
+  -webkit-box-shadow: 2px 2px 5px 5px gray;
+          box-shadow: 2px 2px 5px 5px gray;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .bak-project main .book-right {

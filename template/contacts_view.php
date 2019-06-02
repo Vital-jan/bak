@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
             ['fb', f.fb.value],
             ['fb_view', +f.fb_view.checked],
             ], 
-            (response)=>{if (!response.sql) {alert('Помилка! Інформацію не збережено!')} else location.reload(true)}, '<?=PHP_PATH?>');
+            (response)=>{if (!response.sql) {popUpWindow('Помилка! Інформацію не збережено!')} else location.reload(true)}, '<?=PHP_PATH?>');
         },
         '80%', 300);
     });
@@ -196,8 +196,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 						['content', formAdmin.content.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис додано.');
-							document.location.reload(true);
+							popUpWindow ('Запис додано.', ()=>{document.location.reload(true);});
 						};
 					}, '<?=PHP_PATH?>');
 				} // додаваня запису
@@ -209,8 +208,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 						['content', formAdmin.content.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис змінено.');
-							document.location.reload(true);
+							popUpWindow ('Запис змінено.',()=>{document.location.reload(true);});
 						};
 					}, '<?=PHP_PATH?>');
 				} // редагування запису
@@ -273,8 +271,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 				if (n == 1) {
 					queryDelete('shops', `shop_id=${event.target.dataset.id}`, (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							alert ('Запис видалено.');
-							document.location.reload(true);
+							popUpWindow ('Запис видалено.', ()=>{document.location.reload(true);});
 						}
 					}, '<?=PHP_PATH?>');
 				}
