@@ -6,7 +6,7 @@ $query = mysql_query("SELECT news.date, news.content FROM news WHERE deleted = 0
 $news = array();
 
 while ($cRecord = mysql_fetch_assoc($query)) {
-    $cRecord['content'] = strip_tags($cRecord['content']);
+    $cRecord['content'] = html_entity_decode($cRecord['content'],ENT_QUOTES);
     if ($cRecord['content'] != '') 
         $news[] = $cRecord;
     }
@@ -17,7 +17,6 @@ while ($cRecord = mysql_fetch_assoc($query)) {
     if ($cRecord['picture'] != '') $books[] = $cRecord;
     }
 
-$login = getLogin();
 ?>
 
 <div class='main-content'>
@@ -61,6 +60,9 @@ $login = getLogin();
 <script>
     document.addEventListener("DOMContentLoaded", ()=>{
 
+    document.querySelector('#pages').addEventListener('click', (event)=>{ // блокуємо перехід за посиланням в елементі "новини"
+        event.preventDefault();
+    });
     if (document.querySelector('#edit')) document.querySelector('#edit').addEventListener('click', (event)=>{ // кнопка редагування
         modalWindow('Головна сторінка. Редагування.',
         '<textarea id="main-content" style="width:100%; height:50%;"><?=$content['main']?></textarea>',

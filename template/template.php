@@ -1,7 +1,7 @@
 <?
-session_start();
-	const PHPFOLDER = "/bak/php_ajax/";
-	require $_SERVER['DOCUMENT_ROOT'].PHPFOLDER."connect.php";
+require $_SERVER['DOCUMENT_ROOT']."/bak/"."php_ajax/connect.php";
+$login = getLogin();
+
 	$nav_array = array( // Головне меню
 		array(
 		"name"=>"Головна",
@@ -50,8 +50,8 @@ session_start();
 	</a>
 
 	<form action='<?=ROOTFOLDER?>admin/logout.php'>
+
 	<?
-	$login = getLogin();
 	if ($login) echo '<button id="logout-button" type=submit>Log out</button>';
 	?>
 	</form>
@@ -99,6 +99,7 @@ session_start();
 	let interval;
 	
 	let btnLogin = document.querySelector('#login-button')
+	
 	btnLogin.addEventListener('click', (event)=>{
 		if (btnLogin.style.opacity != 1) return;
 	});
@@ -108,6 +109,7 @@ session_start();
 			if (!'<?=$login?>') btnLogin.style.opacity=1;
 		}, 3000);
 	});
+
 	btnLogin.addEventListener('mouseout', (event)=>{
 		btnLogin.style.opacity=0;
 		clearTimeout(interval);

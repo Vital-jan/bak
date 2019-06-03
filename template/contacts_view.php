@@ -6,7 +6,7 @@ $shops = array();
 while ($cRecord = mysql_fetch_assoc($query)) {
 	$shops[] = $cRecord;
 }
-$login = getLogin();
+// $login = getLogin();
 
 if ($login) {
 	echo "<button type='button' id='edit'> Редагувати контакти </button><br><br>"; 

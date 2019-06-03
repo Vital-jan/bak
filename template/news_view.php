@@ -6,7 +6,7 @@
         $news[] = $cRecord;
     }
 
-    $login = getLogin();
+    // $login = getLogin();
 
     if ($login) {
         echo "<button type='button' id='news-add'> Додати новину </button><br>"; 

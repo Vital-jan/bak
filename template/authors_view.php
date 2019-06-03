@@ -2,7 +2,7 @@
 <?
     $current_author = $_GET['author'];
     $photo_folder = BOOK_PHOTO_FOLDER;
-    $login = getLogin();
+    // $login = getLogin();
 
     // завантажуємо з бд авторів
     $where = $current_author ? "where author_id={$current_author}":'';
