@@ -31,7 +31,7 @@ while ($cRecord = mysql_fetch_assoc($query)) {
 
 <div id="pages">
 
-<div class="page" id='page-news'>
+<div class="page" id='page-news' title="Докладніше - в розділі &laquo;Новини&raquo;">
     <h4>Останні новини</h4>
     <div class="page-in"><h5><?=($news[3]['date'])?></h5><span><?=($news[3]['content'])?></span></div>
     <div class="page-in"><h5><?=($news[2]['date'])?></h5><span><?=($news[2]['content'])?></span></div>
@@ -39,7 +39,7 @@ while ($cRecord = mysql_fetch_assoc($query)) {
     <div class="page-in"><h5><?=($news[0]['date'])?></h5><span><?=($news[0]['content'])?></span></div>
 </div>
 
-<div class="page" id='page-books'>
+<div class="page" id='page-books'  title="Докладніше - в розділі &laquo;Книги&raquo;">
     <h4>Наші книги</h4>
     <div class="page-in-right"><img src='assets/img/books/<?=$books[3]['picture']?>'></div>
     <div class="page-in-right"><img src='assets/img/books/<?=$books[2]['picture']?>'></div>

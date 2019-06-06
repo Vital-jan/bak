@@ -2,36 +2,48 @@
     $current_folder = $_GET['folder'];
     $book_item = $_GET['book'];
     
-    // книги
-    if ($current_folder || 1==1) {
-        $query = mysql_query("SELECT * FROM books WHERE deleted = 0 ORDER BY created DESC");
+    if ($current_folder) { // якщо обраний поточний розділ:
+        // завантажуємо перелік книг
+        $query = mysql_query("SELECT * FROM books WHERE books.folder=".$current_folder." ORDER BY created DESC");
         $books = array();
         while ($cRecord = mysql_fetch_assoc($query)) {
             $books[] = $cRecord;
         }
+        
+        // визначаємо зображення, пов'язані з книжками
+        $bookpict = array();
+        foreach($books as $key=>$value) {
+            $bookpict[$value['picture']] = $value['book'] ? true : false;
+        }
+        
+        // завантажуємо каталог зображень книг (html)
+        $pictures = scandir(BOOK_PHOTO_FOLDER);
+        array_shift($pictures);
+        array_shift($pictures);
+        $picture_list = "<div id='picture-list'>";
+        $path = BOOK_PHOTO_FOLDER;
+        foreach($pictures as $value) {
+            $del = '';
+            if (!$bookpict[$value]) $del = "<img data-id='del' data-file='{$value}' class='del-picture' src='../assets/img/close.png'>";
+            $picture_list .= "<div><img src='{$path}{$value}'>${del}</div>";
+        }
+        $picture_list .= "</div>";
+        
+        // створюємо перелік авторів через кому для кожної книги в масиві $books
+        require '../common/authors_assemble.php';
+        
+        // перелік авторів для поля додавання авторів
+        $query = mysql_query("select author_id, `authors`.author, cnt from authors left join (select *, count(*) as cnt from bookauthor group by author) as sel2 on author_id = sel2.author");
+        $authors = '';
+        while ($cRecord = mysql_fetch_assoc($query)) {
+            $del_btn = $cRecord['cnt'] == null ? "<img src='../assets/img/close.png' data-delauthor={$cRecord['author_id']} data-delauthortext={$cRecord['author']}>" : "";
+            $authors .= "<li data-id='{$cRecord['author_id']}'>{$del_btn}{$cRecord['author']}</li>";
+        }
     }
     
-    // визначаємо зображення, пов'язані з книжками
-    $bookpict = array();
-    foreach($books as $key=>$value) {
+    
 
-        $bookpict[$value['picture']] = $value['book'] ? true : false;
-    }
-
-    // завантажуємо каталог зображень книг (html)
-    $pictures = scandir(BOOK_PHOTO_FOLDER);
-    array_shift($pictures);
-    array_shift($pictures);
-    $picture_list = "<div id='picture-list'>";
-    $path = BOOK_PHOTO_FOLDER;
-    foreach($pictures as $value) {
-        $del = '';
-        if (!$bookpict[$value]) $del = "<img data-id='del' data-file='{$value}' class='del-picture' src='../assets/img/close.png'>";
-        $picture_list .= "<div><img src='{$path}{$value}'>${del}</div>";
-    }
-    $picture_list .= "</div>";
-
-    // розділи книг
+    // завантажуємо розділи книг
     $where = $current_folder ? "where folders.folder_id={$current_folder}" : '';
 
     $query = mysql_query(
@@ -57,26 +69,6 @@
         $flist .= "<option id='folder-select' value='{$cRecord['folder_id']}'>{$cRecord['folder']}</option>";
     }
     
-    // перелік авторів через кому для кожної книги
-    $query = mysql_query("SELECT bookauthor.bookauthor_id, bookauthor.book,  authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id order by bookauthor.book");
-    $bookauthors = array();
-    while ($cRecord = mysql_fetch_assoc($query)) {
-        $bookauthors[] = $cRecord;
-    }
-    for ($n=0; $n < count($books); $n++) {
-        foreach($bookauthors as $key=>$value) {
-            if ($books[$n]['book_id'] == $value['book']) $books[$n]['assemble'] .= $value['author'].', ';
-        }
-        $books[$n]['assemble'] = substr($books[$n]['assemble'], 0, strlen($books[$n]['assemble']) - 2);
-    }    
-
-    // перелік авторів для поля додавання авторів
-    $query = mysql_query("select author_id, `authors`.author, cnt from authors left join (select *, count(*) as cnt from bookauthor group by author) as sel2 on author_id = sel2.author");
-    $authors = '';
-    while ($cRecord = mysql_fetch_assoc($query)) {
-        $del_btn = $cRecord['cnt'] == null ? "<img src='../assets/img/close.png' data-delauthor={$cRecord['author_id']} data-delauthortext={$cRecord['author']}>" : "";
-        $authors .= "<li data-id='{$cRecord['author_id']}'>{$del_btn}{$cRecord['author']}</li>";
-    }
 
 ?>
 
@@ -118,47 +110,14 @@
         </ul>
     </div>
 
-    <? // відображення списку книг
-            echo "<div class='book-right'>";
+    <?
+    // відображення списку книг
+        echo "<div class='book-right'>";
+        if ($current_folder) // якщо обраний поточний розділ:
+            require '../common/books_list_echo.php';
+        echo "</div>";
+    ?>
 
-            if (isset($books)) {
-
-            $photo_folder = BOOK_PHOTO_FOLDER;
-            foreach($books as $key=>$value){
-                if ($value['folder'] == $current_folder) 
-                {
-                    $btns = ''; // кнопки edit та del
-                    if ($login) $btns = "<img id='book-edit' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/edit-button.png' title='Редагувати'> ".
-                    "<img id='book-del' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/close.png' title='Видалити'>".
-                    "<img id='copy-link' data-id='{$value['book_id']}' class='edit-button' src='../assets/img/copylink.png' title='Скопіювати посилання'>"
-                    ;
-
-                    $pages = $value['pages'] ? " ({$value['pages']} стор.)" : '';
-                    $price = $value['price'] ? "Ціна: {$value['price']} грн" : '';
-                    $available = $value['available'] ? "Наявність: Так" : 'Наявність: Ні';
-                    $writer = $value['assemble'] ? "<img class='picture writer' src='../assets/img/pero.png'> {$value['assemble']}" : '';
-
-                    $book_picture = $value['picture'] != '' ? "<img class='picture' src='{$photo_folder}{$value['picture']}'>" : '';
-                    echo "<div class='book-item' data-book='{$value['book_id']}'>
-                    <div>
-                    <span class='book-item__create'>
-                        <img src='../assets/img/calendar2.jpg'>
-                        {$value['created']}
-                    </span>
-                    <span class='btns'> {$btns}</span>
-                        <span class='book-name'>&laquo;{$value['book']}&raquo; </span>
-                        <span class='book-author'> {$writer}</span>
-                        <span class='book-item__pages'>{$pages}</span>
-                        <span class='book-describe'>{$value['describe']}</span>
-                    </div>
-                    <span class='img'> {$book_picture} </span>
-                    <span class='book-describe'>{$price} </span>
-                    <span class='book-describe'>{$available}</span>
-                    </div>";
-                }
-                }
-            }
-            ?>
     </div>
 </div>
 

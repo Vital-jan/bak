@@ -2,7 +2,6 @@
 <?
     $current_author = $_GET['author'];
     $photo_folder = BOOK_PHOTO_FOLDER;
-    // $login = getLogin();
 
     // завантажуємо з бд авторів
     $where = $current_author ? "where author_id={$current_author}":'';
@@ -20,6 +19,7 @@
     }
 
     // завантажуємо книги авторів
+    if ($current_author) { // якщо обраний поточний автор
     $query = mysql_query("SELECT DISTINCT
     bookauthor.book,
     books.book,
@@ -28,32 +28,25 @@
     books.`describe`,
     books.price,
     books.available,
+    books.created,
+    books.pages,
     books.picture,
     folders.folder,
     folders.folder_id
-    FROM bookauthor
+    FROM bookauthor 
         LEFT JOIN books ON bookauthor.book = books.book_id
             LEFT JOIN folders ON folders.folder_id = books.folder
-    ");
+    where bookauthor.author = ".$current_author);
 
     $books = array();
     
     while ($cRecord = mysql_fetch_assoc($query)) {
         $books[] = $cRecord;
     }
+}
 
-    // завантажуємо авторів книг
-    $query = mysql_query("SELECT bookauthor.bookauthor_id, bookauthor.book,  authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id order by bookauthor.book");
-    $bookauthors = array();
-    while ($cRecord = mysql_fetch_assoc($query)) {
-        $bookauthors[] = $cRecord;
-    }
-    for ($n=0; $n < count($books); $n++) {
-        foreach($bookauthors as $key=>$value) {
-            if ($books[$n]['book_id'] == $value['book']) $books[$n]['assemble'] .= $value['author'].', ';
-        }
-        $books[$n]['assemble'] = substr($books[$n]['assemble'], 0, strlen($books[$n]['assemble']) - 2);
-    }    
+    // створюємо перелік авторів через кому для кожної книги в масиві $books
+    require '../common/authors_assemble.php';
 
     // список авторів 
     echo "<div id='authors-books'>";
@@ -119,41 +112,12 @@
     $picture_list .= "</div>";
     
 
-    // список книг
+    // відображуємо список книг
     echo "<div class='book-right'>";
-
-    if (isset($books)) {
-
-        $photo_folder = BOOK_PHOTO_FOLDER;
-        foreach($books as $key=>$value){
-        if ($value['authorID'] == $current_author) 
-    {
-                $root = ROOTFOLDER;
-                $price = $value['price'] ? "Ціна: {$value['price']} грн" : '';
-                $available = $value['available'] ? "Наявність: Так" : 'Наявність: Ні';
-                $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pen.png'> {$value['assemble']}" : '';
-
-                $book_picture = $value['picture'] != '' ? "<img src='{$photo_folder}{$value['picture']}'>" : '';
-                echo "<div class='book-item' data-book='{$value['book_id']}'>
-                <div>
-                <span class='book-name'>&laquo;{$value['book']}&raquo; </span>
-                <span class='book-author'> {$writer} </span>
-                <span class='book-folder'>
-                    <a href='{$root}/books/?folder={$value['folder_id']}&book={$value['book_id']}' title='Перейти до розділу {$value['folder']}'>
-                        <img class='writer' src='../assets/img/books2.png'>{$value['folder']}
-                    </a>
-                </span>
-                <span class='book-describe'>{$value['describe']}</span>
-                </div>
-                <span class='img'> {$book_picture} </span>
-                <span class='book-describe'>{$price} </span>
-                <span class='book-describe'>{$available}</span>
-                </div>";
-            }
-            }
-        }
-
+    if ($current_author) // якщо обраний поточний автор:
+        require '../common/books_list_echo.php';
     echo "</div>";
+
     echo "</div>"; //<div id='authors-books'>
 
 ?>
@@ -179,6 +143,7 @@
         window.scrollBy(0, -200);
         currentBook = el;
     })
+
 // плавне відображення списку авторів
 let authorItemList = document.querySelectorAll('li.author');
 
