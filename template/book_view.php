@@ -78,9 +78,8 @@
         $authors .= "<li data-id='{$cRecord['author_id']}'>{$del_btn}{$cRecord['author']}</li>";
     }
 
-    $login = getLogin();
-
 ?>
+
 <div class="books">
     <div class="book-left">
     <?
@@ -137,14 +136,19 @@
                     $pages = $value['pages'] ? " ({$value['pages']} стор.)" : '';
                     $price = $value['price'] ? "Ціна: {$value['price']} грн" : '';
                     $available = $value['available'] ? "Наявність: Так" : 'Наявність: Ні';
-                    $writer = $value['assemble'] ? "<img class='writer' src='../assets/img/pero.png'> {$value['assemble']}" : '';
+                    $writer = $value['assemble'] ? "<img class='picture writer' src='../assets/img/pero.png'> {$value['assemble']}" : '';
 
-                    $book_picture = $value['picture'] != '' ? "<img src='{$photo_folder}{$value['picture']}'>" : '';
+                    $book_picture = $value['picture'] != '' ? "<img class='picture' src='{$photo_folder}{$value['picture']}'>" : '';
                     echo "<div class='book-item' data-book='{$value['book_id']}'>
                     <div>
-                    <span class='btns'> {$btns}</span><span> {$value['created']}</span>
+                    <span class='book-item__create'>
+                        <img src='../assets/img/calendar2.jpg'>
+                        {$value['created']}
+                    </span>
+                    <span class='btns'> {$btns}</span>
                         <span class='book-name'>&laquo;{$value['book']}&raquo; </span>
-                        <span class='book-author'> {$writer} {$pages}</span>
+                        <span class='book-author'> {$writer}</span>
+                        <span class='book-item__pages'>{$pages}</span>
                         <span class='book-describe'>{$value['describe']}</span>
                     </div>
                     <span class='img'> {$book_picture} </span>
@@ -168,10 +172,13 @@
     }
 
     let currentBook = <? if (isset ($book_item)) echo $book_item; else echo 'null'?>; // // обрана книга в разі переходу зі сторінки "Автори"
+    let currentBookEl;
     if (currentBook) {
-        let currentBookEl = document.querySelector(`[data-book='${currentBook}']`);
+        currentBookEl = document.querySelector(`[data-book='${currentBook}']`);
         currentBookEl.classList.toggle('book-view');
     }
+
+    let currentFolder = '<?if (isset($_GET['folder'])) echo $_GET['folder']?>';
 
     let margin = 0;
     let el = document.querySelectorAll('.book-left li');
@@ -186,7 +193,7 @@
 
 
     function addBook() { // Додати книгу ------------------------------------------------
-        modalWindow('Створити книгу', `
+        modalWindow('Додати нову книгу', `
 			<form name='addBook'  class="admin">
 			<ul>
                 <h3>Книга буде додана в поточний розділ. Пізніше розділ книги можна змінити.</h3>
@@ -201,7 +208,13 @@
 						['#folder', <?=$current_folder?>]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							popUpWindow ('Запис додано.', ()=>{document.location.reload(true)});
+							popUpWindow ('Запис додано.', ()=>{
+                                let newBook = 0;
+                                queryGet(`select book_id from books where book=${formAdmin.book.value}`, (books)=>{
+                                    let newBook = books[0].book_id;
+                                    document.location.href=`../books/?folder=${currentFolder}&book=${newBook}`;
+                                }, '<?=PHP_PATH?>');
+                                });
 						};
 					}, '<?=PHP_PATH?>'); 
 				} // збереження форми в базі
@@ -256,6 +269,10 @@
                 <li>
                     <ul id="bookauthor"></ul>
                     <img id="img-book" class="book-img" src="">
+                    Сторінок:<input style='width:30%' type='text' placeholder='Кількість сторінок' name='pages'>
+                    <br>
+                    Дата:<input style='width:30%' type='date' placeholder='Дата виходу' name='date'>
+                    <br>
                     Ціна:<input style='width:30%' type='text' placeholder='Ціна' name='price'>
                     <br>
                     Наявність:
@@ -290,13 +307,17 @@
 					queryUpdate('books', `books.book_id=${item}`, [
 						['book', formAdmin.book.value],
 						['describe', formAdmin.describe.value],
+						['pages', formAdmin.pages.value],
+						['created', formAdmin.date.value],
 						['#price', formAdmin.price.value],
 						['picture', formAdmin.picture.value],
 						['available', formAdmin.available.value],
 						['folder', formAdmin.folder.value]
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							popUpWindow ('Запис змінено.', ()=>{document.location.reload(true)});
+							popUpWindow ('Запис змінено.', ()=>{
+                                document.location.href=`../books/?folder=${currentFolder}&book=${item}`;
+                            });
 						};
 					}, '<?=PHP_PATH?>');
 				} // редагування запису
@@ -391,6 +412,8 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
 				formAdmin.book.value = response[0].book;
 				formAdmin.describe.value = response[0].describe;
 				formAdmin.price.value = response[0].price;
+				formAdmin.pages.value = response[0].pages;
+				formAdmin.date.value = response[0].created;
                 formAdmin.picture.value = response[0].picture;
                 let imgBook = document.querySelector('form.admin #img-book');
                 if (response[0].picture) {imgBook.setAttribute('src', '<?=BOOK_PHOTO_FOLDER?>' + response[0].picture)}
@@ -414,7 +437,7 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
 			if (n == 1) {
 				queryDelete('books', `book_id=${el.dataset.id}`, (response)=>{
 					if (!response.sql) {console.log(response)} else {
-						popUpWindow ('Запис видалено.', ()=>{document.location.reload(true)});
+						popUpWindow ('Запис видалено.', ()=>{document.location.href=`../books/?folder=${currentFolder}`});
 					}
                 }, '<?=PHP_PATH?>');
 			}
@@ -431,11 +454,11 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
         if (el == null) return;
 
         el.classList.toggle('book-view');
-        if (currentBook) if (currentBook != el) currentBook.classList.remove('book-view');
+        if (currentBook) if (currentBookEl != el) currentBookEl.classList.remove('book-view');
         fade(el, 300);
         el.scrollIntoView();
         window.scrollBy(0, -200)
-        currentBook = el;
+        currentBookEl = el;
     })
 
 // плавне відображення списку книг
@@ -449,7 +472,7 @@ bookItemList.forEach((i)=>{
     itemTimeout += 5;
 })
 
-scrollToBook(currentBook);
+scrollToBook(currentBookEl);
 
 function addEditFolder(item) { // редагування-додавання розділу
     function addEditForm(header, number = null) { // форма редагування - додавання
@@ -477,7 +500,8 @@ function addEditFolder(item) { // редагування-додавання ро
 						['folder', formAdmin.folder.value],
 					], (response)=>{
 						if (!response.sql) {console.log(response)} else {
-							popUpWindow ('Запис змінено.', ()=>{document.location.reload(true)});
+							popUpWindow ('Запис змінено.', ()=>{
+                                document.location.href=`../books/?folder=${currentFolder}`});
 						};
 					}, '<?=PHP_PATH?>');
 				} // редагування запису
