@@ -417,7 +417,6 @@
 
 .bak-project main .book-right .book-item div {
   width: 65%;
-  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -425,9 +424,6 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
 }
 
 .bak-project main .book-right .book-item span {
@@ -475,7 +471,7 @@
 .bak-project main .book-right .book-item span img.picture.writer {
   width: 25px;
   position: relative;
-  top: 13px;
+  top: 2px;
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -489,6 +485,7 @@
   margin: 20px 0;
   width: 100%;
   word-wrap: break-word;
+  padding: 0 10px;
 }
 
 .bak-project main .book-right .book-item.book-view {
@@ -530,6 +527,7 @@
   margin: auto;
   cursor: pointer;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .bak-project main .book-right .book-item.book-view .book-folder a {
@@ -538,6 +536,9 @@
 
 .bak-project main .book-right .book-item.book-view .book-folder img {
   margin-right: 10px;
+  width: 25px;
+  position: relative;
+  top: 7px;
 }
 
 .bak-project main .book-right .book-item.book-view .book-describe {

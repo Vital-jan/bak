@@ -322,12 +322,8 @@ main {
             }
             div {
                 width: 65%;
-                height: 100%;
                 display: flex;
-                // flex-wrap: wrap;
                 flex-direction: column;
-                // align-content: space-between;
-                justify-content: space-between;
             }
             span {
                 display: block;
@@ -363,15 +359,10 @@ main {
             img.picture {
                 max-width: 120px;
                 max-height: 100%;
-                // box-shadow: 2px 2px 6px 1px rgba(0,0,0,0.7);
-                // border-radius: 5px;
-                // border-top-left-radius: 0;
-                // border-bottom-left-radius: 0;
-                // margin-bottom: 10px;
                 &.writer {
                     width: 25px;
                     position: relative;
-                    top: 13px;
+                    top: 2px;
                     border:none;
                     box-shadow: none;
                     transform: scale(-1, 1);
@@ -386,6 +377,7 @@ main {
                 margin: 20px 0;
                 width: 100%;
                 word-wrap: break-word;
+                padding: 0 10px;
             }
             &.book-view {
                 display: block;
@@ -417,11 +409,15 @@ main {
                     margin: auto;
                     cursor: pointer;
                     margin-bottom: 10px;
+                    text-align: center;
                     a {
                         text-decoration: none;
                     }
                     img {
                         margin-right: 10px;
+                        width: 25px;
+                        position: relative;
+                        top: 7px;
                     }
                 }
                 .book-describe{

@@ -86,11 +86,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
 	fade(document.querySelector('.main-content'), 300);
 
 	// змінити пароль
-	document.querySelector('#psw').addEventListener('click', (event)=>{
+	if (document.querySelector('#psw')) document.querySelector('#psw').addEventListener('click', (event)=>{
 		document.querySelector('#change-psw').style.display='block';
 	})
 
-	document.querySelector('#save-psw').addEventListener('click', (event)=>{
+	if (document.querySelector('#save-psw')) document.querySelector('#save-psw').addEventListener('click', (event)=>{
 		
 		let pswOld = document.querySelector('#psw-old').value;
 		let psw1 = document.querySelector('#psw1').value;

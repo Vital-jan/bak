@@ -127,7 +127,7 @@
     function scrollToBook (item) { // прокрутка до книги в разі переходу з іншої сторінки
         let elem = document.querySelector(`[data-book='${item}']`);
         if (elem) elem.scrollIntoView(true);
-        window.scrollBy(0, -200)
+        window.scrollBy(0, -250)
     }
 
     let currentBook = <? if (isset ($book_item)) echo $book_item; else echo 'null'?>; // // обрана книга в разі переходу зі сторінки "Автори"
@@ -416,7 +416,7 @@ document.querySelector('#bookauthor-select').addEventListener('click', (event)=>
         if (currentBook) if (currentBookEl != el) currentBookEl.classList.remove('book-view');
         fade(el, 300);
         el.scrollIntoView();
-        window.scrollBy(0, -200)
+        window.scrollBy(0, -250)
         currentBookEl = el;
     })
 
@@ -431,7 +431,7 @@ bookItemList.forEach((i)=>{
     itemTimeout += 5;
 })
 
-scrollToBook(currentBookEl);
+scrollToBook(currentBook);
 
 function addEditFolder(item) { // редагування-додавання розділу
     function addEditForm(header, number = null) { // форма редагування - додавання

@@ -43,10 +43,10 @@
     while ($cRecord = mysql_fetch_assoc($query)) {
         $books[] = $cRecord;
     }
-}
 
     // створюємо перелік авторів через кому для кожної книги в масиві $books
     require '../common/authors_assemble.php';
+}
 
     // список авторів 
     echo "<div id='authors-books'>";
