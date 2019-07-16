@@ -10,9 +10,9 @@
     (select author, count(*) as cnt from (select distinct author, book from bookauthor) as sel2 group by author) as sel3
     on `authors`.author_id = sel3.author {$where} order by cnt desc";
 
-    $query = mysql_query($selectauthors);
+    $query = mysqli_query($GLOBALS['db_connect'], $selectauthors);
     $authors = array();
-    while ($cRecord = mysql_fetch_assoc($query)) {
+    while ($cRecord = mysqli_fetch_assoc($query)) {
         if ($cRecord['author_id'] == $current_author) array_unshift($authors, $cRecord); else { // обраного автора на перше місце
             $authors[] = $cRecord;
         }
@@ -20,7 +20,7 @@
 
     // завантажуємо книги авторів
     if ($current_author) { // якщо обраний поточний автор
-    $query = mysql_query("SELECT DISTINCT
+    $query = mysqli_query($GLOBALS['db_connect'], "SELECT DISTINCT
     bookauthor.book,
     books.book,
     books.book_id,
@@ -40,7 +40,7 @@
 
     $books = array();
     
-    while ($cRecord = mysql_fetch_assoc($query)) {
+    while ($cRecord = mysqli_fetch_assoc($query)) {
         $books[] = $cRecord;
     }
 

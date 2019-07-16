@@ -36,9 +36,9 @@ foreach($_POST as $key=>$value) {
 
  $query .= ' '.$keys.' VALUES '.$values;
  $result = false;
- $result = mysqli_query($GLOBALS['db_connect'], $query);
+ $result = mysql_query($query);
  
- $sql = array('sql'=>$result, 'query' => $query, 'error'=>mysqli_error($GLOBALS['db_connect']));
+ $sql = array('sql'=>$result, 'query' => $query, 'error'=>mysql_error());
  exit (json_encode($sql));
 
 ?>

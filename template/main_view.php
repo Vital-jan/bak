@@ -1,19 +1,19 @@
 <?
 $query = getQuery('admin','');
-$content = mysql_fetch_assoc($query);
+$content = mysqli_fetch_assoc($query);
 
-$query = mysql_query("SELECT news.date, news.content FROM news WHERE deleted = 0 ORDER BY date DESC");
+$query = mysqli_query($GLOBALS['db_connect'], "SELECT news.date, news.content FROM news WHERE deleted = 0 ORDER BY date DESC");
 $news = array();
 
-while ($cRecord = mysql_fetch_assoc($query)) {
+while ($cRecord = mysqli_fetch_assoc($query)) {
     $cRecord['content'] = html_entity_decode($cRecord['content'],ENT_QUOTES);
     if ($cRecord['content'] != '') 
         $news[] = $cRecord;
     }
 
-$query = mysql_query("SELECT books.picture FROM books WHERE deleted = 0 ORDER BY RAND()");
+$query = mysqli_query($GLOBALS['db_connect'], "SELECT books.picture FROM books WHERE deleted = 0 ORDER BY RAND()");
 $books = array();
-while ($cRecord = mysql_fetch_assoc($query)) {
+while ($cRecord = mysqli_fetch_assoc($query)) {
     if ($cRecord['picture'] != '') $books[] = $cRecord;
     }
 

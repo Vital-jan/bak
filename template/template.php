@@ -1,5 +1,5 @@
 <?
-require $_SERVER['DOCUMENT_ROOT']."/bak/"."php_ajax/connect.php";
+require $_SERVER['DOCUMENT_ROOT']."/bak/php_ajax/connect.php";
 $login = getLogin();
 
 	$nav_array = array( // Головне меню

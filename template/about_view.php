@@ -1,6 +1,6 @@
 <?
 $query = getQuery('admin','');
-$contacts = mysql_fetch_assoc($query);
+$contacts = mysqli_fetch_assoc($query);
 // $login = getLogin();
 ?>
 <div class="main-content">

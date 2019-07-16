@@ -2,7 +2,7 @@
     $query = getQuery('news', 'order by date desc');
     $news = array();
     
-    while ($cRecord = mysql_fetch_assoc($query)) {
+    while ($cRecord = mysqli_fetch_assoc($query)) {
         $news[] = $cRecord;
     }
 

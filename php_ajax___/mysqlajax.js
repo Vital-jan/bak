@@ -35,26 +35,23 @@ function ajax(query, action, file, phpPath=''){
   // file - .php файл обработчик запроса
   // [phpPath] - абсолютный путь к php файлу-обработчику ajax-запроса без слеша в конце
 // -------------------------------------------------
+console.log('ajax')
   let data = new FormData;
   data.append('body', query);
   if (phpPath.length > 0) phpPath += '/';
   phpPath += file;
-
   fetch(phpPath, {
       method: "POST",
       body: data
     }) 
-      .then((response) => {
-          if (response.status == 200) {// удачный ajax запрос
-            return response.json();
-          }
-           else {// неудачный ajax запрос
-            console.log(response.status)
-           }
+      .then(function(response){
+          if (response.status == 200) {}// удачный ajax запрос
+           else {}// неудачный ajax запрос
+          return response.json();
       })
       .then(action)
       .catch(function(error) {
-          alert('Error in mysqlajax.js (function ajax)' + error)
+          alert('mysqlajax.js error!' + error)
       });
   } // function
 

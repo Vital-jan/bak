@@ -6,9 +6,11 @@
     const AUTHOR_PHOTO_FOLDER = '../assets/img/authors/';
     const BOOK_PHOTO_FOLDER = '../assets/img/books/';
     const NEWS_PHOTO_FOLDER = '../assets/img/news/';
+    
+    const ROOTFOLDER = "/bak/";
+    
+    define ('PHP_PATH', ROOTFOLDER.'php_ajax/'); // папка .php файлів та модулю mysqlajax.js
 
-    define ('PHP_PATH', '/bak/php_ajax/'); // папка .php файлів та модулю mysqlajax.js
-	define ('ROOTFOLDER', '/bak/');
     // в цій папці повинні знаходитись:
     // connect.php
     // mysqlajax.js
@@ -18,11 +20,8 @@
     // mysqldelete.php
     // Цей файл під'єднується у всіх модулях, що використовують БД.
 
-    $db_connect = mysqli_connect(DB_HOST,DB_USER,DB_PASS, DB_NAME);
-    // mysqli_select_db(DB_NAME, $db);
-
-mysqli_set_charset($db_connect, 'utf8');
-//echo mysqli_character_set_name ($db_connect);
+    $db = mysql_connect(DB_HOST,DB_USER,DB_PASS);
+    mysql_select_db(DB_NAME, $db);
 
     function str_check($str = ''){ // валідація тексту перед збереженням в БД
         $str = str_replace("<br/>", "\n", $str); 
@@ -42,23 +41,19 @@ mysqli_set_charset($db_connect, 'utf8');
         }
         return false;
     }
+
     function getQuery($table, $query = '') {
-        return mysqli_query($GLOBALS['db_connect'], "SELECT * FROM {$table} {$query}", $GLOBALS['db']);
+        return mysql_query("SELECT * FROM {$table} {$query}", $GLOBALS['db']);
     }
 
-// ----------------------------------------------------------------------------------------
-    function get_query($query = '') { // повертає асоціативний масив - результат запиту
-
-        $query_result = mysqli_query($GLOBALS['db_connect'], $query);
-
+    function get_array($query) {
         $array = array();
-        while ($cRecord = mysqli_fetch_assoc($query_result)) {
+        while ($cRecord = mysql_fetch_assoc($query)) {
             $array[] = $cRecord;
         }
         return $array;
     }
 
-// ----------------------------------------------------------------------------------------
     function filename_parse($file) {
         if (!$file || $file == '') return false;
         $name = basename($file);
@@ -77,8 +72,7 @@ mysqli_set_charset($db_connect, 'utf8');
         return array('path'=>$path, 'name'=>$name, 'ext'=>$ext);
     }
 
-// ----------------------------------------------------------------------------------------
-    function filename_generate($file) { // генерує нове ім'я, якщо зазначений файл існує
+    function filename_generate($file) {
         if (!$file || $file == '') return false;
         $fa = filename_parse($file);
         if (!$fa) return false;

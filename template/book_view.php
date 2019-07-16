@@ -4,9 +4,9 @@
     
     if ($current_folder) { // якщо обраний поточний розділ:
         // завантажуємо перелік книг
-        $query = mysql_query("SELECT * FROM books WHERE books.folder=".$current_folder." ORDER BY created DESC");
+        $query = mysqli_query($GLOBALS['db_connect'], "SELECT * FROM books WHERE books.folder=".$current_folder." ORDER BY created DESC");
         $books = array();
-        while ($cRecord = mysql_fetch_assoc($query)) {
+        while ($cRecord = mysqli_fetch_assoc($query)) {
             $books[] = $cRecord;
         }
         
@@ -33,9 +33,9 @@
         require '../common/authors_assemble.php';
         
         // перелік авторів для поля додавання авторів
-        $query = mysql_query("select author_id, `authors`.author, cnt from authors left join (select *, count(*) as cnt from bookauthor group by author) as sel2 on author_id = sel2.author");
+        $query = mysqli_query($GLOBALS['db_connect'], "select author_id, `authors`.author, cnt from authors left join (select *, count(*) as cnt from bookauthor group by author) as sel2 on author_id = sel2.author");
         $authors = '';
-        while ($cRecord = mysql_fetch_assoc($query)) {
+        while ($cRecord = mysqli_fetch_assoc($query)) {
             $del_btn = $cRecord['cnt'] == null ? "<img src='../assets/img/close.png' data-delauthor={$cRecord['author_id']} data-delauthortext={$cRecord['author']}>" : "";
             $authors .= "<li data-id='{$cRecord['author_id']}'>{$del_btn}{$cRecord['author']}</li>";
         }
@@ -46,7 +46,7 @@
     // завантажуємо розділи книг
     $where = $current_folder ? "where folders.folder_id={$current_folder}" : '';
 
-    $query = mysql_query(
+    $query = mysqli_query($GLOBALS['db_connect'], 
     "SELECT 
     folders.folder_id, folders.folder, cnt from folders left join 
     (select books.folder, count(*) as cnt from books group by books.folder) as sel
@@ -56,16 +56,16 @@
     ");
 
     $folders = array(); 
-    while ($cRecord = mysql_fetch_assoc($query)) {
+    while ($cRecord = mysqli_fetch_assoc($query)) {
         $flist .= "<option id='folder-select' value='{$cRecord['folder_id']}'>{$cRecord['folder']}</option>";
         if ($cRecord['folder_id'] == $current_folder) array_unshift($folders, $cRecord); else {
             $folders[] = $cRecord;
         }
     }
     
-    $query = mysql_query("SELECT * from folders ORDER BY folders.folder ASC");// для поля select редагування книг
+    $query = mysqli_query($GLOBALS['db_connect'], "SELECT * from folders ORDER BY folders.folder ASC");// для поля select редагування книг
     $flist = '';
-    while ($cRecord = mysql_fetch_assoc($query)) {
+    while ($cRecord = mysqli_fetch_assoc($query)) {
         $flist .= "<option id='folder-select' value='{$cRecord['folder_id']}'>{$cRecord['folder']}</option>";
     }
     

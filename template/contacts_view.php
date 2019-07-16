@@ -1,9 +1,9 @@
 <?
-$query = mysql_query('SELECT admin.company, admin.address, admin.phone, admin.email, admin.fb, admin.fb_view, admin.password FROM admin');
-$contacts = mysql_fetch_assoc($query);
+$query = mysqli_query($GLOBALS['db_connect'], 'SELECT admin.company, admin.address, admin.phone, admin.email, admin.fb, admin.fb_view, admin.password FROM admin');
+$contacts = mysqli_fetch_assoc($query);
 $query = getQuery('shops');
 $shops = array();
-while ($cRecord = mysql_fetch_assoc($query)) {
+while ($cRecord = mysqli_fetch_assoc($query)) {
 	$shops[] = $cRecord;
 }
 // $login = getLogin();

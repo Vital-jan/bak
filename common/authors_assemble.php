@@ -1,8 +1,8 @@
 <?
     // перелік авторів через кому для кожної книги
-    $query = mysql_query("SELECT bookauthor.bookauthor_id, bookauthor.book,  authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id order by bookauthor.book");
+    $query = mysqli_query($GLOBALS['db_connect'], "SELECT bookauthor.bookauthor_id, bookauthor.book,  authors.author FROM bookauthor LEFT JOIN authors on bookauthor.author = authors.author_id order by bookauthor.book");
     $bookauthors = array();
-    while ($cRecord = mysql_fetch_assoc($query)) {
+    while ($cRecord = mysqli_fetch_assoc($query)) {
         $bookauthors[] = $cRecord;
     }
     for ($n=0; $n < count($books); $n++) {

@@ -3,8 +3,8 @@ require "../php_ajax/connect.php";
 
 $psw ='';
 $mail_to = '';
-    $query = mysql_query('SELECT * FROM admin');
-    $contacts = mysql_fetch_assoc($query);
+    $query = mysqli_query($GLOBALS['db_connect'], 'SELECT * FROM admin');
+    $contacts = mysqli_fetch_assoc($query);
 $psw =$contacts['password'];
 $mail_to = $contacts['email'];
 
